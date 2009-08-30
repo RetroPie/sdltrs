@@ -132,7 +132,7 @@ static char debuggerInput[256];
 *-----------------------------------------------------------------------------*/
 - (void)messageWindowShow:(id)sender
 {
- 	int firstTime = 1;
+ 	static int firstTime = 1;
 	
 	if (firstTime) {
 		[[messageOutputView window] setFrameOrigin:[[Preferences sharedInstance] messagesOrigin]];
@@ -181,7 +181,7 @@ static char debuggerInput[256];
     int retValue = 0;
     NSRange theEnd;
     NSString *stringObj;
-	int firstTime = 1;
+	static int firstTime = 1;
 	
 	if (firstTime) {
 		[[debuggerOutputView window] setFrameOrigin:[[Preferences sharedInstance] debuggerOrigin]];
@@ -299,7 +299,7 @@ static char debuggerInput[256];
 }
 
 /*------------------------------------------------------------------------------
-*  monitorOriginSave - This method saves the position of the monitor
+*  debuggerOriginSave - This method saves the position of the monitor
 *    window
 *-----------------------------------------------------------------------------*/
 - (NSPoint)debuggerOriginSave
