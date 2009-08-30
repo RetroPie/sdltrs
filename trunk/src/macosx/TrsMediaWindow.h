@@ -28,9 +28,10 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "PasteWindow.h"
 
 /* Subclass of NSWindow to allow for drag and drop and other specific functions  */
-@interface TrsMediaWindow : NSWindow
+@interface TrsMediaWindow : PasteWindow
 - (BOOL)windowShouldClose:(id)sender;
 - (void)selectAll:(id)sender;
 @end
