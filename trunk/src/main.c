@@ -54,6 +54,10 @@
 #include "trs_sdl_keyboard.h"
 #include "trs_state_save.h"
 
+#ifdef MACOSX
+#include "macosx/trs_mac_interface.h"
+#endif
+
 extern int fullscreen;
 
 int trs_model = 1;
@@ -201,6 +205,10 @@ int SDLmain(int argc, char *argv[])
       trs_screen_init();
       trs_screen_refresh();
       }
+#ifdef MACOSX
+	TrsOriginSet();
+#endif
+	
     if (!debug || fullscreen) {
       /* Run continuously until exit or request to enter debugger */
       z80_run(TRUE);
