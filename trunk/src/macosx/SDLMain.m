@@ -51,6 +51,18 @@ static char startupFile[FILENAME_MAX];
 
 NSWindow *appWindow;
 
+void SDLMainSelectAll() {
+	[[[NSApp keyWindow] firstResponder] selectAll:NSApp];
+}
+
+void SDLMainCopy() {
+	[[[NSApp keyWindow] firstResponder] copy:NSApp];
+}
+
+void SDLMainPaste() {
+	[[[NSApp keyWindow] firstResponder] paste:NSApp];
+}
+
 #if SDL_USE_NIB_FILE
 /* A helper category for NSString */
 @interface NSString (ReplaceSubString)
