@@ -35,11 +35,13 @@
 
 extern int showUpperDrives;
 
-static NSImage *disketteImage;
+extern NSImage *disketteImage;
 
 /* Subclass of NSIMageView to allow for drag and drop and other specific functions  */
 
 @implementation TrsImageView
+
+static char fileToCopy[FILENAME_MAX];
 
 /*------------------------------------------------------------------------------
 *  init - Registers for a drag and drop to this window. 
@@ -47,19 +49,12 @@ static NSImage *disketteImage;
 -(id) init
 {
 	id me;
-	char filename[FILENAME_MAX]; 
-
 	
 	me = [super init];
 	
 	[ self registerForDraggedTypes:[NSArray arrayWithObjects:
             NSFilenamesPboardType, nil]]; // Register for Drag and Drop
 			
-	disketteImage = [NSImage alloc];
-	strcpy(filename, [Preferences getWorkingDirectory]);
-    strcpy(filename, "sdltrs.app/Contents/Resources/diskette.bmp");    
-	[disketteImage initWithContentsOfFile:[NSString stringWithCString:filename]];
-	
 	return(me);
 }
 
@@ -95,12 +90,10 @@ static NSImage *disketteImage;
 			[pboard setPropertyList:fileList forType:NSFilenamesPboardType];
 
 			// Start the drag operation
-			dragImage = [[NSWorkspace sharedWorkspace] 
-						iconForFile:[NSString stringWithCString:filename]];
+			dragImage = disketteImage;
 			dragPosition = [self convertPoint:[theEvent locationInWindow]
 							fromView:nil];
-			dragPosition.x -= 16;
-			dragPosition.y -= 16;
+			dragPosition.x -= 32;
 			[self dragImage:dragImage 
 				at:dragPosition
 				offset:NSZeroSize
@@ -120,7 +113,7 @@ static NSImage *disketteImage;
 - (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal
 {
 	if (isLocal)
-		return NSDragOperationMove;
+		return NSDragOperationCopy | NSDragOperationMove;
 	else
 		return NSDragOperationNone;
 }
@@ -137,9 +130,18 @@ static NSImage *disketteImage;
     else if (showUpperDrives == 2)
 		driveNo += 8;
 
-	if (operation == NSDragOperationMove)
+	if (operation & NSDragOperationCopy)
 		{
-		[[MediaManager sharedInstance] diskRemoveKey:(driveNo)];
+		/* If there is no disk in the destination drive, it's the same as a move */
+		if (fileToCopy[0] == 0)
+			[[MediaManager sharedInstance] diskRemoveKey:driveNo];
+		else
+			[[MediaManager sharedInstance] 
+				diskNoInsertFile:[NSString stringWithCString:fileToCopy]:driveNo];
+		}
+	else if (operation == NSDragOperationMove)
+		{
+		[[MediaManager sharedInstance] diskRemoveKey:driveNo];
 		}
 }
 
@@ -196,6 +198,8 @@ static NSImage *disketteImage;
             }
 		if (sourceDragMask & NSDragOperationMove)
 			return NSDragOperationMove; 
+		if (sourceDragMask & NSDragOperationCopy)
+			return NSDragOperationCopy; 
     }
     return NSDragOperationNone;
 }
@@ -225,7 +229,18 @@ static NSImage *disketteImage;
 				driveNo = [self tag] + 8;
 			else
 				driveNo = [self tag];
-				
+
+			if (sourceDragMask & NSDragOperationCopy) {
+                if (showUpperDrives == 1) {
+					strcpy(fileToCopy,trs_disk_getfilename([self tag]+4));
+                    }
+                else if (showUpperDrives == 2) {
+					strcpy(fileToCopy,trs_hard_getfilename([self tag]));
+                    }
+                else {
+					strcpy(fileToCopy,trs_disk_getfilename([self tag]));
+                    }
+				}								
 			[[MediaManager sharedInstance] diskNoInsertFile:[files objectAtIndex:0]:driveNo];
 			} 
 	   else if ([self tag] == 8)
