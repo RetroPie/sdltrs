@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>t8s</string>
+				<string>T8S</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>TRS80.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>State File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>t8c</string>
+				<string>T8C</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>TRS80.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Config File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+		</dict>
+	</array>
+	<key>CFBundleExecutable</key>
+	<string>sdltrs</string>
+	<key>CFBundleIconFile</key>
+	<string>trs80.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>sdltrs</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>TRS8</string>
+	<key>CFBundleVersion</key>
+	<string>0.2</string>
+	<key>NSMainNibFile</key>
+	<string>SDLMain</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>CFBundleGetInfoString</key>
+	<string>0.2</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.2</string>
+</dict>
+</plist>

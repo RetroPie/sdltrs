@@ -1,0 +1,83 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                browseCassDir = id; 
+                browseDiskDir = id; 
+                browseDiskSetDir = id; 
+                browseHardDir = id; 
+                browseModel1Rom = id; 
+                browseModel3Rom = id; 
+                browseModel4pRom = id; 
+                browsePrintDir = id; 
+                browseStateDir = id; 
+                miscChanged = id; 
+                ok = id; 
+                revert = id; 
+                revertToDefault = id; 
+                showPanel = id; 
+            }; 
+            CLASS = Preferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                backgroundPot = id; 
+                brushedSteelButton = id; 
+                cassImageDirField = id; 
+                disk1SizeMatrix = id; 
+                disk2SizeMatrix = id; 
+                disk3SizeMatrix = id; 
+                disk4SizeMatrix = id; 
+                disk5SizeMatrix = id; 
+                disk6SizeMatrix = id; 
+                disk7SizeMatrix = id; 
+                disk8SizeMatrix = id; 
+                diskImageDirField = id; 
+                diskSetDirField = id; 
+                doublerTypePulldown = id; 
+                emtSafeButton = id; 
+                epsonAutoLinefeedButton = id; 
+                epsonAutoSkipButton = id; 
+                epsonCharSetPulldown = id; 
+                epsonFormLengthField = id; 
+                epsonFormLengthStepper = id; 
+                epsonPrintPitchPulldown = id; 
+                epsonPrintSlashedZerosButton = id; 
+                epsonPrintWeightPulldown = id; 
+                epsonSplitSkipButton = id; 
+                foregroundPot = id; 
+                fullScreenMatrix = id; 
+                guiBackgroundPot = id; 
+                guiForegroundPot = id; 
+                hardImageDirField = id; 
+                keyboardJoystickButton = id; 
+                keyboardStretchField = id; 
+                ledStatusButton = id; 
+                model1FontPulldown = id; 
+                model1RomFileField = id; 
+                model3FontPulldown = id; 
+                model3RomFileField = id; 
+                model4FontPulldown = id; 
+                model4pRomFileField = id; 
+                prefTabView = id; 
+                printCommandField = id; 
+                printDirField = id; 
+                printerTypePulldown = id; 
+                resize3Button = id; 
+                resize4Button = id; 
+                savedStateDirField = id; 
+                scaleFactorMatrix = id; 
+                serialPortField = id; 
+                serialSwitchesField = id; 
+                shiftBracketButton = id; 
+                trsGraphicsPulldown = id; 
+                trsModelPulldown = id; 
+                trueDamButton = id; 
+                usbJoystickPulldown = id; 
+                windowBorderWidthField = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
