@@ -1,0 +1,26 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {selectAll = id; }; 
+            CLASS = Atari800FunctionKeysWindow; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPanel; 
+        }, 
+        {
+            ACTIONS = {debuggerExecute = id; messageWindowShow = id; }; 
+            CLASS = DebuggerManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {debuggerInputField = id; debuggerOutputView = id; messageOutputView = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {selectAll = id; }; 
+            CLASS = DebuggerWindow; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindow; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = "java.lang.Object"; LANGUAGE = Java; }
+    ); 
+    IBVersion = 1; 
+}

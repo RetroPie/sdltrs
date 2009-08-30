@@ -1,0 +1,786 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2D6BBD9B0A37D0FB00A0A411 /* blit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6BBD9A0A37D0FB00A0A411 /* blit.h */; };
+		2D92D2D90A33AAEC009FDA73 /* SDLMain.h in Headers */ = {isa = PBXBuildFile; fileRef = F5A47A9D01A0482F01D3D55B /* SDLMain.h */; };
+		2D92D2DA0A33AAEC009FDA73 /* cmd.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30247509D0FD1A00FFCD0D /* cmd.h */; };
+		2D92D2DB0A33AAEC009FDA73 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30247609D0FD1A00FFCD0D /* config.h */; };
+		2D92D2DC0A33AAEC009FDA73 /* load_cmd.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30247B09D0FD1A00FFCD0D /* load_cmd.h */; };
+		2D92D2DD0A33AAEC009FDA73 /* reed.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30247E09D0FD1A00FFCD0D /* reed.h */; };
+		2D92D2DE0A33AAEC009FDA73 /* trs_disk.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30248209D0FD1A00FFCD0D /* trs_disk.h */; };
+		2D92D2DF0A33AAEC009FDA73 /* trs_hard.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30248409D0FD1A00FFCD0D /* trs_hard.h */; };
+		2D92D2E00A33AAEC009FDA73 /* trs_imp_exp.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30248609D0FD1A00FFCD0D /* trs_imp_exp.h */; };
+		2D92D2E10A33AAEC009FDA73 /* trs_iodefs.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30248909D0FD1A00FFCD0D /* trs_iodefs.h */; };
+		2D92D2E20A33AAEC009FDA73 /* trs_uart.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30249209D0FD1A00FFCD0D /* trs_uart.h */; };
+		2D92D2E30A33AAEC009FDA73 /* trs.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30249409D0FD1A00FFCD0D /* trs.h */; };
+		2D92D2E40A33AAEC009FDA73 /* xtrsemt.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30249509D0FD1A00FFCD0D /* xtrsemt.h */; };
+		2D92D2E50A33AAEC009FDA73 /* z80.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30249709D0FD1A00FFCD0D /* z80.h */; };
+		2D92D2E60A33AAEC009FDA73 /* DebuggerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D167D230A0EE1260088AFB3 /* DebuggerManager.h */; };
+		2D92D2E70A33AAEC009FDA73 /* DebuggerWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D167D700A0EF33A0088AFB3 /* DebuggerWindow.h */; };
+		2D92D2E80A33AAEC009FDA73 /* trs_mkdisk.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DE56B520A10206B00932F31 /* trs_mkdisk.h */; };
+		2D92D2E90A33AAEC009FDA73 /* trs_sdl_gui.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DE56B9F0A102BDF00932F31 /* trs_sdl_gui.h */; };
+		2D92D2EA0A33AAEC009FDA73 /* trs_cassette.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DE56BC30A10302400932F31 /* trs_cassette.h */; };
+		2D92D2EB0A33AAEC009FDA73 /* trs_sdl_keyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DE56C0F0A10321500932F31 /* trs_sdl_keyboard.h */; };
+		2D92D2EC0A33AAEC009FDA73 /* MediaManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DF447D40A165E6F00B61DFC /* MediaManager.h */; };
+		2D92D2ED0A33AAEC009FDA73 /* TrsImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DE6B4ED0A198881005815F1 /* TrsImageView.h */; };
+		2D92D2EE0A33AAEC009FDA73 /* DisplayManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DE6B5240A198C16005815F1 /* DisplayManager.h */; };
+		2D92D2EF0A33AAEC009FDA73 /* ControlManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DEDE50E0A1A21B2005C2133 /* ControlManager.h */; };
+		2D92D2F00A33AAEC009FDA73 /* TrsMediaWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DE9AFFC0A1ACCA900EDF510 /* TrsMediaWindow.h */; };
+		2D92D2F10A33AAEC009FDA73 /* trs_mac_interface.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DDCEF780A1C04C2002F9F21 /* trs_mac_interface.h */; };
+		2D92D2F20A33AAEC009FDA73 /* EpsonFX80Simulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DACD99A0A1FA5AF00264152 /* EpsonFX80Simulator.h */; };
+		2D92D2F30A33AAEC009FDA73 /* PrintableGraphics.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DACD99C0A1FA5AF00264152 /* PrintableGraphics.h */; };
+		2D92D2F40A33AAEC009FDA73 /* PrintableString.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DACD9A00A1FA5AF00264152 /* PrintableString.h */; };
+		2D92D2F50A33AAEC009FDA73 /* PrinterProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DACD9A20A1FA5AF00264152 /* PrinterProtocol.h */; };
+		2D92D2F60A33AAEC009FDA73 /* PrinterSimulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DACD9A30A1FA5AF00264152 /* PrinterSimulator.h */; };
+		2D92D2F70A33AAEC009FDA73 /* PrinterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DACD9A50A1FA5AF00264152 /* PrinterView.h */; };
+		2D92D2F80A33AAEC009FDA73 /* PrintOutputController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DACD9A70A1FA5AF00264152 /* PrintOutputController.h */; };
+		2D92D2F90A33AAEC009FDA73 /* PrintProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DACD9A90A1FA5AF00264152 /* PrintProtocol.h */; };
+		2D92D2FA0A33AAEC009FDA73 /* Preferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D531A470A20111300B362C7 /* Preferences.h */; };
+		2D92D2FB0A33AAEC009FDA73 /* AboutBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D789EBB0A2902FC00920FA2 /* AboutBox.h */; };
+		2D92D2FD0A33AAEC009FDA73 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		2D92D2FE0A33AAEC009FDA73 /* DebuggerManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2D167D4F0A0EE2840088AFB3 /* DebuggerManager.nib */; };
+		2D92D2FF0A33AAEC009FDA73 /* SDLMain.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2DE2307A0A182C6E00F73D87 /* SDLMain.nib */; };
+		2D92D3000A33AAEC009FDA73 /* MediaManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2D20CEB00A196AA60053A14B /* MediaManager.nib */; };
+		2D92D3010A33AAEC009FDA73 /* cassetteoff.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DE9B0480A1ADD5600EDF510 /* cassetteoff.tiff */; };
+		2D92D3020A33AAEC009FDA73 /* cassetteon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DE9B0490A1ADD5600EDF510 /* cassetteon.tiff */; };
+		2D92D3030A33AAEC009FDA73 /* epson.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DE9B0540A1ADDD800EDF510 /* epson.tiff */; };
+		2D92D3040A33AAEC009FDA73 /* lock.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DE9B0560A1ADDF300EDF510 /* lock.tiff */; };
+		2D92D3050A33AAEC009FDA73 /* lockoff.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DE9B0570A1ADDF300EDF510 /* lockoff.tiff */; };
+		2D92D3060A33AAEC009FDA73 /* text.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DE9B0580A1ADDF300EDF510 /* text.tiff */; };
+		2D92D3070A33AAEC009FDA73 /* PrintOutput.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2DACD9E40A1FA69E00264152 /* PrintOutput.nib */; };
+		2D92D3080A33AAEC009FDA73 /* PrintOutputConfirm.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2DACD9E50A1FA69E00264152 /* PrintOutputConfirm.nib */; };
+		2D92D3090A33AAEC009FDA73 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2D531A430A200F4600B362C7 /* Preferences.nib */; };
+		2D92D30A0A33AAEC009FDA73 /* diskette.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 2DE00B040A20FB3900FEF44D /* diskette.bmp */; };
+		2D92D30B0A33AAEC009FDA73 /* floppyClosed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DB0D03A0A216D13005EDB29 /* floppyClosed.tiff */; };
+		2D92D30C0A33AAEC009FDA73 /* floppyEmpty.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DB0D03B0A216D13005EDB29 /* floppyEmpty.tiff */; };
+		2D92D30D0A33AAEC009FDA73 /* hardAttached.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DB0D03D0A216D13005EDB29 /* hardAttached.tiff */; };
+		2D92D30E0A33AAEC009FDA73 /* hardEmpty.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DB0D03E0A216D13005EDB29 /* hardEmpty.tiff */; };
+		2D92D30F0A33AAEC009FDA73 /* hardWrite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DB0D03F0A216D13005EDB29 /* hardWrite.tiff */; };
+		2D92D3100A33AAEC009FDA73 /* floppyWrite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2DB0D0B60A217132005EDB29 /* floppyWrite.tiff */; };
+		2D92D3110A33AAEC009FDA73 /* AboutBox.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2D789EC30A29030D00920FA2 /* AboutBox.nib */; };
+		2D92D3120A33AAEC009FDA73 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 2D789EEA0A2903E700920FA2 /* Credits.html */; };
+		2D92D3130A33AAEC009FDA73 /* trs80.icns in Resources */ = {isa = PBXBuildFile; fileRef = 2DC448C20A294C7600B6526C /* trs80.icns */; };
+		2D92D3140A33AAEC009FDA73 /* floppyEmptyWrite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2D92D15F0A33A4B4009FDA73 /* floppyEmptyWrite.tiff */; };
+		2D92D3160A33AAEC009FDA73 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = F5A47A9E01A0483001D3D55B /* SDLMain.m */; };
+		2D92D3170A33AAEC009FDA73 /* debug.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30247709D0FD1A00FFCD0D /* debug.c */; };
+		2D92D3180A33AAEC009FDA73 /* dis.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30247809D0FD1A00FFCD0D /* dis.c */; };
+		2D92D3190A33AAEC009FDA73 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30247909D0FD1A00FFCD0D /* error.c */; };
+		2D92D31A0A33AAEC009FDA73 /* load_cmd.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30247A09D0FD1A00FFCD0D /* load_cmd.c */; };
+		2D92D31B0A33AAEC009FDA73 /* load_hex.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30247C09D0FD1A00FFCD0D /* load_hex.c */; };
+		2D92D31C0A33AAEC009FDA73 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30247D09D0FD1A00FFCD0D /* main.c */; };
+		2D92D31D0A33AAEC009FDA73 /* trs_cassette.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30247F09D0FD1A00FFCD0D /* trs_cassette.c */; };
+		2D92D31E0A33AAEC009FDA73 /* trs_chars.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248009D0FD1A00FFCD0D /* trs_chars.c */; };
+		2D92D31F0A33AAEC009FDA73 /* trs_disk.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248109D0FD1A00FFCD0D /* trs_disk.c */; };
+		2D92D3200A33AAEC009FDA73 /* trs_hard.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248309D0FD1A00FFCD0D /* trs_hard.c */; };
+		2D92D3210A33AAEC009FDA73 /* trs_imp_exp.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248509D0FD1A00FFCD0D /* trs_imp_exp.c */; };
+		2D92D3220A33AAEC009FDA73 /* trs_interrupt.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248709D0FD1A00FFCD0D /* trs_interrupt.c */; };
+		2D92D3230A33AAEC009FDA73 /* trs_io.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248809D0FD1A00FFCD0D /* trs_io.c */; };
+		2D92D3240A33AAEC009FDA73 /* trs_memory.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248A09D0FD1A00FFCD0D /* trs_memory.c */; };
+		2D92D3250A33AAEC009FDA73 /* trs_printer.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248B09D0FD1A00FFCD0D /* trs_printer.c */; };
+		2D92D3260A33AAEC009FDA73 /* trs_rom1.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248C09D0FD1A00FFCD0D /* trs_rom1.c */; };
+		2D92D3270A33AAEC009FDA73 /* trs_rom3.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248D09D0FD1A00FFCD0D /* trs_rom3.c */; };
+		2D92D3280A33AAEC009FDA73 /* trs_rom4p.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248E09D0FD1A00FFCD0D /* trs_rom4p.c */; };
+		2D92D3290A33AAEC009FDA73 /* trs_sdl_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30248F09D0FD1A00FFCD0D /* trs_sdl_interface.c */; };
+		2D92D32A0A33AAEC009FDA73 /* trs_sdl_keyboard.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30249009D0FD1A00FFCD0D /* trs_sdl_keyboard.c */; };
+		2D92D32B0A33AAEC009FDA73 /* trs_uart.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30249109D0FD1A00FFCD0D /* trs_uart.c */; };
+		2D92D32C0A33AAEC009FDA73 /* z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D30249609D0FD1A00FFCD0D /* z80.c */; };
+		2D92D32D0A33AAEC009FDA73 /* trs_sdl_gui.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D76BC9D09D8F5A500E9F5F1 /* trs_sdl_gui.c */; };
+		2D92D32E0A33AAEC009FDA73 /* trs_state_save.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D219DF90A04673A00A80FFC /* trs_state_save.c */; };
+		2D92D3300A33AAEC009FDA73 /* blit.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DE3DF830A0AEABC00709241 /* blit.c */; };
+		2D92D3310A33AAEC009FDA73 /* DebuggerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D167D240A0EE1260088AFB3 /* DebuggerManager.m */; };
+		2D92D3320A33AAEC009FDA73 /* DebuggerWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D167D710A0EF33A0088AFB3 /* DebuggerWindow.m */; };
+		2D92D3330A33AAEC009FDA73 /* trs_mkdisk.c in Sources */ = {isa = PBXBuildFile; fileRef = 2D167DCE0A0EF8490088AFB3 /* trs_mkdisk.c */; };
+		2D92D3340A33AAEC009FDA73 /* MediaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D20CEAE0A196A960053A14B /* MediaManager.m */; };
+		2D92D3350A33AAEC009FDA73 /* TrsImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE6B4EE0A198881005815F1 /* TrsImageView.m */; };
+		2D92D3360A33AAEC009FDA73 /* DisplayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE6B5250A198C16005815F1 /* DisplayManager.m */; };
+		2D92D3370A33AAEC009FDA73 /* ControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DEDE50F0A1A21B2005C2133 /* ControlManager.m */; };
+		2D92D3380A33AAEC009FDA73 /* TrsMediaWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DE9AFFD0A1ACCA900EDF510 /* TrsMediaWindow.m */; };
+		2D92D3390A33AAEC009FDA73 /* trs_mac_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = 2DDCEF810A1C0697002F9F21 /* trs_mac_interface.c */; };
+		2D92D33A0A33AAEC009FDA73 /* EpsonFX80Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DACD99B0A1FA5AF00264152 /* EpsonFX80Simulator.m */; };
+		2D92D33B0A33AAEC009FDA73 /* PrintableGraphics.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DACD99D0A1FA5AF00264152 /* PrintableGraphics.m */; };
+		2D92D33C0A33AAEC009FDA73 /* PrintableString.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DACD9A10A1FA5AF00264152 /* PrintableString.m */; };
+		2D92D33D0A33AAEC009FDA73 /* PrinterSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DACD9A40A1FA5AF00264152 /* PrinterSimulator.m */; };
+		2D92D33E0A33AAEC009FDA73 /* PrinterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DACD9A60A1FA5AF00264152 /* PrinterView.m */; };
+		2D92D33F0A33AAEC009FDA73 /* PrintOutputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DACD9A80A1FA5AF00264152 /* PrintOutputController.m */; };
+		2D92D3400A33AAEC009FDA73 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D531A890A201D7400B362C7 /* Preferences.m */; };
+		2D92D3410A33AAEC009FDA73 /* AboutBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D789EBC0A2902FC00920FA2 /* AboutBox.m */; };
+		2D92D3430A33AAEC009FDA73 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		2D92D3440A33AAEC009FDA73 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D92D2CB0A33A968009FDA73 /* SDL.framework */; };
+		2D92D3460A33AAEC009FDA73 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D92D2CB0A33A968009FDA73 /* SDL.framework */; };
+		2D92D34F0A33AB5D009FDA73 /* sdltrs.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2D92D34E0A33AB5D009FDA73 /* sdltrs.xcconfig */; };
+		2DF064310AABD47E005C6875 /* KeyMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DF0642F0AABD47E005C6875 /* KeyMapper.h */; };
+		2DF064320AABD47E005C6875 /* KeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF064300AABD47E005C6875 /* KeyMapper.m */; };
+		2DF0647A0AABD76C005C6875 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF064790AABD76C005C6875 /* Carbon.framework */; };
+		2DFB05D40A37E29A002DA901 /* trs_state_save.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DFB05D30A37E29A002DA901 /* trs_state_save.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2D92D3450A33AAEC009FDA73 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2D92D3460A33AAEC009FDA73 /* SDL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		2D167D230A0EE1260088AFB3 /* DebuggerManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DebuggerManager.h; sourceTree = SOURCE_ROOT; };
+		2D167D240A0EE1260088AFB3 /* DebuggerManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DebuggerManager.m; sourceTree = SOURCE_ROOT; };
+		2D167D4F0A0EE2840088AFB3 /* DebuggerManager.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = DebuggerManager.nib; sourceTree = SOURCE_ROOT; };
+		2D167D700A0EF33A0088AFB3 /* DebuggerWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DebuggerWindow.h; sourceTree = SOURCE_ROOT; };
+		2D167D710A0EF33A0088AFB3 /* DebuggerWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DebuggerWindow.m; sourceTree = SOURCE_ROOT; };
+		2D167DCE0A0EF8490088AFB3 /* trs_mkdisk.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_mkdisk.c; path = ../trs_mkdisk.c; sourceTree = SOURCE_ROOT; };
+		2D20CEAE0A196A960053A14B /* MediaManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MediaManager.m; sourceTree = SOURCE_ROOT; };
+		2D20CEB00A196AA60053A14B /* MediaManager.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = MediaManager.nib; sourceTree = SOURCE_ROOT; };
+		2D219DF90A04673A00A80FFC /* trs_state_save.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_state_save.c; path = ../trs_state_save.c; sourceTree = SOURCE_ROOT; };
+		2D30247509D0FD1A00FFCD0D /* cmd.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cmd.h; path = ../cmd.h; sourceTree = SOURCE_ROOT; };
+		2D30247609D0FD1A00FFCD0D /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../config.h; sourceTree = SOURCE_ROOT; };
+		2D30247709D0FD1A00FFCD0D /* debug.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = debug.c; path = ../debug.c; sourceTree = SOURCE_ROOT; };
+		2D30247809D0FD1A00FFCD0D /* dis.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = dis.c; path = ../dis.c; sourceTree = SOURCE_ROOT; };
+		2D30247909D0FD1A00FFCD0D /* error.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = error.c; path = ../error.c; sourceTree = SOURCE_ROOT; };
+		2D30247A09D0FD1A00FFCD0D /* load_cmd.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = load_cmd.c; path = ../load_cmd.c; sourceTree = SOURCE_ROOT; };
+		2D30247B09D0FD1A00FFCD0D /* load_cmd.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = load_cmd.h; path = ../load_cmd.h; sourceTree = SOURCE_ROOT; };
+		2D30247C09D0FD1A00FFCD0D /* load_hex.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = load_hex.c; path = ../load_hex.c; sourceTree = SOURCE_ROOT; };
+		2D30247D09D0FD1A00FFCD0D /* main.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../main.c; sourceTree = SOURCE_ROOT; };
+		2D30247E09D0FD1A00FFCD0D /* reed.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = reed.h; path = ../reed.h; sourceTree = SOURCE_ROOT; };
+		2D30247F09D0FD1A00FFCD0D /* trs_cassette.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_cassette.c; path = ../trs_cassette.c; sourceTree = SOURCE_ROOT; };
+		2D30248009D0FD1A00FFCD0D /* trs_chars.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_chars.c; path = ../trs_chars.c; sourceTree = SOURCE_ROOT; };
+		2D30248109D0FD1A00FFCD0D /* trs_disk.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_disk.c; path = ../trs_disk.c; sourceTree = SOURCE_ROOT; };
+		2D30248209D0FD1A00FFCD0D /* trs_disk.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_disk.h; path = ../trs_disk.h; sourceTree = SOURCE_ROOT; };
+		2D30248309D0FD1A00FFCD0D /* trs_hard.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_hard.c; path = ../trs_hard.c; sourceTree = SOURCE_ROOT; };
+		2D30248409D0FD1A00FFCD0D /* trs_hard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_hard.h; path = ../trs_hard.h; sourceTree = SOURCE_ROOT; };
+		2D30248509D0FD1A00FFCD0D /* trs_imp_exp.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_imp_exp.c; path = ../trs_imp_exp.c; sourceTree = SOURCE_ROOT; };
+		2D30248609D0FD1A00FFCD0D /* trs_imp_exp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_imp_exp.h; path = ../trs_imp_exp.h; sourceTree = SOURCE_ROOT; };
+		2D30248709D0FD1A00FFCD0D /* trs_interrupt.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_interrupt.c; path = ../trs_interrupt.c; sourceTree = SOURCE_ROOT; };
+		2D30248809D0FD1A00FFCD0D /* trs_io.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_io.c; path = ../trs_io.c; sourceTree = SOURCE_ROOT; };
+		2D30248909D0FD1A00FFCD0D /* trs_iodefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_iodefs.h; path = ../trs_iodefs.h; sourceTree = SOURCE_ROOT; };
+		2D30248A09D0FD1A00FFCD0D /* trs_memory.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_memory.c; path = ../trs_memory.c; sourceTree = SOURCE_ROOT; };
+		2D30248B09D0FD1A00FFCD0D /* trs_printer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_printer.c; path = ../trs_printer.c; sourceTree = SOURCE_ROOT; };
+		2D30248C09D0FD1A00FFCD0D /* trs_rom1.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_rom1.c; path = ../trs_rom1.c; sourceTree = SOURCE_ROOT; };
+		2D30248D09D0FD1A00FFCD0D /* trs_rom3.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_rom3.c; path = ../trs_rom3.c; sourceTree = SOURCE_ROOT; };
+		2D30248E09D0FD1A00FFCD0D /* trs_rom4p.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_rom4p.c; path = ../trs_rom4p.c; sourceTree = SOURCE_ROOT; };
+		2D30248F09D0FD1A00FFCD0D /* trs_sdl_interface.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_sdl_interface.c; path = ../trs_sdl_interface.c; sourceTree = SOURCE_ROOT; };
+		2D30249009D0FD1A00FFCD0D /* trs_sdl_keyboard.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_sdl_keyboard.c; path = ../trs_sdl_keyboard.c; sourceTree = SOURCE_ROOT; };
+		2D30249109D0FD1A00FFCD0D /* trs_uart.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_uart.c; path = ../trs_uart.c; sourceTree = SOURCE_ROOT; };
+		2D30249209D0FD1A00FFCD0D /* trs_uart.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_uart.h; path = ../trs_uart.h; sourceTree = SOURCE_ROOT; };
+		2D30249409D0FD1A00FFCD0D /* trs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs.h; path = ../trs.h; sourceTree = SOURCE_ROOT; };
+		2D30249509D0FD1A00FFCD0D /* xtrsemt.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = xtrsemt.h; path = ../xtrsemt.h; sourceTree = SOURCE_ROOT; };
+		2D30249609D0FD1A00FFCD0D /* z80.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = z80.c; path = ../z80.c; sourceTree = SOURCE_ROOT; };
+		2D30249709D0FD1A00FFCD0D /* z80.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = z80.h; path = ../z80.h; sourceTree = SOURCE_ROOT; };
+		2D531A430A200F4600B362C7 /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = SOURCE_ROOT; };
+		2D531A470A20111300B362C7 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = SOURCE_ROOT; };
+		2D531A890A201D7400B362C7 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = SOURCE_ROOT; };
+		2D6BBD9A0A37D0FB00A0A411 /* blit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = blit.h; path = ../blit.h; sourceTree = SOURCE_ROOT; };
+		2D76BC9D09D8F5A500E9F5F1 /* trs_sdl_gui.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_sdl_gui.c; path = ../trs_sdl_gui.c; sourceTree = SOURCE_ROOT; };
+		2D789EBB0A2902FC00920FA2 /* AboutBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AboutBox.h; sourceTree = SOURCE_ROOT; };
+		2D789EBC0A2902FC00920FA2 /* AboutBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AboutBox.m; sourceTree = SOURCE_ROOT; };
+		2D789EC30A29030D00920FA2 /* AboutBox.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = AboutBox.nib; sourceTree = SOURCE_ROOT; };
+		2D789EEA0A2903E700920FA2 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; path = Credits.html; sourceTree = SOURCE_ROOT; };
+		2D92D15F0A33A4B4009FDA73 /* floppyEmptyWrite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = floppyEmptyWrite.tiff; sourceTree = SOURCE_ROOT; };
+		2D92D2CB0A33A968009FDA73 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL.framework; sourceTree = SOURCE_ROOT; };
+		2D92D34B0A33AAEC009FDA73 /* Info-sdltrs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-sdltrs.plist"; sourceTree = "<group>"; };
+		2D92D34C0A33AAEC009FDA73 /* sdltrs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sdltrs.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D92D34E0A33AB5D009FDA73 /* sdltrs.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = sdltrs.xcconfig; sourceTree = SOURCE_ROOT; };
+		2DACD99A0A1FA5AF00264152 /* EpsonFX80Simulator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EpsonFX80Simulator.h; sourceTree = SOURCE_ROOT; };
+		2DACD99B0A1FA5AF00264152 /* EpsonFX80Simulator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = EpsonFX80Simulator.m; sourceTree = SOURCE_ROOT; };
+		2DACD99C0A1FA5AF00264152 /* PrintableGraphics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrintableGraphics.h; sourceTree = SOURCE_ROOT; };
+		2DACD99D0A1FA5AF00264152 /* PrintableGraphics.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrintableGraphics.m; sourceTree = SOURCE_ROOT; };
+		2DACD9A00A1FA5AF00264152 /* PrintableString.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrintableString.h; sourceTree = SOURCE_ROOT; };
+		2DACD9A10A1FA5AF00264152 /* PrintableString.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrintableString.m; sourceTree = SOURCE_ROOT; };
+		2DACD9A20A1FA5AF00264152 /* PrinterProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrinterProtocol.h; sourceTree = SOURCE_ROOT; };
+		2DACD9A30A1FA5AF00264152 /* PrinterSimulator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrinterSimulator.h; sourceTree = SOURCE_ROOT; };
+		2DACD9A40A1FA5AF00264152 /* PrinterSimulator.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrinterSimulator.m; sourceTree = SOURCE_ROOT; };
+		2DACD9A50A1FA5AF00264152 /* PrinterView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrinterView.h; sourceTree = SOURCE_ROOT; };
+		2DACD9A60A1FA5AF00264152 /* PrinterView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrinterView.m; sourceTree = SOURCE_ROOT; };
+		2DACD9A70A1FA5AF00264152 /* PrintOutputController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrintOutputController.h; sourceTree = SOURCE_ROOT; };
+		2DACD9A80A1FA5AF00264152 /* PrintOutputController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrintOutputController.m; sourceTree = SOURCE_ROOT; };
+		2DACD9A90A1FA5AF00264152 /* PrintProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrintProtocol.h; sourceTree = SOURCE_ROOT; };
+		2DACD9E40A1FA69E00264152 /* PrintOutput.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PrintOutput.nib; sourceTree = SOURCE_ROOT; };
+		2DACD9E50A1FA69E00264152 /* PrintOutputConfirm.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = PrintOutputConfirm.nib; sourceTree = SOURCE_ROOT; };
+		2DB0D03A0A216D13005EDB29 /* floppyClosed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = floppyClosed.tiff; sourceTree = SOURCE_ROOT; };
+		2DB0D03B0A216D13005EDB29 /* floppyEmpty.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = floppyEmpty.tiff; sourceTree = SOURCE_ROOT; };
+		2DB0D03D0A216D13005EDB29 /* hardAttached.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = hardAttached.tiff; sourceTree = SOURCE_ROOT; };
+		2DB0D03E0A216D13005EDB29 /* hardEmpty.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = hardEmpty.tiff; sourceTree = SOURCE_ROOT; };
+		2DB0D03F0A216D13005EDB29 /* hardWrite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = hardWrite.tiff; sourceTree = SOURCE_ROOT; };
+		2DB0D0B60A217132005EDB29 /* floppyWrite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = floppyWrite.tiff; sourceTree = SOURCE_ROOT; };
+		2DC448C20A294C7600B6526C /* trs80.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = trs80.icns; sourceTree = SOURCE_ROOT; };
+		2DDCEF780A1C04C2002F9F21 /* trs_mac_interface.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = trs_mac_interface.h; sourceTree = SOURCE_ROOT; };
+		2DDCEF810A1C0697002F9F21 /* trs_mac_interface.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = trs_mac_interface.c; sourceTree = SOURCE_ROOT; };
+		2DE00B040A20FB3900FEF44D /* diskette.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = diskette.bmp; sourceTree = SOURCE_ROOT; };
+		2DE2307A0A182C6E00F73D87 /* SDLMain.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = SDLMain.nib; sourceTree = SOURCE_ROOT; };
+		2DE3DF830A0AEABC00709241 /* blit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = blit.c; path = ../blit.c; sourceTree = SOURCE_ROOT; };
+		2DE56B520A10206B00932F31 /* trs_mkdisk.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_mkdisk.h; path = ../trs_mkdisk.h; sourceTree = SOURCE_ROOT; };
+		2DE56B9F0A102BDF00932F31 /* trs_sdl_gui.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_sdl_gui.h; path = ../trs_sdl_gui.h; sourceTree = SOURCE_ROOT; };
+		2DE56BC30A10302400932F31 /* trs_cassette.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_cassette.h; path = ../trs_cassette.h; sourceTree = SOURCE_ROOT; };
+		2DE56C0F0A10321500932F31 /* trs_sdl_keyboard.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_sdl_keyboard.h; path = ../trs_sdl_keyboard.h; sourceTree = SOURCE_ROOT; };
+		2DE6B4ED0A198881005815F1 /* TrsImageView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TrsImageView.h; sourceTree = SOURCE_ROOT; };
+		2DE6B4EE0A198881005815F1 /* TrsImageView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TrsImageView.m; sourceTree = SOURCE_ROOT; };
+		2DE6B5240A198C16005815F1 /* DisplayManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DisplayManager.h; sourceTree = SOURCE_ROOT; };
+		2DE6B5250A198C16005815F1 /* DisplayManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DisplayManager.m; sourceTree = SOURCE_ROOT; };
+		2DE9AFFC0A1ACCA900EDF510 /* TrsMediaWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TrsMediaWindow.h; sourceTree = SOURCE_ROOT; };
+		2DE9AFFD0A1ACCA900EDF510 /* TrsMediaWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TrsMediaWindow.m; sourceTree = SOURCE_ROOT; };
+		2DE9B0480A1ADD5600EDF510 /* cassetteoff.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = cassetteoff.tiff; sourceTree = SOURCE_ROOT; };
+		2DE9B0490A1ADD5600EDF510 /* cassetteon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = cassetteon.tiff; sourceTree = SOURCE_ROOT; };
+		2DE9B0540A1ADDD800EDF510 /* epson.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = epson.tiff; sourceTree = SOURCE_ROOT; };
+		2DE9B0560A1ADDF300EDF510 /* lock.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = lock.tiff; sourceTree = SOURCE_ROOT; };
+		2DE9B0570A1ADDF300EDF510 /* lockoff.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = lockoff.tiff; sourceTree = SOURCE_ROOT; };
+		2DE9B0580A1ADDF300EDF510 /* text.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = text.tiff; sourceTree = SOURCE_ROOT; };
+		2DEDE50E0A1A21B2005C2133 /* ControlManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ControlManager.h; sourceTree = SOURCE_ROOT; };
+		2DEDE50F0A1A21B2005C2133 /* ControlManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ControlManager.m; sourceTree = SOURCE_ROOT; };
+		2DF0642F0AABD47E005C6875 /* KeyMapper.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyMapper.h; sourceTree = SOURCE_ROOT; };
+		2DF064300AABD47E005C6875 /* KeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = KeyMapper.m; sourceTree = SOURCE_ROOT; };
+		2DF064790AABD76C005C6875 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		2DF447D40A165E6F00B61DFC /* MediaManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MediaManager.h; sourceTree = SOURCE_ROOT; };
+		2DFB05D30A37E29A002DA901 /* trs_state_save.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = trs_state_save.h; path = ../trs_state_save.h; sourceTree = SOURCE_ROOT; };
+		F5A47A9D01A0482F01D3D55B /* SDLMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = SOURCE_ROOT; };
+		F5A47A9E01A0483001D3D55B /* SDLMain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2D92D3420A33AAEC009FDA73 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D92D3430A33AAEC009FDA73 /* Cocoa.framework in Frameworks */,
+				2D92D3440A33AAEC009FDA73 /* SDL.framework in Frameworks */,
+				2DF0647A0AABD76C005C6875 /* Carbon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				2D789EBB0A2902FC00920FA2 /* AboutBox.h */,
+				2D789EBC0A2902FC00920FA2 /* AboutBox.m */,
+				2DEDE50E0A1A21B2005C2133 /* ControlManager.h */,
+				2DEDE50F0A1A21B2005C2133 /* ControlManager.m */,
+				2D167D700A0EF33A0088AFB3 /* DebuggerWindow.h */,
+				2D167D710A0EF33A0088AFB3 /* DebuggerWindow.m */,
+				2D167D230A0EE1260088AFB3 /* DebuggerManager.h */,
+				2D167D240A0EE1260088AFB3 /* DebuggerManager.m */,
+				2DE6B5240A198C16005815F1 /* DisplayManager.h */,
+				2DE6B5250A198C16005815F1 /* DisplayManager.m */,
+				2DACD99A0A1FA5AF00264152 /* EpsonFX80Simulator.h */,
+				2DACD99B0A1FA5AF00264152 /* EpsonFX80Simulator.m */,
+				2DF0642F0AABD47E005C6875 /* KeyMapper.h */,
+				2DF064300AABD47E005C6875 /* KeyMapper.m */,
+				2DF447D40A165E6F00B61DFC /* MediaManager.h */,
+				2D20CEAE0A196A960053A14B /* MediaManager.m */,
+				2D531A470A20111300B362C7 /* Preferences.h */,
+				2D531A890A201D7400B362C7 /* Preferences.m */,
+				2DACD99C0A1FA5AF00264152 /* PrintableGraphics.h */,
+				2DACD99D0A1FA5AF00264152 /* PrintableGraphics.m */,
+				2DACD9A00A1FA5AF00264152 /* PrintableString.h */,
+				2DACD9A10A1FA5AF00264152 /* PrintableString.m */,
+				2DACD9A20A1FA5AF00264152 /* PrinterProtocol.h */,
+				2DACD9A30A1FA5AF00264152 /* PrinterSimulator.h */,
+				2DACD9A40A1FA5AF00264152 /* PrinterSimulator.m */,
+				2DACD9A50A1FA5AF00264152 /* PrinterView.h */,
+				2DACD9A60A1FA5AF00264152 /* PrinterView.m */,
+				2DACD9A70A1FA5AF00264152 /* PrintOutputController.h */,
+				2DACD9A80A1FA5AF00264152 /* PrintOutputController.m */,
+				2DACD9A90A1FA5AF00264152 /* PrintProtocol.h */,
+				F5A47A9D01A0482F01D3D55B /* SDLMain.h */,
+				F5A47A9E01A0483001D3D55B /* SDLMain.m */,
+				2DE6B4ED0A198881005815F1 /* TrsImageView.h */,
+				2DE6B4EE0A198881005815F1 /* TrsImageView.m */,
+				2DE9AFFC0A1ACCA900EDF510 /* TrsMediaWindow.h */,
+				2DE9AFFD0A1ACCA900EDF510 /* TrsMediaWindow.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2DF064790AABD76C005C6875 /* Carbon.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				2D92D2CB0A33A968009FDA73 /* SDL.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2D92D34C0A33AAEC009FDA73 /* sdltrs.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* sdltrs */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				2D92D34B0A33AAEC009FDA73 /* Info-sdltrs.plist */,
+				2D92D34E0A33AB5D009FDA73 /* sdltrs.xcconfig */,
+			);
+			name = sdltrs;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2DE3DF830A0AEABC00709241 /* blit.c */,
+				2D6BBD9A0A37D0FB00A0A411 /* blit.h */,
+				2D30247509D0FD1A00FFCD0D /* cmd.h */,
+				2D30247609D0FD1A00FFCD0D /* config.h */,
+				2D30247709D0FD1A00FFCD0D /* debug.c */,
+				2D30247809D0FD1A00FFCD0D /* dis.c */,
+				2D30247909D0FD1A00FFCD0D /* error.c */,
+				2D30247A09D0FD1A00FFCD0D /* load_cmd.c */,
+				2D30247B09D0FD1A00FFCD0D /* load_cmd.h */,
+				2D30247C09D0FD1A00FFCD0D /* load_hex.c */,
+				2D30247D09D0FD1A00FFCD0D /* main.c */,
+				2D30247E09D0FD1A00FFCD0D /* reed.h */,
+				2DE56BC30A10302400932F31 /* trs_cassette.h */,
+				2D30247F09D0FD1A00FFCD0D /* trs_cassette.c */,
+				2D30248009D0FD1A00FFCD0D /* trs_chars.c */,
+				2D30248109D0FD1A00FFCD0D /* trs_disk.c */,
+				2D30248209D0FD1A00FFCD0D /* trs_disk.h */,
+				2D30248309D0FD1A00FFCD0D /* trs_hard.c */,
+				2D30248409D0FD1A00FFCD0D /* trs_hard.h */,
+				2D30248509D0FD1A00FFCD0D /* trs_imp_exp.c */,
+				2D30248609D0FD1A00FFCD0D /* trs_imp_exp.h */,
+				2D30248709D0FD1A00FFCD0D /* trs_interrupt.c */,
+				2D30248809D0FD1A00FFCD0D /* trs_io.c */,
+				2D30248909D0FD1A00FFCD0D /* trs_iodefs.h */,
+				2DDCEF780A1C04C2002F9F21 /* trs_mac_interface.h */,
+				2DDCEF810A1C0697002F9F21 /* trs_mac_interface.c */,
+				2D30248A09D0FD1A00FFCD0D /* trs_memory.c */,
+				2DE56B520A10206B00932F31 /* trs_mkdisk.h */,
+				2D167DCE0A0EF8490088AFB3 /* trs_mkdisk.c */,
+				2D30248B09D0FD1A00FFCD0D /* trs_printer.c */,
+				2D30248C09D0FD1A00FFCD0D /* trs_rom1.c */,
+				2D30248D09D0FD1A00FFCD0D /* trs_rom3.c */,
+				2D30248E09D0FD1A00FFCD0D /* trs_rom4p.c */,
+				2D30248F09D0FD1A00FFCD0D /* trs_sdl_interface.c */,
+				2D30249009D0FD1A00FFCD0D /* trs_sdl_keyboard.c */,
+				2DE56C0F0A10321500932F31 /* trs_sdl_keyboard.h */,
+				2DE56B9F0A102BDF00932F31 /* trs_sdl_gui.h */,
+				2D76BC9D09D8F5A500E9F5F1 /* trs_sdl_gui.c */,
+				2D219DF90A04673A00A80FFC /* trs_state_save.c */,
+				2DFB05D30A37E29A002DA901 /* trs_state_save.h */,
+				2D30249109D0FD1A00FFCD0D /* trs_uart.c */,
+				2D30249209D0FD1A00FFCD0D /* trs_uart.h */,
+				2D30249409D0FD1A00FFCD0D /* trs.h */,
+				2D30249509D0FD1A00FFCD0D /* xtrsemt.h */,
+				2D30249609D0FD1A00FFCD0D /* z80.c */,
+				2D30249709D0FD1A00FFCD0D /* z80.h */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2DC448C20A294C7600B6526C /* trs80.icns */,
+				2DE9B0480A1ADD5600EDF510 /* cassetteoff.tiff */,
+				2DB0D03A0A216D13005EDB29 /* floppyClosed.tiff */,
+				2DB0D03B0A216D13005EDB29 /* floppyEmpty.tiff */,
+				2D92D15F0A33A4B4009FDA73 /* floppyEmptyWrite.tiff */,
+				2DB0D0B60A217132005EDB29 /* floppyWrite.tiff */,
+				2DB0D03D0A216D13005EDB29 /* hardAttached.tiff */,
+				2DB0D03E0A216D13005EDB29 /* hardEmpty.tiff */,
+				2DB0D03F0A216D13005EDB29 /* hardWrite.tiff */,
+				2DE9B0490A1ADD5600EDF510 /* cassetteon.tiff */,
+				2DE00B040A20FB3900FEF44D /* diskette.bmp */,
+				2DE9B0540A1ADDD800EDF510 /* epson.tiff */,
+				2DE9B0560A1ADDF300EDF510 /* lock.tiff */,
+				2DE9B0570A1ADDF300EDF510 /* lockoff.tiff */,
+				2DE9B0580A1ADDF300EDF510 /* text.tiff */,
+				2D789EEA0A2903E700920FA2 /* Credits.html */,
+				2D789EC30A29030D00920FA2 /* AboutBox.nib */,
+				2D167D4F0A0EE2840088AFB3 /* DebuggerManager.nib */,
+				2D20CEB00A196AA60053A14B /* MediaManager.nib */,
+				2D531A430A200F4600B362C7 /* Preferences.nib */,
+				2DACD9E40A1FA69E00264152 /* PrintOutput.nib */,
+				2DACD9E50A1FA69E00264152 /* PrintOutputConfirm.nib */,
+				2DE2307A0A182C6E00F73D87 /* SDLMain.nib */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2D92D2D80A33AAEC009FDA73 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D92D2D90A33AAEC009FDA73 /* SDLMain.h in Headers */,
+				2D92D2DA0A33AAEC009FDA73 /* cmd.h in Headers */,
+				2D92D2DB0A33AAEC009FDA73 /* config.h in Headers */,
+				2D92D2DC0A33AAEC009FDA73 /* load_cmd.h in Headers */,
+				2D92D2DD0A33AAEC009FDA73 /* reed.h in Headers */,
+				2D92D2DE0A33AAEC009FDA73 /* trs_disk.h in Headers */,
+				2D92D2DF0A33AAEC009FDA73 /* trs_hard.h in Headers */,
+				2D92D2E00A33AAEC009FDA73 /* trs_imp_exp.h in Headers */,
+				2D92D2E10A33AAEC009FDA73 /* trs_iodefs.h in Headers */,
+				2D92D2E20A33AAEC009FDA73 /* trs_uart.h in Headers */,
+				2D92D2E30A33AAEC009FDA73 /* trs.h in Headers */,
+				2D92D2E40A33AAEC009FDA73 /* xtrsemt.h in Headers */,
+				2D92D2E50A33AAEC009FDA73 /* z80.h in Headers */,
+				2D92D2E60A33AAEC009FDA73 /* DebuggerManager.h in Headers */,
+				2D92D2E70A33AAEC009FDA73 /* DebuggerWindow.h in Headers */,
+				2D92D2E80A33AAEC009FDA73 /* trs_mkdisk.h in Headers */,
+				2D92D2E90A33AAEC009FDA73 /* trs_sdl_gui.h in Headers */,
+				2D92D2EA0A33AAEC009FDA73 /* trs_cassette.h in Headers */,
+				2D92D2EB0A33AAEC009FDA73 /* trs_sdl_keyboard.h in Headers */,
+				2D92D2EC0A33AAEC009FDA73 /* MediaManager.h in Headers */,
+				2D92D2ED0A33AAEC009FDA73 /* TrsImageView.h in Headers */,
+				2D92D2EE0A33AAEC009FDA73 /* DisplayManager.h in Headers */,
+				2D92D2EF0A33AAEC009FDA73 /* ControlManager.h in Headers */,
+				2D92D2F00A33AAEC009FDA73 /* TrsMediaWindow.h in Headers */,
+				2D92D2F10A33AAEC009FDA73 /* trs_mac_interface.h in Headers */,
+				2D92D2F20A33AAEC009FDA73 /* EpsonFX80Simulator.h in Headers */,
+				2D92D2F30A33AAEC009FDA73 /* PrintableGraphics.h in Headers */,
+				2D92D2F40A33AAEC009FDA73 /* PrintableString.h in Headers */,
+				2D92D2F50A33AAEC009FDA73 /* PrinterProtocol.h in Headers */,
+				2D92D2F60A33AAEC009FDA73 /* PrinterSimulator.h in Headers */,
+				2D92D2F70A33AAEC009FDA73 /* PrinterView.h in Headers */,
+				2D92D2F80A33AAEC009FDA73 /* PrintOutputController.h in Headers */,
+				2D92D2F90A33AAEC009FDA73 /* PrintProtocol.h in Headers */,
+				2D92D2FA0A33AAEC009FDA73 /* Preferences.h in Headers */,
+				2D92D2FB0A33AAEC009FDA73 /* AboutBox.h in Headers */,
+				2D6BBD9B0A37D0FB00A0A411 /* blit.h in Headers */,
+				2DFB05D40A37E29A002DA901 /* trs_state_save.h in Headers */,
+				2DF064310AABD47E005C6875 /* KeyMapper.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2D92D2D70A33AAEC009FDA73 /* sdltrs */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2D92D3470A33AAEC009FDA73 /* Build configuration list for PBXNativeTarget "sdltrs" */;
+			buildPhases = (
+				2D92D2D80A33AAEC009FDA73 /* Headers */,
+				2D92D2FC0A33AAEC009FDA73 /* Resources */,
+				2D92D3150A33AAEC009FDA73 /* Sources */,
+				2D92D3420A33AAEC009FDA73 /* Frameworks */,
+				2D92D3450A33AAEC009FDA73 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sdltrs;
+			productInstallPath = "$(HOME)/Applications";
+			productName = sdltrs;
+			productReference = 2D92D34C0A33AAEC009FDA73 /* sdltrs.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 2D30246D09D0FBAD00FFCD0D /* Build configuration list for PBXProject "sdltrs" */;
+			hasScannedForEncodings = 0;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* sdltrs */;
+			projectDirPath = "";
+			targets = (
+				2D92D2D70A33AAEC009FDA73 /* sdltrs */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2D92D2FC0A33AAEC009FDA73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D92D2FD0A33AAEC009FDA73 /* InfoPlist.strings in Resources */,
+				2D92D2FE0A33AAEC009FDA73 /* DebuggerManager.nib in Resources */,
+				2D92D2FF0A33AAEC009FDA73 /* SDLMain.nib in Resources */,
+				2D92D3000A33AAEC009FDA73 /* MediaManager.nib in Resources */,
+				2D92D3010A33AAEC009FDA73 /* cassetteoff.tiff in Resources */,
+				2D92D3020A33AAEC009FDA73 /* cassetteon.tiff in Resources */,
+				2D92D3030A33AAEC009FDA73 /* epson.tiff in Resources */,
+				2D92D3040A33AAEC009FDA73 /* lock.tiff in Resources */,
+				2D92D3050A33AAEC009FDA73 /* lockoff.tiff in Resources */,
+				2D92D3060A33AAEC009FDA73 /* text.tiff in Resources */,
+				2D92D3070A33AAEC009FDA73 /* PrintOutput.nib in Resources */,
+				2D92D3080A33AAEC009FDA73 /* PrintOutputConfirm.nib in Resources */,
+				2D92D3090A33AAEC009FDA73 /* Preferences.nib in Resources */,
+				2D92D30A0A33AAEC009FDA73 /* diskette.bmp in Resources */,
+				2D92D30B0A33AAEC009FDA73 /* floppyClosed.tiff in Resources */,
+				2D92D30C0A33AAEC009FDA73 /* floppyEmpty.tiff in Resources */,
+				2D92D30D0A33AAEC009FDA73 /* hardAttached.tiff in Resources */,
+				2D92D30E0A33AAEC009FDA73 /* hardEmpty.tiff in Resources */,
+				2D92D30F0A33AAEC009FDA73 /* hardWrite.tiff in Resources */,
+				2D92D3100A33AAEC009FDA73 /* floppyWrite.tiff in Resources */,
+				2D92D3110A33AAEC009FDA73 /* AboutBox.nib in Resources */,
+				2D92D3120A33AAEC009FDA73 /* Credits.html in Resources */,
+				2D92D3130A33AAEC009FDA73 /* trs80.icns in Resources */,
+				2D92D3140A33AAEC009FDA73 /* floppyEmptyWrite.tiff in Resources */,
+				2D92D34F0A33AB5D009FDA73 /* sdltrs.xcconfig in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2D92D3150A33AAEC009FDA73 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D92D3160A33AAEC009FDA73 /* SDLMain.m in Sources */,
+				2D92D3170A33AAEC009FDA73 /* debug.c in Sources */,
+				2D92D3180A33AAEC009FDA73 /* dis.c in Sources */,
+				2D92D3190A33AAEC009FDA73 /* error.c in Sources */,
+				2D92D31A0A33AAEC009FDA73 /* load_cmd.c in Sources */,
+				2D92D31B0A33AAEC009FDA73 /* load_hex.c in Sources */,
+				2D92D31C0A33AAEC009FDA73 /* main.c in Sources */,
+				2D92D31D0A33AAEC009FDA73 /* trs_cassette.c in Sources */,
+				2D92D31E0A33AAEC009FDA73 /* trs_chars.c in Sources */,
+				2D92D31F0A33AAEC009FDA73 /* trs_disk.c in Sources */,
+				2D92D3200A33AAEC009FDA73 /* trs_hard.c in Sources */,
+				2D92D3210A33AAEC009FDA73 /* trs_imp_exp.c in Sources */,
+				2D92D3220A33AAEC009FDA73 /* trs_interrupt.c in Sources */,
+				2D92D3230A33AAEC009FDA73 /* trs_io.c in Sources */,
+				2D92D3240A33AAEC009FDA73 /* trs_memory.c in Sources */,
+				2D92D3250A33AAEC009FDA73 /* trs_printer.c in Sources */,
+				2D92D3260A33AAEC009FDA73 /* trs_rom1.c in Sources */,
+				2D92D3270A33AAEC009FDA73 /* trs_rom3.c in Sources */,
+				2D92D3280A33AAEC009FDA73 /* trs_rom4p.c in Sources */,
+				2D92D3290A33AAEC009FDA73 /* trs_sdl_interface.c in Sources */,
+				2D92D32A0A33AAEC009FDA73 /* trs_sdl_keyboard.c in Sources */,
+				2D92D32B0A33AAEC009FDA73 /* trs_uart.c in Sources */,
+				2D92D32C0A33AAEC009FDA73 /* z80.c in Sources */,
+				2D92D32D0A33AAEC009FDA73 /* trs_sdl_gui.c in Sources */,
+				2D92D32E0A33AAEC009FDA73 /* trs_state_save.c in Sources */,
+				2D92D3300A33AAEC009FDA73 /* blit.c in Sources */,
+				2D92D3310A33AAEC009FDA73 /* DebuggerManager.m in Sources */,
+				2D92D3320A33AAEC009FDA73 /* DebuggerWindow.m in Sources */,
+				2D92D3330A33AAEC009FDA73 /* trs_mkdisk.c in Sources */,
+				2D92D3340A33AAEC009FDA73 /* MediaManager.m in Sources */,
+				2D92D3350A33AAEC009FDA73 /* TrsImageView.m in Sources */,
+				2D92D3360A33AAEC009FDA73 /* DisplayManager.m in Sources */,
+				2D92D3370A33AAEC009FDA73 /* ControlManager.m in Sources */,
+				2D92D3380A33AAEC009FDA73 /* TrsMediaWindow.m in Sources */,
+				2D92D3390A33AAEC009FDA73 /* trs_mac_interface.c in Sources */,
+				2D92D33A0A33AAEC009FDA73 /* EpsonFX80Simulator.m in Sources */,
+				2D92D33B0A33AAEC009FDA73 /* PrintableGraphics.m in Sources */,
+				2D92D33C0A33AAEC009FDA73 /* PrintableString.m in Sources */,
+				2D92D33D0A33AAEC009FDA73 /* PrinterSimulator.m in Sources */,
+				2D92D33E0A33AAEC009FDA73 /* PrinterView.m in Sources */,
+				2D92D33F0A33AAEC009FDA73 /* PrintOutputController.m in Sources */,
+				2D92D3400A33AAEC009FDA73 /* Preferences.m in Sources */,
+				2D92D3410A33AAEC009FDA73 /* AboutBox.m in Sources */,
+				2DF064320AABD47E005C6875 /* KeyMapper.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2D30246E09D0FBAD00FFCD0D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Development;
+		};
+		2D30246F09D0FBAD00FFCD0D /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Deployment;
+		};
+		2D30247009D0FBAD00FFCD0D /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Default;
+		};
+		2D92D3480A33AAEC009FDA73 /* Development */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D92D34E0A33AB5D009FDA73 /* sdltrs.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					.,
+					/Library/Frameworks,
+					"$(SRCROOT)",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
+				HEADER_SEARCH_PATHS = ./SDL.framework/Versions/A/Headers;
+				INFOPLIST_FILE = "Info-sdltrs.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SDL,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = sdltrs;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		2D92D3490A33AAEC009FDA73 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D92D34E0A33AB5D009FDA73 /* sdltrs.xcconfig */;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					.,
+					"$(HOME)/Library/Frameworks",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
+				HEADER_SEARCH_PATHS = ./SDL.framework/Versions/A/Headers;
+				INFOPLIST_FILE = "Info-sdltrs.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SDL,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = sdltrs;
+				SDKROOT = "$(SDKROOT)";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		2D92D34A0A33AAEC009FDA73 /* Default */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D92D34E0A33AB5D009FDA73 /* sdltrs.xcconfig */;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				FRAMEWORK_SEARCH_PATHS = (
+					/Library/Frameworks,
+					"$(SRCROOT)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = MACOSX;
+				HEADER_SEARCH_PATHS = "\"/Library/Frameworks/SDL.framework/Headers\"";
+				INFOPLIST_FILE = "Info-sdltrs.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SDL,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = sdltrs;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D30246D09D0FBAD00FFCD0D /* Build configuration list for PBXProject "sdltrs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D30246E09D0FBAD00FFCD0D /* Development */,
+				2D30246F09D0FBAD00FFCD0D /* Deployment */,
+				2D30247009D0FBAD00FFCD0D /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		2D92D3470A33AAEC009FDA73 /* Build configuration list for PBXNativeTarget "sdltrs" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2D92D3480A33AAEC009FDA73 /* Development */,
+				2D92D3490A33AAEC009FDA73 /* Deployment */,
+				2D92D34A0A33AAEC009FDA73 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
