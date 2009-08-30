@@ -141,7 +141,7 @@ static void trs_set_emu_values(MAC_PREFS *mac_prefs)
             trs_disk_setsize(i,5);
         else
             trs_disk_setsize(i,8);
-    }
+   }
     trs_disk_doubler = mac_prefs->trs_disk_doubler;
     trs_disk_truedam = mac_prefs->trs_disk_truedam;
     trs_emtsafe = mac_prefs->trs_emtsafe;

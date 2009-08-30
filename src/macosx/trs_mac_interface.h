@@ -114,3 +114,12 @@ void ControlManagerMiniturize();
 
 void PrintOutputControllerSelectPrinter(int printer);
 
+void TrsOriginRestore();
+void TrsOriginSave();
+void TrsOriginSet();
+void TrsWindowCreate(int w, int h);
+void TrsWindowDisplay();
+void TrsWindowResize(int w, int h);
+int TrsIsKeyWindow(void);
+int TrsWindowMouseInside();
+	
