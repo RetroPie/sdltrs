@@ -7,7 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D5F7D2A0C65195E0013A9D9 /* diskette.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2D5F7D290C65195E0013A9D9 /* diskette.tiff */; };
 		2D6BBD9B0A37D0FB00A0A411 /* blit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6BBD9A0A37D0FB00A0A411 /* blit.h */; };
+		2D7D12D81040999E002210F9 /* TrsWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D7D12D61040999E002210F9 /* TrsWindow.h */; };
+		2D7D12D91040999E002210F9 /* TrsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7D12D71040999E002210F9 /* TrsWindow.m */; };
+		2D7E3F741040958D00BC69DD /* PastePanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D7E3F6F1040958D00BC69DD /* PastePanel.h */; };
+		2D7E3F751040958D00BC69DD /* PastePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7E3F701040958D00BC69DD /* PastePanel.m */; };
+		2D7E3F761040958D00BC69DD /* PasteWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D7E3F711040958D00BC69DD /* PasteWindow.h */; };
+		2D7E3F771040958D00BC69DD /* PasteWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D7E3F721040958D00BC69DD /* PasteWindow.m */; };
+		2D7E3F781040958D00BC69DD /* PasteWindowPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D7E3F731040958D00BC69DD /* PasteWindowPanel.h */; };
 		2D92D2D90A33AAEC009FDA73 /* SDLMain.h in Headers */ = {isa = PBXBuildFile; fileRef = F5A47A9D01A0482F01D3D55B /* SDLMain.h */; };
 		2D92D2DA0A33AAEC009FDA73 /* cmd.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30247509D0FD1A00FFCD0D /* cmd.h */; };
 		2D92D2DB0A33AAEC009FDA73 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D30247609D0FD1A00FFCD0D /* config.h */; };
@@ -114,6 +122,8 @@
 		2D92D3440A33AAEC009FDA73 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D92D2CB0A33A968009FDA73 /* SDL.framework */; };
 		2D92D3460A33AAEC009FDA73 /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2D92D2CB0A33A968009FDA73 /* SDL.framework */; };
 		2D92D34F0A33AB5D009FDA73 /* sdltrs.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2D92D34E0A33AB5D009FDA73 /* sdltrs.xcconfig */; };
+		2DC098F5102DF9B300958FEA /* PasteManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DC098F3102DF9B300958FEA /* PasteManager.h */; };
+		2DC098F6102DF9B300958FEA /* PasteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC098F4102DF9B300958FEA /* PasteManager.m */; };
 		2DF064310AABD47E005C6875 /* KeyMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DF0642F0AABD47E005C6875 /* KeyMapper.h */; };
 		2DF064320AABD47E005C6875 /* KeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF064300AABD47E005C6875 /* KeyMapper.m */; };
 		2DF0647A0AABD76C005C6875 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF064790AABD76C005C6875 /* Carbon.framework */; };
@@ -184,15 +194,23 @@
 		2D531A430A200F4600B362C7 /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = SOURCE_ROOT; };
 		2D531A470A20111300B362C7 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = SOURCE_ROOT; };
 		2D531A890A201D7400B362C7 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = SOURCE_ROOT; };
+		2D5F7D290C65195E0013A9D9 /* diskette.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = diskette.tiff; sourceTree = SOURCE_ROOT; };
 		2D6BBD9A0A37D0FB00A0A411 /* blit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = blit.h; path = ../blit.h; sourceTree = SOURCE_ROOT; };
 		2D76BC9D09D8F5A500E9F5F1 /* trs_sdl_gui.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_sdl_gui.c; path = ../trs_sdl_gui.c; sourceTree = SOURCE_ROOT; };
 		2D789EBB0A2902FC00920FA2 /* AboutBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AboutBox.h; sourceTree = SOURCE_ROOT; };
 		2D789EBC0A2902FC00920FA2 /* AboutBox.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AboutBox.m; sourceTree = SOURCE_ROOT; };
 		2D789EC30A29030D00920FA2 /* AboutBox.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = AboutBox.nib; sourceTree = SOURCE_ROOT; };
 		2D789EEA0A2903E700920FA2 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; path = Credits.html; sourceTree = SOURCE_ROOT; };
+		2D7D12D61040999E002210F9 /* TrsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrsWindow.h; sourceTree = SOURCE_ROOT; };
+		2D7D12D71040999E002210F9 /* TrsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrsWindow.m; sourceTree = SOURCE_ROOT; };
+		2D7E3F6F1040958D00BC69DD /* PastePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PastePanel.h; sourceTree = SOURCE_ROOT; };
+		2D7E3F701040958D00BC69DD /* PastePanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PastePanel.m; sourceTree = SOURCE_ROOT; };
+		2D7E3F711040958D00BC69DD /* PasteWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasteWindow.h; sourceTree = SOURCE_ROOT; };
+		2D7E3F721040958D00BC69DD /* PasteWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasteWindow.m; sourceTree = SOURCE_ROOT; };
+		2D7E3F731040958D00BC69DD /* PasteWindowPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasteWindowPanel.h; sourceTree = SOURCE_ROOT; };
 		2D92D15F0A33A4B4009FDA73 /* floppyEmptyWrite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = floppyEmptyWrite.tiff; sourceTree = SOURCE_ROOT; };
 		2D92D2CB0A33A968009FDA73 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL.framework; sourceTree = SOURCE_ROOT; };
-		2D92D34B0A33AAEC009FDA73 /* Info-sdltrs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Info-sdltrs.plist"; sourceTree = "<group>"; };
+		2D92D34B0A33AAEC009FDA73 /* Info-sdltrs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-sdltrs.plist"; sourceTree = "<group>"; };
 		2D92D34C0A33AAEC009FDA73 /* sdltrs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sdltrs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D92D34E0A33AB5D009FDA73 /* sdltrs.xcconfig */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xcconfig; path = sdltrs.xcconfig; sourceTree = SOURCE_ROOT; };
 		2DACD99A0A1FA5AF00264152 /* EpsonFX80Simulator.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = EpsonFX80Simulator.h; sourceTree = SOURCE_ROOT; };
@@ -217,6 +235,8 @@
 		2DB0D03E0A216D13005EDB29 /* hardEmpty.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = hardEmpty.tiff; sourceTree = SOURCE_ROOT; };
 		2DB0D03F0A216D13005EDB29 /* hardWrite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = hardWrite.tiff; sourceTree = SOURCE_ROOT; };
 		2DB0D0B60A217132005EDB29 /* floppyWrite.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = floppyWrite.tiff; sourceTree = SOURCE_ROOT; };
+		2DC098F3102DF9B300958FEA /* PasteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasteManager.h; sourceTree = SOURCE_ROOT; };
+		2DC098F4102DF9B300958FEA /* PasteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasteManager.m; sourceTree = SOURCE_ROOT; };
 		2DC448C20A294C7600B6526C /* trs80.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = trs80.icns; sourceTree = SOURCE_ROOT; };
 		2DDCEF780A1C04C2002F9F21 /* trs_mac_interface.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = trs_mac_interface.h; sourceTree = SOURCE_ROOT; };
 		2DDCEF810A1C0697002F9F21 /* trs_mac_interface.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = trs_mac_interface.c; sourceTree = SOURCE_ROOT; };
@@ -283,6 +303,13 @@
 				2DF064300AABD47E005C6875 /* KeyMapper.m */,
 				2DF447D40A165E6F00B61DFC /* MediaManager.h */,
 				2D20CEAE0A196A960053A14B /* MediaManager.m */,
+				2DC098F3102DF9B300958FEA /* PasteManager.h */,
+				2DC098F4102DF9B300958FEA /* PasteManager.m */,
+				2D7E3F6F1040958D00BC69DD /* PastePanel.h */,
+				2D7E3F701040958D00BC69DD /* PastePanel.m */,
+				2D7E3F711040958D00BC69DD /* PasteWindow.h */,
+				2D7E3F721040958D00BC69DD /* PasteWindow.m */,
+				2D7E3F731040958D00BC69DD /* PasteWindowPanel.h */,
 				2D531A470A20111300B362C7 /* Preferences.h */,
 				2D531A890A201D7400B362C7 /* Preferences.m */,
 				2DACD99C0A1FA5AF00264152 /* PrintableGraphics.h */,
@@ -303,6 +330,8 @@
 				2DE6B4EE0A198881005815F1 /* TrsImageView.m */,
 				2DE9AFFC0A1ACCA900EDF510 /* TrsMediaWindow.h */,
 				2DE9AFFD0A1ACCA900EDF510 /* TrsMediaWindow.m */,
+				2D7D12D61040999E002210F9 /* TrsWindow.h */,
+				2D7D12D71040999E002210F9 /* TrsWindow.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -415,6 +444,7 @@
 				2DB0D03F0A216D13005EDB29 /* hardWrite.tiff */,
 				2DE9B0490A1ADD5600EDF510 /* cassetteon.tiff */,
 				2DE00B040A20FB3900FEF44D /* diskette.bmp */,
+				2D5F7D290C65195E0013A9D9 /* diskette.tiff */,
 				2DE9B0540A1ADDD800EDF510 /* epson.tiff */,
 				2DE9B0560A1ADDF300EDF510 /* lock.tiff */,
 				2DE9B0570A1ADDF300EDF510 /* lockoff.tiff */,
@@ -486,6 +516,11 @@
 				2D6BBD9B0A37D0FB00A0A411 /* blit.h in Headers */,
 				2DFB05D40A37E29A002DA901 /* trs_state_save.h in Headers */,
 				2DF064310AABD47E005C6875 /* KeyMapper.h in Headers */,
+				2DC098F5102DF9B300958FEA /* PasteManager.h in Headers */,
+				2D7E3F741040958D00BC69DD /* PastePanel.h in Headers */,
+				2D7E3F761040958D00BC69DD /* PasteWindow.h in Headers */,
+				2D7E3F781040958D00BC69DD /* PasteWindowPanel.h in Headers */,
+				2D7D12D81040999E002210F9 /* TrsWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,9 +553,11 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 2D30246D09D0FBAD00FFCD0D /* Build configuration list for PBXProject "sdltrs" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 0;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* sdltrs */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				2D92D2D70A33AAEC009FDA73 /* sdltrs */,
 			);
@@ -557,6 +594,7 @@
 				2D92D3130A33AAEC009FDA73 /* trs80.icns in Resources */,
 				2D92D3140A33AAEC009FDA73 /* floppyEmptyWrite.tiff in Resources */,
 				2D92D34F0A33AB5D009FDA73 /* sdltrs.xcconfig in Resources */,
+				2D5F7D2A0C65195E0013A9D9 /* diskette.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,6 +649,10 @@
 				2D92D3400A33AAEC009FDA73 /* Preferences.m in Sources */,
 				2D92D3410A33AAEC009FDA73 /* AboutBox.m in Sources */,
 				2DF064320AABD47E005C6875 /* KeyMapper.m in Sources */,
+				2DC098F6102DF9B300958FEA /* PasteManager.m in Sources */,
+				2D7E3F751040958D00BC69DD /* PastePanel.m in Sources */,
+				2D7E3F771040958D00BC69DD /* PasteWindow.m in Sources */,
+				2D7D12D91040999E002210F9 /* TrsWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
