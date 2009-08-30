@@ -120,6 +120,7 @@ static NSImage *lockImage;
 static NSImage *lockoffImage;
 static NSImage *epsonImage;
 static NSImage *textImage;
+NSImage *disketteImage;
 
 + (MediaManager *)sharedInstance {
     return sharedInstance ? sharedInstance : [[self alloc] init];
@@ -209,7 +210,10 @@ static NSImage *textImage;
 	textImage = [[NSImage alloc] retain];
     strcpy(filename, "sdltrs.app/Contents/Resources/text.tiff");    
 	[textImage initWithContentsOfFile:[NSString stringWithCString:filename]];
-		
+
+	disketteImage = [NSImage alloc];
+    strcpy(filename, "sdltrs.app/Contents/Resources/diskette.tiff");    
+	[disketteImage initWithContentsOfFile:[NSString stringWithCString:filename]];				
 	}
 	
     return sharedInstance;
@@ -403,7 +407,7 @@ static NSImage *textImage;
     int diskStatus;
 
     for (i=0;i<4;i++) {
-        diskFilename = trs_hard_getfilename(1);
+        diskFilename = trs_hard_getfilename(i);
         if (diskFilename[0] == 0)
             diskStatus = 0;
         else if (trs_hard_getwriteprotect(i))
@@ -834,7 +838,8 @@ static NSImage *textImage;
         [self updateInfo];
         }
     trs_pause_audio(0);
-    [[KeyMapper sharedInstance] releaseCmdKeys:num[diskNum]];
+	if (diskNum<8)
+		[[KeyMapper sharedInstance] releaseCmdKeys:num[diskNum]];
 }
 
 /*------------------------------------------------------------------------------
