@@ -37,7 +37,8 @@
  */
 
 /*
-   Modified by Timothy Mann, 1996
+   Modified by Timothy Mann, 1996-2008
+   $Id: trs.h,v 1.30 2009/06/15 23:36:54 mann Exp $
    Modified by Mark Grebe, 2006
    Last modified on Wed May 07 09:12:00 MST 2006 by markgrebe
 */
@@ -117,7 +118,7 @@ extern void trs_screen_var_reset(void);
 extern void trs_disk_led(int drive, int on_off);
 extern void trs_hard_led(int drive, int on_off);
 
-extern void trs_reset(int hard);
+extern void trs_reset(int poweron);
 extern void trs_exit(void);
 
 extern void trs_kb_reset(void);
@@ -129,6 +130,7 @@ extern void trs_xlate_keysym(int keysym);
 extern void queue_key(int key);
 extern int dequeue_key(void);
 extern void clear_key_queue(void);
+extern void trs_skip_next_kbwait(void);
 extern int stretch_amount;
 extern int trs_kb_bracket_state;
 
