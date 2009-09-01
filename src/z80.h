@@ -37,7 +37,8 @@
  */
 
 /*
-   Modified by Timothy Mann, 1996
+   Modified by Timothy Mann, 1996 and later
+   $Id: z80.h,v 1.16 2009/06/15 23:45:56 mann Exp $
    Modified by Mark Grebe, 2006
    Last modified on Wed May 07 09:12:00 MST 2006 by markgrebe
 */
@@ -245,7 +246,7 @@ extern struct z80_state_struct z80_state;
 extern void z80_reset(void);
 extern int z80_run(int continuous);
 extern void mem_init(void);
-extern int mem_read(int address);  /* 0 <= address <= 0xffff REQUIRED */
+extern int mem_read(int address);
 extern void mem_write(int address, int value);
 extern void mem_write_rom(int address, int value);
 extern int mem_read_word(int address);
