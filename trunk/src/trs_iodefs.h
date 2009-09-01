@@ -36,6 +36,11 @@
  * must retain this notice.
  */
 
+/*
+   Modified by Timothy Mann, 1996 and later
+   $Id: trs_iodefs.h,v 1.6 2008/06/26 04:39:56 mann Exp $
+*/
+
 #define MAXCHARS 256
 #define TRS_CHAR_WIDTH 8
 #define TRS_CHAR_HEIGHT 12
