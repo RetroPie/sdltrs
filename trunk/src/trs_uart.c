@@ -22,6 +22,7 @@
  * SUCH DAMAGE.
 */
 /* Copyright (c) 2000, Timothy Mann */
+/* $Id: trs_uart.c,v 1.5 2008/06/26 04:39:56 mann Exp $ */
 
 /* This software may be copied, modified, and used for any purpose
  * without fee, provided that (1) the above copyright notice is

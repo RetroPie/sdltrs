@@ -1,5 +1,6 @@
 /* xtrsemt.h -- Misosys C interface to xtrs emulator traps */
 /* Copyright (c) 1997, Timothy Mann */
+/* $Id: xtrsemt.h,v 1.7 2008/06/26 04:39:56 mann Exp $ */
 
 /* This software may be copied, modified, and used for any purpose
  * without fee, provided that (1) the above copyright notice is
