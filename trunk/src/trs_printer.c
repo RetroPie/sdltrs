@@ -40,6 +40,8 @@
    Last modified on Wed May 07 09:12:00 MST 2006 by markgrebe
 */
 
+/* $Id: trs_printer.c,v 1.3 2008/06/26 04:39:56 mann Exp $ */
+
 #include "z80.h"
 #include "trs.h"
 #include <stdlib.h>
