@@ -2160,10 +2160,10 @@ void trs_gui_about_sdltrs(void)
   trs_gui_write_text("About SDLTRS", 2, 0, 0);
   
   trs_gui_center_text("SDLTRS",3,0);
-  trs_gui_center_text("Version 0.4",4,0);
+  trs_gui_center_text("Version 0.5",4,0);
   trs_gui_center_text("http://sdltrs.sourceforge.net",5,0);
   trs_gui_center_text("Copyright (C) 2006-2009 Mark Grebe",7,0);
-  trs_gui_center_text("Based on xtrs 4.9c",9,0);
+  trs_gui_center_text("Based on xtrs 4.9d",9,0);
   trs_gui_center_text("By Tim Mann",10,0);
   trs_gui_center_text("Which was Based on xtrs 1.0",11,0);
   trs_gui_center_text("Copyright (C) 1992 Clarendon Hill Software",12,0);
