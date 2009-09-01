@@ -37,7 +37,8 @@
  */
 
 /*
-   Modified by Timothy Mann, 1996
+   Modified by Timothy Mann, 1996 and following.
+   $Id: trs_io.c,v 1.24 2009/06/15 23:40:18 mann Exp $
    Modified by Mark Grebe, 2006
    Last modified on Wed May 07 09:12:00 MST 2006 by markgrebe
 */
@@ -365,7 +366,9 @@ int z80_in(int port)
   if (trs_model == 1) {
     /* Model I only */
     switch (port) {
+#if 0 // Conflicts with joystick port
     case 0x00: /* HRG off (undocumented) */
+#endif
     case 0x01: /* HRG on (undocumented) */
       hrg_onoff(port);
       break;
