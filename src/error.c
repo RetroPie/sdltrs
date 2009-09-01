@@ -37,6 +37,10 @@
  */
 
 /*
+   Modified by Timothy Mann, 1996 and later
+   $Id: error.c,v 1.8 2008/06/26 04:39:56 mann Exp $
+*/
+/*
    Modified by Mark Grebe, 2006
    Last modified on Wed May 07 09:12:00 MST 2006 by markgrebe
 */

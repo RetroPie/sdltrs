@@ -37,6 +37,11 @@
  */
 
 /*
+   Modified by Timothy Mann, 1996 and later
+   $Id: dis.c,v 1.20 2009/06/16 00:10:06 mann Exp $
+*/
+
+/*
  * dis.c -- a hacked version of "zdis" which can print out instructions
  * as they are executed.
  */
@@ -2131,29 +2136,29 @@ int disassemble(unsigned short pc)
     }
     DebuggerOutput ("%04x  ", addr);
     for (i = 0; i < ((pc + arglen(code->args) - addr) & 0xffff); i++)
-	DebuggerOutput("%02x ", mem_read((addr + i) & 0xffff));
+	DebuggerOutput("%02x ", mem_read(addr + i));
     for (; i < 4; i++)
 	DebuggerOutput("   ");
     DebuggerOutput(" ");
     switch (code->args) {
       case A_16: /* 16-bit number */
-	DebuggerOutput (code->name, mem_read((pc + 1) & 0xffff), mem_read(pc));
+	DebuggerOutput (code->name, mem_read(pc + 1), mem_read(pc));
 	break;
       case A_8X2: /* Two 8-bit numbers */
-	DebuggerOutput (code->name, mem_read(pc), mem_read((pc + 1) & 0xffff));
+	DebuggerOutput (code->name, mem_read(pc), mem_read(pc + 1));
 	break;
       case A_8:  /* One 8-bit number */
 	DebuggerOutput (code->name, mem_read(pc));
 	break;
       case A_8P: /* One 8-bit number before last opcode byte */
-	DebuggerOutput (code->name, mem_read((pc - 2) & 0xffff));
+	DebuggerOutput (code->name, mem_read(pc - 2));
 	break;
       case A_0:  /* No args */
       case A_0B: /* No args, backskip over last opcode byte */
 	DebuggerOutput (code->name);
 	break;
       case A_8R: /* One 8-bit relative address */
-	DebuggerOutput (code->name, (pc + 1 + (char) mem_read(pc)) & 0xffff);
+	DebuggerOutput (code->name, (pc + 1 + (signed char) mem_read(pc)) & 0xffff);
 	break;
     }
     DebuggerOutput ("\n");
