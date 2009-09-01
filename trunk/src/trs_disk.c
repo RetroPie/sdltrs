@@ -439,7 +439,7 @@ trs_disk_getstep(int unit)
 }
 
 void
-trs_disk_init(int reset_button)
+trs_disk_init(int poweron)
 {
   int i;
 
@@ -458,7 +458,7 @@ trs_disk_init(int reset_button)
   state.controller = (trs_model == 1) ? TRSDISK_P1771 : TRSDISK_P1791;
   state.last_readadr = -1;
   state.motor_timeout = 0;
-  if (!reset_button) {
+  if (poweron) {
     for (i=0; i<NDRIVES; i++) {
       disk[i].phytrack = 0;
 	  if (disk[i].file == NULL) {
@@ -686,7 +686,8 @@ jv3_free_sector(DiskState *d, int id_index)
     while (d->u.jv3.id[d->u.jv3.last_used_id].track == JV3_FREE) {
       d->u.jv3.last_used_id--;
     }
-    fflush(d->file);
+    c = fflush(d->file);
+    if (c == EOF) state.status |= TRSDISK_WRITEFLT;
     rewind(d->file);
     if (d->u.jv3.last_used_id >= 0) {
       newlen = offset(d, d->u.jv3.last_used_id) +
@@ -697,7 +698,8 @@ jv3_free_sector(DiskState *d, int id_index)
 #ifdef _WIN32
     chsize(fileno(d->file), newlen);
 #else    
-    ftruncate(fileno(d->file), newlen);
+    c = ftruncate(fileno(d->file), newlen);
+    if (c == EOF) state.status |= TRSDISK_WRITEFLT;
 #endif    
   }
 }
@@ -1959,7 +1961,7 @@ trs_disk_data_write(unsigned char data)
       } else {
 	if (data != d->phytrack) {
 	  trs_disk_unimpl(state.currcommand, "false track number");
-      }
+	}
 	state.format = FMT_HEADID;
       }
       break;
@@ -2033,7 +2035,7 @@ trs_disk_data_write(unsigned char data)
       if ((data & 0xfc) == 0xf8) {
 	/* Found a DAM */
         if (d->emutype == REAL) {
-          switch (data) {
+	  switch (data) {
 	  case 0xfb:  /* Standard DAM */
 	    break;
 	  case 0xfa:
@@ -3445,7 +3447,6 @@ real_check_empty(DiskState *d)
   raw_cmd.length = 0;
   sigemptyset(&set);
   sigaddset(&set, SIGALRM);
-  sigaddset(&set, SIGIO);
   sigprocmask(SIG_BLOCK, &set, &oldset);
   trs_paused = 1;
   res = ioctl(fileno(d->file), FDRAWCMD, &raw_cmd);
@@ -3483,7 +3484,6 @@ real_restore(curdrive)
   raw_cmd.cmd_count = i;
   sigemptyset(&set);
   sigaddset(&set, SIGALRM);
-  sigaddset(&set, SIGIO);
   sigprocmask(SIG_BLOCK, &set, &oldset);
   trs_paused = 1;
   res = ioctl(fileno(d->file), FDRAWCMD, &raw_cmd);
@@ -3527,7 +3527,6 @@ real_seek()
   raw_cmd.cmd_count = i;
   sigemptyset(&set);
   sigaddset(&set, SIGALRM);
-  sigaddset(&set, SIGIO);
   sigprocmask(SIG_BLOCK, &set, &oldset);
   trs_paused = 1;
   res = ioctl(fileno(d->file), FDRAWCMD, &raw_cmd);
@@ -3574,7 +3573,6 @@ real_read()
     raw_cmd.length = 128 << d->u.real.size_code;
     sigemptyset(&set);
     sigaddset(&set, SIGALRM);
-    sigaddset(&set, SIGIO);
     sigprocmask(SIG_BLOCK, &set, &oldset);
     trs_paused = 1;
     res = ioctl(fileno(d->file), FDRAWCMD, &raw_cmd);
@@ -3680,7 +3678,6 @@ real_write()
   raw_cmd.length = 128 << d->u.real.size_code;
   sigemptyset(&set);
   sigaddset(&set, SIGALRM);
-  sigaddset(&set, SIGIO);
   sigprocmask(SIG_BLOCK, &set, &oldset);
   trs_paused = 1;
   res = ioctl(fileno(d->file), FDRAWCMD, &raw_cmd);
@@ -3753,7 +3750,6 @@ real_readadr()
   raw_cmd.length = 0;
   sigemptyset(&set);
   sigaddset(&set, SIGALRM);
-  sigaddset(&set, SIGIO);
   sigprocmask(SIG_BLOCK, &set, &oldset);
   trs_paused = 1;
   res = ioctl(fileno(d->file), FDRAWCMD, &raw_cmd);
@@ -3874,7 +3870,6 @@ real_writetrk()
 
   sigemptyset(&set);
   sigaddset(&set, SIGALRM);
-  sigaddset(&set, SIGIO);
   sigprocmask(SIG_BLOCK, &set, &oldset);
   trs_paused = 1;
   res = ioctl(fileno(d->file), FDRAWCMD, &raw_cmd);

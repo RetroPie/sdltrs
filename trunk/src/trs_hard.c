@@ -22,6 +22,7 @@
  * SUCH DAMAGE.
 */
 /* Copyright (c) 2000, Timothy Mann */
+/* $Id: trs_hard.c,v 1.8 2009/06/15 23:40:47 mann Exp $ */
 
 /* This software may be copied, modified, and used for any purpose
  * without fee, provided that (1) the above copyright notice is
@@ -47,9 +48,9 @@
 #include "trs_imp_exp.h"
 #include "reed.h"
 
-/*#define HARDDEBUG1 1 */ /* show detail on all port i/o */
-/*#define HARDDEBUG2 1 */ /* show all commands */
-/*#define HARDDEBUG3 1 */ /* show failure to open a drive */
+/*#define HARDDEBUG1 1*/  /* show detail on all port i/o */
+/*#define HARDDEBUG2 1*/  /* show all commands */
+/*#define HARDDEBUG3 1*/  /* show failure to open a drive */
 
 /* Private types and data */
 
@@ -106,7 +107,7 @@ static int open_drive(int n);
 static void set_dir_cyl(int cyl);
 
 /* Powerup or reset button */
-void trs_hard_init(int reset_button)
+void trs_hard_init(void)
 {
   int i;
   state.control = 0;
@@ -228,7 +229,7 @@ void trs_hard_out(int port, int value)
     break;
   case TRS_HARD_CONTROL:
     if (value & TRS_HARD_SOFTWARE_RESET) {
-      trs_hard_init(1);
+      trs_hard_init();
     }
     if ((value & TRS_HARD_DEVICE_ENABLE) && state.present == 0) {
       int i;
