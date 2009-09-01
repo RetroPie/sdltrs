@@ -37,7 +37,7 @@
  */
 
 /*
-   Modified by Timothy Mann, 1996
+   Modified by Timothy Mann, 1996 and later
    Modified by Mark Grebe, 2006
    Last modified on Wed May 07 09:12:00 MST 2006 by markgrebe
 */
@@ -393,7 +393,7 @@ static void debug_run()
     Uchar t;
     Uchar byte;
     int continuous;
-	int i;
+    int i;
     int watch_triggered = 0;
 
     stop_signaled = 0;

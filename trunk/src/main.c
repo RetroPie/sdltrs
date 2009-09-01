@@ -37,7 +37,8 @@
  */
 
 /*
-   Modified by Timothy Mann, 1996
+   Modified by Timothy Mann, 1996 and later
+   $Id: main.c,v 1.16 2009/06/15 23:33:53 mann Exp $
    Modified by Mark Grebe, 2006
    Last modified on Wed May 07 09:12:00 MST 2006 by markgrebe
 */
@@ -199,7 +200,7 @@ int SDLmain(int argc, char *argv[])
     screen_init();
     trs_timer_init();
 
-    z80_reset();
+    trs_reset(1);
     if (init_state_file[0] != 0) {
       trs_state_load(init_state_file);
       trs_screen_init();
