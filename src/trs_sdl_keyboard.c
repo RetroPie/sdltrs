@@ -471,9 +471,17 @@ KeyTable ascii_key_table[] = {
 /* 0x130 */    { TK_LeftShift, TK_Neutral },
 /* 0x131 */    { TK_Ctrl, TK_Neutral },
 /* 0x132 */    { TK_Ctrl, TK_Neutral },
+#ifdef MACOSX
 /* 0x133 */    { TK_NULL, TK_Neutral },
+#else
+/* 0x133 */    { TK_Down, TK_ForceShiftPersistent },
+#endif
 /* 0x134 */    { TK_NULL, TK_Neutral },
+#ifdef MACOSX
+/* 0x135 */    { TK_Down, TK_ForceShiftPersistent },
+#else
 /* 0x135 */    { TK_NULL, TK_Neutral },
+#endif
 /* 0x136 */    { TK_NULL, TK_Neutral },
 /* 0x137 */    { TK_NULL, TK_Neutral },
 /* 0x138 */    { TK_NULL, TK_Neutral },
