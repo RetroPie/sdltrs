@@ -466,7 +466,7 @@ KeyTable ascii_key_table[] = {
 /* 0x12b */    { TK_NULL, TK_Neutral },
 /* 0x12c */    { TK_NULL, TK_Neutral },
 /* 0x12d */    { TK_NULL, TK_Neutral },
-/* 0x12e */    { TK_NULL, TK_Neutral },
+/* 0x12e */    { TK_AtSign, TK_Neutral },
 /* 0x12f */    { TK_RightShift, TK_Neutral },
 /* 0x130 */    { TK_LeftShift, TK_Neutral },
 /* 0x131 */    { TK_Ctrl, TK_Neutral },
