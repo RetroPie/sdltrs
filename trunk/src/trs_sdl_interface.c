@@ -85,10 +85,10 @@ extern char trs_char_data[][MAXCHARS][TRS_CHAR_HEIGHT];
 
 #ifdef MACOSX
 #include "macosx/trs_mac_interface.h"
-#define MENU_MOD KMOD_META
+#define MENU_MOD KMOD_LMETA
 void restoreAppWindowPrefs();
 #else
-#define MENU_MOD KMOD_ALT
+#define MENU_MOD KMOD_LALT
 #endif
 
 
