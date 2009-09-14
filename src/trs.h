@@ -87,6 +87,7 @@ extern unsigned int background;
 extern unsigned int gui_foreground;
 extern unsigned int gui_background;
 extern int fullscreen;
+extern int trs_emu_mouse;
 
 void trs_suspend_delay(void);
 void trs_restore_delay(void);

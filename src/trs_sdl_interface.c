@@ -130,6 +130,8 @@ int trs_charset1 = 3;
 int trs_charset3 = 4;
 int trs_charset4 = 8;
 
+int trs_emu_mouse = FALSE;
+
 /* Private data */
 static unsigned char trs_screen[2048];
 static unsigned char trs_gui_screen[2048];
@@ -1443,7 +1445,10 @@ void trs_select_all()
  */
 inline void trs_x_flush()
 {
-  ProcessCopySelection(requestSelectAll);
+  if (!trs_emu_mouse) 
+      {
+      ProcessCopySelection(requestSelectAll);
+      }
   requestSelectAll = FALSE;
   if (drawnRectCount == 0)
     return;

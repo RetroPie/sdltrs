@@ -142,6 +142,8 @@ void trs_exit()
    handle hard reset or initial poweron if poweron=1 */
 void trs_reset(int poweron)
 {
+    trs_emu_mouse = FALSE;
+
     /* Close disks opened by Z80 programs */
     do_emt_resetdisk();
     /* Reset devices (Model I SYSRES, Model III/4 RESET) */
