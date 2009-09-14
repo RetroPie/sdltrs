@@ -109,6 +109,9 @@ void do_emt_mouse()
 {
   int x, y;
   unsigned int buttons, sens;
+
+  trs_emu_mouse = TRUE;
+
   switch (REG_B) {
   case 1:
     trs_get_mouse_pos(&x, &y, &buttons);
