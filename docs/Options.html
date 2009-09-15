@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+  <title>SDLTRS Help Options</title>
+
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+  
+ 
+</head><body>
+<table border="0" cellpadding="2" cellspacing="2" width="100%">
+
+  <tbody>
+    <tr>
+      <td valign="top" width="10%"><img style="width: 108px; height: 136px;" src="images/TRS80.png" alt=""> <br>
+      </td>
+      <td valign="top"><b><font size="+3">SDLTRS Help<br>
+Options<br>
+      <br>
+      </font></b> <a href="index.html">Introduction</a>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="Features.html">Features</a>
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <a href="Options.html">Options</a>
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <a href="TextGUI.html">Text GUI</a>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="OSXFeatures.html">OS X
+Features</a>
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="ReleaseHistory.html">Release
+History</a>
+&nbsp; &nbsp; <a href="Credits.html">Credits</a> </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+
+Options<br>
+
+Defaults for all options can be specified using the standard X resource
+mechanism, and the class name for sdltrs is "Xtrs".<br>
+
+<br>
+
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"> -background color</td>
+      <td style="vertical-align: top;">Specifies the background color
+of the sdltrs window.&nbsp; Format is 0xRRGGBB, where RR, GG, and BB
+are the hex values of the Red, Greeen, and Blue components.&nbsp;
+Default is black. (0x000000)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -foreground color</td>
+      <td style="vertical-align: top;">Specifies the foreground color
+of the sdltrs window.&nbsp; Default is white. (0xffffff)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -guibackground color</td>
+      <td style="vertical-align: top;">Specifies the background color
+of the sdltrs text based GUI window.&nbsp; Default is green.(0x008010)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -guiforeground color</td>
+      <td style="vertical-align: top;">Specifies the foreground color
+of the sdltrs text based GUI window.&nbsp; Default is white.(0xffffff)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-borderwidth width</td>
+      <td style="vertical-align: top;">Put a border of width pixels
+around the TRS-80 display. The default is 2.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -scale factor<br>
+      </td>
+      <td style="vertical-align: top;">Scale the emulator window by
+factor times.&nbsp; Valid values for factor are 1,2,3, and 4. Default
+is 1.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-scale1<br>
+-scale2<br>
+-scale3<br>
+-scale4<br>
+      </td>
+      <td style="vertical-align: top;">Scale the emulator window by
+1,2,3, or 4 times.&nbsp; Default is scale1.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -resize3<br>
+-resize4<br>
+      </td>
+      <td style="vertical-align: top;">In Model 3 (resize3) or 4/4P
+(resize4) mode,
+resize the&nbsp; window whenever the emulated display mode changes
+between
+64x16 text (or 512x192 graphics) and 80x24 text (or 640x240
+graphics).&nbsp; Default is -resize3 (-noresize4 is the default).<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-noresize3<br>
+-noresize4<br>
+      </td>
+      <td style="vertical-align: top;">In Model 3 (noresize3) or 4/4P
+(noresize4),
+always keep the X window large enough
+for 80x24 text or 640x240 graphics, putting a blank margin around the
+outside when the emulated display mode is 64x16 text or 512x192
+graphics. -noresize4 is the default (-resize3 is the default).</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-fullscreen<br>
+      </td>
+      <td style="vertical-align: top;">Run in fullscreen mode.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-nofullscreen <br>
+      </td>
+      <td style="vertical-align: top;">Run in windowed mode.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-showled<br>
+      </td>
+      <td style="vertical-align: top;">TBD<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-hideled<br>
+      </td>
+      <td style="vertical-align: top;">TBD<br>
+      </td>
+    </tr>
+<tr>
+      <td style="vertical-align: top;"> -charset1 name<br>
+-charset3 name<br>
+-charset4 name<br>
+      </td>
+      <td style="vertical-align: top;">Select among several sets of
+built-in character bitmaps.&nbsp; The three different options allow you
+to specify the character set used for each model, should you change
+models during sdltrs execution using the GUI. &nbsp; In Model I mode
+(-charset1), five sets are available.
+The default, wider, is a modified Model III set with characters 8
+pixels wide; it looks better on a modern computer screen with square
+pixels than the real Model I fonts, which were 6 pixels wide. lcmod is
+the character set in the replacement character generator that was
+supplied with the Radio Shack lower case modification. (It was
+reconstructed partly from memory and may have some minor bit errors.)
+stock is the character set in the stock character generator supplied
+with most upper case only machines. Since sdltrs currently always
+emulates the extra bit of display memory needed to support lower case,
+this character set gives you the authentic, unpleasant effect that real
+Model I users
+saw when they tried to do homebrew lower case modifications without
+replacing the character generator: lower case letters appear at an
+inconsistent height, and if you are using the Level II BASIC ROM
+display driver, upper case letters are replaced by meaningless symbols.
+early is the same as stock, but with the standard ASCII
+characters [, \, ], and ^ in the positions where most Model I's
+had directional arrows. This was the default programming in the
+Motorola character generator ROM that Radio Shack used, and a
+few early machines were actually shipped with this ROM.
+Finally, german or genie gives an approximate emulation of the
+GENIE, a German Model I clone. Characters are 8
+pixels wide, and double width is supported even though later GENIE
+models did not include it.<br>
+      <br>
+In Model III (-charset3), 4 and 4P (-charset4) modes, three sets are
+available:<br>
+katakana (the default for Model III) is the original Model III
+set with Japanese Katakana characters in the alternate character
+positions. This set was also used in early Model 4's. international
+(the default for Model 4 and 4P) is a later Model 4
+set with accented Roman letters in the alternate positions.<br>
+bold is a bold set from a character generator ROM found in
+one Model III, origin uncertain.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-disk1 filename<br>
+-disk2 filename<br>
+-disk3 filename<br>
+-disk4 filename<br>
+-disk5 filename<br>
+-disk6 filename<br>
+-disk7 filename<br>
+-disk8 filename<br>
+      </td>
+      <td style="vertical-align: top;">Speifies the name of the floppy
+disk image file to be inserted into DiskN, where N=1 through 8.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-hard1 filename<br>
+-hard2 filename<br>
+-hard3 filename<br>
+-hard4 filename</td>
+      <td style="vertical-align: top;">Speifies the name of the hard
+disk image file to be inserted into HardN, where N=1 through 4.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-cassette<br>
+      </td>
+      <td style="vertical-align: top;">Specifies the name of the
+cassette image file to be inserted into the emulated cassette drive.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -microlabs</td>
+      <td style="vertical-align: top;">In Model III or 4/4P mode,
+emulate the Micro Labs Grafyx Solution hi-res graphics card. Note that
+the Model III and Model 4/4P cards from Micro Labs are very different
+from one another.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -nomicrolabs</td>
+      <td style="vertical-align: top;">In Model I mode, emulate the
+HRG1B 384x192 hi-res graphics card.
+In Model III mode or Model 4/4P mode, emulate the Radio Shack hi-res
+card. This is now the default.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-debug<br>
+      </td>
+      <td style="vertical-align: top;">Enter zbx, the z80 debugger.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -romfile filename<br>
+-romfile3 filename3<br>
+-romfile4p filename4p</td>
+      <td style="vertical-align: top;">Use the romfile specified by
+filename in Model I mode, the romfile specified by filename3 in Model
+III and Model 4 mode, or the romfile specified by filename4p in Model
+4P mode, A romfile can be either a raw binary dump, Intel hex format,
+or TRS-80 cmd format (for example, a MODELA/III file). If you do not
+set this option, a default established at compile time is used (if
+any); see Makefile.local for
+instructions on compiling in default romfiles or default romfile names.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -model m</td>
+      <td style="vertical-align: top;">Specifies which TRS-80 model to
+emulate. Values accepted are 1 or I (Model I), 3 or III (Model III), 4
+or IV (Model 4), and 4P or IVP (Model 4P). Model I is the default.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-model1<br>
+-model3<br>
+-model4<br>
+-model4p<br>
+      </td>
+      <td style="vertical-align: top;">Specifies which TRS-80 model to
+emulate.&nbsp; -model1 is the default.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-keystretch cycles</td>
+      <td style="vertical-align: top;">Fine-tune the keyboard behavior.
+To prevent keystrokes from being lost, sdltrs "stretches" the intervals
+between key transitions, so that the Z-80 program has time to see each
+transition before the next one occurs. Whenever the Z-80 program reads
+the keyboard matrix and sees an emulated key go up or down, sdltrs
+waits cycles Z-80 clock cycles (T-states) before it allows the program
+to see another key transition. Key transitions that are received during
+the waiting period or when the Z-80 program
+is not reading the keyboard are held in a queue. The default stretch
+value is 4000 cycles; it should seldom if ever be necessary to change
+it.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -shiftbracket</td>
+      <td style="vertical-align: top;">Emulate [, \, ], ^, and _ as
+shifted keys, and {, |, }, and ~ as
+unshifted. This is the default in Model 4 and 4P modes, and it
+works well with the keyboard driver in Model 4 TRSDOS/LS-DOS 6.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -noshiftbracket</td>
+      <td style="vertical-align: top;">Emulate [, \, ], ^, and _ as
+unshifted keys, and {, |, }, and ~
+as shifted. This is the default in Model I and III modes, and
+it works well with many TRS-80 keyboard drivers. With some keyboard
+drivers these keys do not work at all, however.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -diskdir dir</td>
+      <td style="vertical-align: top;">Specify the directory containing
+floppy disk images.&nbsp;
+The default value is ".".<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-harddir dir<br>
+      </td>
+      <td style="vertical-align: top;">Specify the directory containing
+hard disk images.&nbsp;
+The default value is ".".</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-cassdir dir<br>
+      </td>
+      <td style="vertical-align: top;">Specify the directory containing
+cassette images.&nbsp;
+The default value is ".".</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-disksetdir dir<br>
+      </td>
+      <td style="vertical-align: top;">Specify the directory containing
+diskset files. (These files specify the contents of all of the floppy
+and harddrives, allowing you to load them all at once).
+The default value is ".".</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-statedir dir<br>
+      </td>
+      <td style="vertical-align: top;">Specify the directory containing
+the saved emulator state files.&nbsp; The default value is ".".</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-printerdir dir<br>
+      </td>
+      <td style="vertical-align: top;">
+      Specify the directory containing
+the saved printer output files.&nbsp; The default value is ".".</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-printercmd "cmd"<br>
+      </td>
+      <td style="vertical-align: top;">Specify the command to be
+executed when the printer device is closed.&nbsp; On Linux, this
+defaults to "lpr %s", on Windows "notepad %s", and on the Mac "open
+%s".&nbsp; The %s in the printer command will be replaced with the name
+of the printer output file.&nbsp; (On the Mac, this is for the text
+printer only, not the Epson emulation).<br>
+      </td>
+    </tr>
+<tr>
+      <td style="vertical-align: top;"> -doubler type</td>
+      <td style="vertical-align: top;">Specify what type of double
+density adaptor to emulate (Model I
+mode only). The type may be percom, radioshack (or tandy), both, or
+none. The type may be abbreviated to one character. The default is
+both, which causes the double density adaptor emulation to respond to
+the special commands of both the Percom and Radio Shack cards.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -doublestep</td>
+      <td style="vertical-align: top;">Make all real floppy drives
+double-step, allowing access to
+35-track or 40-track media in an 80-track drive. Linux only. See the
+Floppy Disks section of Features for limitations.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -nodoublestep</td>
+      <td style="vertical-align: top;">Turn off double-step mode for
+all real floppy drives. Linux only. This is the default.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -stepmap s0,s1,s2,s3,s4,s5,s6,s7</td>
+      <td style="vertical-align: top;">Selectively set double-step mode
+for individual real floppy
+drives. If sU is 2 and diskM-U is a real drive, the drive
+will be double-stepped; if sU is 1, it will be single-stepped. You can
+omit values from the end of the list; those drives will get the default
+value set by -doublestep or -nodoublestep.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 33%;"> -sizemap
+z0,z1,z2,z3,z4,z5,z6,z7</td>
+      <td style="vertical-align: top;">Selectively set whether drives
+are emulated as 5-inch or 8-inch;
+see the section "Emulated 8-inch floppy disks" above. If zU is 5, the
+drive will appear to Z-80 software as 5-inch; if 8, as
+8-inch. The default setting (as reflected in the documentation
+above) is 5,5,5,5,8,8,8,8. You can omit values from the end of
+the list; those drives will get the default values. Setting one
+or more of the first four drives to 8-inch may be useful for
+CP/M software that supports 8-inch drives. You can also use
+XTRS8/DCT with 8-inch drives in the first four positions; even
+though the prompt suggests the unit number must be 4-7, numbers
+0-3 are accepted. XTRS8 does not check whether the unit you've
+selected is really being emulated as an 8-inch drive, however;
+you'll simply get errors during FORMAT if you get this wrong. </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -truedam</td>
+      <td style="vertical-align: top;">Turn off the single density data
+address mark remapping kludges
+described in the "Emulated floppy disks" and "Real floppy disks"
+sections above. With this option given, the distinction between
+F8 and FA data address marks is strictly observed on both writing and
+reading. This option is probably not useful unless you need to deal
+with Model I disks that use the distinction as part of a
+copy-protection scheme. See also "Common File Formats for
+Emulated TRS-80 Floppy Disks", available at http://www.tim-
+mann.org/trs80/dskspec.html.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -notruedam</td>
+      <td style="vertical-align: top;">The opposite of -truedam. This
+setting is the default.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -samplerate rate</td>
+      <td style="vertical-align: top;">Set the sample rate for new
+cassette wav files, direct cassette
+I/O to the sound card, and game sound output to the sound card.
+Existing wav files will be read or modified using their original
+sample rate regardless of this flag. The default is 44,100 Hz. <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -serial ttyname</td>
+      <td style="vertical-align: top;">Set the tty device to be used
+for I/O to the TRS-80's serial
+port. The default is /dev/ttyS0 on Linux, "" on Windows and Mac.
+Setting the name to be empty (-serial "") emulates
+having no serial port.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"> -switches value</td>
+      <td style="vertical-align: top;">Set the sense switches on the
+Model I serial port card. This
+option is meaningful only in Model I mode, and only when the
+-serial option is not set to "". The default value is 0x6f,
+which Radio Shack software conventionally interprets as 9600 bps, 8
+bits/word, no parity, 1 stop bit. </td>
+    </tr><tr>
+      <td style="vertical-align: top;">-keypadjoy<br>
+      </td>
+      <td style="vertical-align: top;">TBD<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-nokeypadjoy<br>
+      </td>
+      <td style="vertical-align: top;">TBD<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-joysticknum<br>
+      </td>
+      <td style="vertical-align: top;">TBD<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-emtsafe<br>
+      </td>
+      <td style="vertical-align: top;">Turn off ability for emts (Emulation traps) to write to unexpected places in the host filesystem.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">-noemtsafe<br>
+      </td>
+      <td style="vertical-align: top;">
+      <table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+<tbody><tr><td style="vertical-align: top;">Turn on ability for emts (Emulation traps) to write to unexpected places in the host filesystem.(This is the default).<br>
+</td>
+</tr></tbody>
+      </table>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<br>
+
+<br>
+
+</body></html>
