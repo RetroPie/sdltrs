@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -124,6 +124,7 @@
 		2D92D34F0A33AB5D009FDA73 /* sdltrs.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 2D92D34E0A33AB5D009FDA73 /* sdltrs.xcconfig */; };
 		2DC098F5102DF9B300958FEA /* PasteManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DC098F3102DF9B300958FEA /* PasteManager.h */; };
 		2DC098F6102DF9B300958FEA /* PasteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DC098F4102DF9B300958FEA /* PasteManager.m */; };
+		2DC4F508105F30EB00F80EE9 /* docs in Resources */ = {isa = PBXBuildFile; fileRef = 2DC4F4F4105F30EB00F80EE9 /* docs */; };
 		2DF064310AABD47E005C6875 /* KeyMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DF0642F0AABD47E005C6875 /* KeyMapper.h */; };
 		2DF064320AABD47E005C6875 /* KeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DF064300AABD47E005C6875 /* KeyMapper.m */; };
 		2DF0647A0AABD76C005C6875 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DF064790AABD76C005C6875 /* Carbon.framework */; };
@@ -238,6 +239,7 @@
 		2DC098F3102DF9B300958FEA /* PasteManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasteManager.h; sourceTree = SOURCE_ROOT; };
 		2DC098F4102DF9B300958FEA /* PasteManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasteManager.m; sourceTree = SOURCE_ROOT; };
 		2DC448C20A294C7600B6526C /* trs80.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = trs80.icns; sourceTree = SOURCE_ROOT; };
+		2DC4F4F4105F30EB00F80EE9 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = docs; path = ../../../../docs; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DDCEF780A1C04C2002F9F21 /* trs_mac_interface.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = trs_mac_interface.h; sourceTree = SOURCE_ROOT; };
 		2DDCEF810A1C0697002F9F21 /* trs_mac_interface.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = trs_mac_interface.c; sourceTree = SOURCE_ROOT; };
 		2DE00B040A20FB3900FEF44D /* diskette.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = diskette.bmp; sourceTree = SOURCE_ROOT; };
@@ -433,6 +435,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2DC4F4F4105F30EB00F80EE9 /* docs */,
 				2DC448C20A294C7600B6526C /* trs80.icns */,
 				2DE9B0480A1ADD5600EDF510 /* cassetteoff.tiff */,
 				2DB0D03A0A216D13005EDB29 /* floppyClosed.tiff */,
@@ -553,7 +556,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 2D30246D09D0FBAD00FFCD0D /* Build configuration list for PBXProject "sdltrs" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.0";
 			hasScannedForEncodings = 0;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* sdltrs */;
 			projectDirPath = "";
@@ -595,6 +598,7 @@
 				2D92D3140A33AAEC009FDA73 /* floppyEmptyWrite.tiff in Resources */,
 				2D92D34F0A33AB5D009FDA73 /* sdltrs.xcconfig in Resources */,
 				2D5F7D2A0C65195E0013A9D9 /* diskette.tiff in Resources */,
+				2DC4F508105F30EB00F80EE9 /* docs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -715,7 +719,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = sdltrs;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
 					"-Wmost",
