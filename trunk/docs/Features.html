@@ -2,6 +2,8 @@
 <html><head><title>SDLTRS Help Features</title>
 
 
+
+
   
 
   
@@ -34,6 +36,7 @@ History</a>
 <div style="text-align: center;"><a href="#Overview">Overview</a>
 <br>
 <a href="#Keys">Keys</a><br>
+<a href="#Text_GUI">Text GUI</a><br>
 <a href="#Emulated_cassette">Emulated Cassette</a><br>
 <a href="#Printer">Printer</a><br>
 <a href="#Emulated_5-inch_floppy_disks">Emulated 5-inch Floppy Disks</a><br>
@@ -118,40 +121,287 @@ it tries to read from the keyboard memory by pattern-matching its stack.<br>
 The following keys have special meanings to sdltrs:<br>
 
 <br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 30%;"><span style="font-weight: bold; text-decoration: underline;">Host Key</span><br>
+      </td>
+      <td style="vertical-align: top;"><span style="font-weight: bold; text-decoration: underline;">Function</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F1<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 Model 4/4P F1 key (address bit 7, data
+bits 4)<br>
+TRS-80 Model 1 Electric Pencil control key<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F2<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 Model 4/4P F2 key (address bit 7, data
+bits 5)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F3<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 Model 4/4P F3 key (address bit 7, data
+bits 6)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F4<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 Model 4 Caps Lock key (address bit 7, data bit 3)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F5 or <br>
+ScrollLock<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 @ key<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F6<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 '0' key (so that a shifted 0 can be obtained)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F7<br>
+      </td>
+      <td style="vertical-align: top;">Enter Text GUI (only in Fullscreen mode on Mac OS X)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F8<br>
+      </td>
+      <td style="vertical-align: top;">Exit SDLTRS<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F9<br>
+      </td>
+      <td style="vertical-align: top;">Enter the debugger (zbx)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">F10<br>
+      </td>
+      <td style="vertical-align: top;">Warm Reset<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Shift F10<br>
+      </td>
+      <td style="vertical-align: top;">Power on Reset (reboot)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Left Arrow or<br>
 
-LeftArrow, Backspace, or Delete are the TRS-80 left arrow key.
-RightArrow or Tab is the right arrow key. UpArrow is the up arrow key.
-DownArrow or Linefeed is the down arrow key. Esc or Break is the Break
-key. Home or Clear is the Clear key. Control is the Model 4 Ctrl key
-(address bit 7, data bit 2). RightAlt (or RightCmd on the Mac) is
-equivalent to the shifted down arrow key (used as a control key with
-some TRS-80 software).<br>
+Backspace or<br>
 
-<br>
+Delete</td>
+      <td style="vertical-align: top;">TRS-80 left arrow key<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Right Arrow or<br>
+Tab<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 right arrow key<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Up Arrow<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 up arrow key<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Down Arrow<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 down arrow key<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Home or <br>
+Clear<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 clear key<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Control<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 Model 4 Ctrl key (address bit 7, data bit 2)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">RightAlt <br>
+(or RightCmd on the Mac)</td>
+      <td style="vertical-align: top;">TRS-80 shifted down arrow key (used as a control key with
+some TRS-80 software)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Page Up<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 Left Shift key (address bit 7, data bit 0)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Page Down<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 Right Shift key (address bit 7, data bit 1)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">End Key<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 Unused key (address bit 7, data bit 7)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Insert Key<br>
+      </td>
+      <td style="vertical-align: top;">TRS-80 Underscore key (address bit 3, data bit 7)</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Ctrl + c<br>
+(or LeftCmd + c on the Mac)<br>
+      </td>
+      <td style="vertical-align: top;">Copy from TRS-80 to host<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Ctrl + v<br>
 
-F1, F2, and F3 are the Model 4/4P function keys (address bit 7, data
-bits 4, 5, and 6). F1 is also the Model I Electric Pencil control key
-that some users added to their machines. F4 is the Model 4 Caps Lock
-key (address bit 7, data bit 3). F5 or ScrollLock is equivalent to the
-@ key (so that @ can be used as a modifier key). F6 is equivalent to
-the 0 key (so that a shifted 0 can be obtained). F7 enters the
-program's Text GUI (only in Fullscreen mode on Mac OSX). F8 exits the
-program. F9 enters the debugger (zbx). F10 is the reset button (F10 is
-warm reset, Shift-F10 is a power on reset).<br>
+(or LeftCmd + v on the Mac)</td>
+      <td style="vertical-align: top;">Paste from TRS-80 to host<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Ctrl + a<br>
 
+(or LeftCmd + a on the Mac)</td>
+      <td style="vertical-align: top;">Select All on TRS-80 screen<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">LeftAlt + '=' (think +)<br>
+(or Left Cmd + '='<br>
+      </td>
+      <td style="vertical-align: top;">Set windowed mode scaling to next higher size. (1x, 2x, 3x, 4x and then wraps).<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">LeftAlt + '-'<br>
+
+(or Left Cmd + '-' on the Mac)<br>
+      </td>
+      <td style="vertical-align: top;">Set windowed mode scaling to next lower size. (4x, 3x, 2x, 1x and then wraps).</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">LeftAlt + Enter<br>
+(or LeftCmd + Enter on the Mac)<br>
+      </td>
+      <td style="vertical-align: top;">Switch from Windowed to Fullscreen mode and back.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Alt + d<br>
+
+
+(or LeftCmd + d on the Mac)</td>
+      <td style="vertical-align: top;">Enter Floppy Disk Management GUI<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Shift + Alt + d<br>
+
+
+
+(or Shift + LeftCmd + d on the Mac)</td>
+      <td style="vertical-align: top;">Enter Hard Disk Management GUI<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Alt + t<br>
+
+
+
+(or LeftCmd + t on the Mac)</td>
+      <td style="vertical-align: top;">Enter Cassette ('t' for Tape) Management GUI<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Alt + s<br>
+
+
+
+
+(or LeftCmd + s on the Mac)</td>
+      <td style="vertical-align: top;">Save Emulator State<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Alt + l<br>
+
+
+
+
+(or LeftCmd + l on the Mac)</td>
+      <td style="vertical-align: top;">Load Emulator State<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Alt + w<br>
+
+
+
+
+(or LeftCmd + t on the Mac)</td>
+      <td style="vertical-align: top;">Write Configuration File<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Alt + r<br>
+
+
+
+
+(or LeftCmd + t on the Mac)</td>
+      <td style="vertical-align: top;">Read Configuration File<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Alt + p<br>
+
+
+
+
+(or LeftCmd + p on the Mac)</td>
+      <td style="vertical-align: top;">Pause Emulator (and then unpause)<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Alt + 1 (or 2,3,4,5,6,7,8)<br>
+(or LeftCmd + 1 on the Mac)<br>
+      </td>
+      <td style="vertical-align: top;">Insert Floppy disk into drive N<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">Shift + Alt + 1 (or 2,3,4,5,6,7,8)<br>
+
+(or Shift + LeftCmd + 1 on the Mac)</td>
+      <td style="vertical-align: top;">Remove Floppy disk from drive N</td>
+    </tr>
+  </tbody>
+</table>
 <br>
 
 In Model III, 4, and 4P modes, the left and right shift keys are
-distinct; in Model I mode, they are the same. The PageUp and PageDown
-keys always activate
-the positions that correspond to the Model III/4/4P left and right
-shift keys (address bit 7, data bits 0 and 1 respectively), even in
-Model I mode. The End key activates an unuse position in the keyboard
-matrix (address bit 7, data bit 7).<br>
-
-<br>
-
-The keys [, \, ], ^, _, {, |, }, and ~ also activate unused positions
+distinct; in Model I mode, they are the same. The keys [, \, ], ^, _, {, |, }, and ~ also activate unused positions
 in the keyboard matrix (address bit 3, data bits 3-7). With
 many TRS-80 keyboard drivers, these keys map to the corresponding ASCII
 characters; with others, they do nothing. In some cases you may find
@@ -164,13 +414,27 @@ many TRS-80 keyboard drivers one of these maps to ASCII code 0x7f.<br>
 
 <br>
 
-Pressing a key on a PC numeric keypad with NumLock disengaged emulate
+Pressing a key on a numeric keypad with NumLock disengaged emulate
 the Alpha Products joystick. Keys 2, 4, 6, 8
 (KP_Down, KP_Left,KP_Right, KP_Up) are the main directions; keys 1, 3,
 7, and 9 (KP_End,KP_Page_Down, KP_Home, KP_Page_Up) work as diagonal
 directions by activating two main directions at once; and key 0
 (KP_Insert) or 5 (KP_Begin) is the fire button. <br>
+<br>
+<big style="font-weight: bold; text-decoration: underline;"><big><a name="Text_GUI"></a>Text GUI</big></big><br>
 
+<br>
+sdltrs provides a Text based menuing system that allows you to most
+aspect of emulator operation.&nbsp; The GUI is available at all times
+in the Windows and Linux versions, and in Fullscreen mode on the Mac OS
+X version (more info on the <a href="TextGUI.html">Text GUI</a>
+page).&nbsp; The Text GUI is entered by pressing F7, and exited by
+using the ESC key.&nbsp; In the Mac Windowed mode, normal Mac menus and
+preferences, in addition to graphical interface called the Media
+Manager provides the same functionality (more info on the <a href="OSXFeatures.html">OS X
+Features</a> page).&nbsp; A picture of the top level menu of the GUI is below:<br>
+<br>
+<img style="width: 516px; height: 324px;" alt="" src="images/TextGUIMainMenu.png"><br>
 <br>
 
 <big style="font-weight: bold; text-decoration: underline;"><big><a name="Emulated_cassette"></a>Emulated cassette<br>
@@ -970,10 +1234,22 @@ key combo will allow you to load a state file that has been saved
 (Cmd-L or Menu item on the Mac).<br>
 <br>
 <big style="font-weight: bold; text-decoration: underline;"><big><a name="Configuration_Files"></a>Configuration Files</big></big><br>
-<br>
-TBD<br>
+<br>In addition to command line options to set the <a href="Options.html">emulator options</a>
+(most of which are also settable in the <a href="TextGUI.html">Text GUI</a> ), sdltrs allows the
+use of Configuration Files.&nbsp; TBD<br>
 <br>
 <big style="font-weight: bold; text-decoration: underline;"><big><a name="Disk_LED_Indicators_"></a>Disk LED Indicators<br>
-</big></big><br>
-TBD<br>
+</big></big><br>sdltrs provides optional Disk LED indicators at the
+bottom of the emulated screen (on Mac OS X, the indicators are
+available as well in the Media Manager).&nbsp; You can turn these off
+with the -showled and -hideled options, or through the Text GUI.&nbsp;
+The following picture illustrates the LED's:<br>
+<br>
+<img style="width: 517px; height: 335px;" alt="" src="images/LEDStatus.png"><br>
+<br>
+The LED's for the 8 floppy drives are on the left bottom of the screen,
+and in this case the first drive is active, and the other seven are
+not.&nbsp; The LED's for the 4 hard drives are on the right bottom of
+the screen, and in this case none of the drives are active.<br>
+<br>
 </body></html>
