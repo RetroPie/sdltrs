@@ -36,6 +36,7 @@ History</a>
 <div style="text-align: center;"><a href="#Overview">Overview</a>
 <br>
 <a href="#Keys">Keys</a><br>
+<a href="Features.html#Configuration_Files">Configuration Files</a><br>
 <a href="#Text_GUI">Text GUI</a><br>
 <a href="#Emulated_cassette">Emulated Cassette</a><br>
 <a href="#Printer">Printer</a><br>
@@ -52,7 +53,6 @@ History</a>
 <a href="#Joystick_">Joystick</a><br>
 <a href="#Copy_and_Paste">Copy And Paste</a><br>
 <a href="#Save_and_Load_Emulator_State">Save and Load Emulator State</a><br>
-<a href="#Configuration_Files">Configuration Files</a><br>
 <a href="#Disk_LED_Indicators_">Disk LED Indicators</a><br>
 </div>
 
@@ -420,6 +420,19 @@ the Alpha Products joystick. Keys 2, 4, 6, 8
 7, and 9 (KP_End,KP_Page_Down, KP_Home, KP_Page_Up) work as diagonal
 directions by activating two main directions at once; and key 0
 (KP_Insert) or 5 (KP_Begin) is the fire button. <br>
+<br>
+<big style="font-weight: bold; text-decoration: underline;"><big><a name="Configuration_Files"></a>Configuration Files</big></big><br>
+
+<br>
+In addition to command line options to set the <a href="Options.html">emulator options</a>
+(most of which are also settable in the <a href="TextGUI.html">Text GUI</a>
+), sdltrs allows the
+use of Configuration Files.&nbsp; On Windows and Linux, if no
+configuration file is specified, it will use (or create if it doesn't
+exist) one in the same directory as the executable named
+sdltrs.t8c.&nbsp; On Mac OS X, that default configuration is stored in
+the standard OS X Preferences for the application.<br>
+
 <br>
 <big style="font-weight: bold; text-decoration: underline;"><big><a name="Text_GUI"></a>Text GUI</big></big><br>
 
@@ -1232,11 +1245,6 @@ file.&nbsp; The state is stored in a .t8s file that may be saved using
 the Alt-S key combo (Cmd-S or Menu item on the Mac).&nbsp; The Alt-L
 key combo will allow you to load a state file that has been saved
 (Cmd-L or Menu item on the Mac).<br>
-<br>
-<big style="font-weight: bold; text-decoration: underline;"><big><a name="Configuration_Files"></a>Configuration Files</big></big><br>
-<br>In addition to command line options to set the <a href="Options.html">emulator options</a>
-(most of which are also settable in the <a href="TextGUI.html">Text GUI</a> ), sdltrs allows the
-use of Configuration Files.&nbsp; TBD<br>
 <br>
 <big style="font-weight: bold; text-decoration: underline;"><big><a name="Disk_LED_Indicators_"></a>Disk LED Indicators<br>
 </big></big><br>sdltrs provides optional Disk LED indicators at the
