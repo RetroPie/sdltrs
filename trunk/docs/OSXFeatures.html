@@ -1,5 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><title>SDLTRS Help OS X Features</title>
+
+
+
+
+
+
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"></head><body>
 <table border="0" cellpadding="2" cellspacing="2" width="100%">
   <tbody>
@@ -15,6 +21,7 @@ OS X Features<br>
 &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <a href="TextGUI.html">Text GUI</a>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="OSXFeatures.html">OS X
 Features</a>
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="KnownBugs.html">Known Bugs</a>
 &nbsp; &nbsp; &nbsp; &nbsp; <a href="ReleaseHistory.html">Release
 History</a>
 &nbsp; &nbsp; <a href="Credits.html">Credits</a> </td>
@@ -23,5 +30,714 @@ History</a>
 </table>
 
 <br>
+This page describes all of the Macintosh OS X specific features of the emulator:<br>
+<div style="text-align: center;"><a href="#Media_Status_Window">Media Status Window</a><br>
+<a href="#Display_Tab">Preferences: Display Tab</a><br>
+<a href="#TRS-80_Tab_">Preferences: TRS80 Tab</a><br>
+<a href="#Printer_Tab">Preferences: Printer Tab</a><br>
+<a href="#Default_Directories_Tab">Preferences: Directories Tab</a><br>
+<a href="#ROMS_Tab">Preferences: ROMs Tab</a><br>
+<a href="#Joystick_Tab">Preferences: Joystick Tab</a><br>
+<a href="#Printer_Emulation">Printer Emulation</a><br>
+<a href="#Media_Menu">Media Menu</a><br>
+<a href="#Display_Menu">Display Menu</a><br>
+<a href="#Control_Menu">Control Menu</a><br>
+</div>
 
-</body></html>
+
+<br>
+<a name="Media_Status_Window"></a>
+<big style="font-weight: bold; text-decoration: underline;"><big>Media Status Window<br>
+<br>
+</big></big><img style="width: 768px; height: 113px;" alt="" src="images/MediaWindow.png"><br>
+
+<br>
+The Media Status Window on the SDLTRS emulator allows you to
+control all of the aspects of digital media emulation from one
+graphical interface.&nbsp; Besides media management, it allow you to control
+some often used aspects of the emulator as well.&nbsp; If it is not
+displayed at the moment, you can display if by issuing the "Show Media
+Status Window" command in the Media menu.&nbsp; <br>
+
+
+<br>
+ The status window contains the following elements:<br>
+ <br>
+ <b><u>Disk Image pushbuttons:</u><br> </b>
+<blockquote>This section of the window provides pushbuttons allowing you to access
+some of the common disk functions that are normally available in the
+Media menu or the Disk Drive Management window, related to disk sets and creating disk images.&nbsp; See the <a href="#Media_Menu">Media Menu</a> help page for full explanations of the commands. </blockquote>
+<b><u>Displayed Drives selector:</u><br> </b>
+<blockquote>This section of the window controls which disk drives are shown in the
+Disk Drive Status display to the right of it.&nbsp; You may choose to
+display either the first four floppies, the second four floppies, or the hard drives.<br> </blockquote>
+<b><u>Disk Drive Status Display/Buttons:</u><br> </b>
+<blockquote>This section of the window allows you to control one of the emulated
+disk drives on the TRS-80.&nbsp; You may insert a disk image by
+pressing the Insert button.&nbsp; You also can drag and drop a disk image
+file from the finder to the drive picture to insert the disk.&nbsp; When an
+image is inserted, you can write protect/unprotected with the Lock/Unlock
+button.&nbsp; When the drive is write protected, a small lock icon will
+appear above the lock button.&nbsp; Finally, you can drag disks from one
+drive to another as well. &nbsp;If you hold the option key while dragging a
+disk, the disks between the two drives will be swapped, as opposed to
+just moving the disk from one drive to another.<br> <br> Status may
+also be displayed by the drives.&nbsp; Insert/eject, and
+lock/unlock buttons will light up/darken when disks are
+inserted/removed, etc.&nbsp; Also, there is a LED on the drive.&nbsp; It indicates read/write activity.<br> </blockquote>
+<b><u>Cassette Drive Display/Buttons:</u></b><br>
+<blockquote>
+This section of the window allows you to control the emulated cassette
+drive on the TRS-80.&nbsp;&nbsp; You may insert or remove a cassette image with
+the Insert/Eject button.&nbsp; The Manage button will take you to the cassette management window, see the <a href="#Control_Menu">Control Menu </a>help section for details.<br> </blockquote>
+<b><u>Printer Control Menu/Button:</u></b><br>
+<blockquote>
+This section of the window allows you to chose which printer emulation
+you are using from the "Select" pulldown. &nbsp;You may choose the None, Text
+Printer, or Epson FX-80. &nbsp;The picture of the
+selected printer will be displayed in this section. &nbsp;The menu also has
+an option to reset the printer, which is equivalent to turning the
+printer off and on. &nbsp;The Preview button is used to view what the
+current printer output looks like. &nbsp;It is active for every printer
+emulation except the Text Printer. &nbsp;For more info on Printer Emulation,
+see the <a href="#Printer_Emulation">Printer Emulation</a> help section. &nbsp;For setting the printer options, see the <a href="#Printer_Tab">Printer Tab</a> in Preferences.<br> </blockquote>
+<b><u>Emulator Control pushbuttons:</u></b><br>
+<blockquote>
+This section of the window provides pushbuttons allowing you to access
+some of the common emulator control functions that are normally
+available in the Control Menu, such as resets and model selection.&nbsp; See the <a href="#Control_Menu">Control Menu</a> help section for full explanations of the commands.<br> </blockquote>
+
+<big style="font-weight: bold; text-decoration: underline;"><big><a name="Display_Tab"></a>Preferences: Display Tab</big></big><br>
+<br> The Display Tab is the heart of the graphics control of the emulator.&nbsp; <br> <img src="images/DisplayTab.png" alt="" style="width: 752px; height: 515px;"><br> <br> From here you can change the:<br> <br> <b><u>Display Size</u><br> </b><br> &nbsp;&nbsp;<b>&nbsp; Display Mode:</b> <blockquote>These
+radio buttons allow you to choose to display the emulator in a standard
+Aqua window, or to use the entire screen for displaying the
+emulator.&nbsp; You can also change the Display Mode setting from the <a href="#Display_Menu">Display Menu.</a><br> </blockquote>&nbsp;&nbsp;<b>&nbsp;</b><b> </b><b>Scale Factor:</b> 
+<blockquote>In Windowed mode, these radio
+buttons allow you to choose between the standard Atari Screen Size
+where one TRS-80 pixel is mapped to one Macintosh pixel, 2xTRS-80 size
+(oneTRS-80 pixel is mapped to four, 2x2,Macintosh pixels), or 3x TRS-80
+Screen size (one TRS-80 pixel is mapped to nine, 3x3,Macintosh
+pixels).&nbsp;&nbsp; You can also change this setting from the <a href="#Display_Menu">Display Menu.</a>
+&nbsp;Note, on slower Macs, you may want to change your video depth to
+Thousands of Colors to achieve full frame rate when using more than 1x
+mode. &nbsp;(Don't change this while running the emulator!!!). &nbsp;<br> </blockquote>
+<b> </b><b>&nbsp;&nbsp;&nbsp; </b><b>Window Border Width:</b> 
+<blockquote>Put a border of width pixels
+around the TRS-80 display. The default is 2.&nbsp;   </blockquote>
+
+<b>&nbsp;&nbsp;&nbsp; Resize Window on Model 3 Mode Change:</b> 
+<blockquote>In Model 3&nbsp; mode,
+resize the&nbsp; window whenever the emulated display mode changes
+between
+64x16 text (or 512x192 graphics) and 80x24 text (or 640x240
+graphics).&nbsp;   </blockquote>
+
+<b>&nbsp;&nbsp;&nbsp; </b><b>Resize Window on Model 4 Mode Change</b><b>:</b> 
+<blockquote>In Model 4/4P&nbsp; mode,
+resize the&nbsp; window whenever the emulated display mode changes
+between
+64x16 text (or 512x192 graphics) and 80x24 text (or 640x240
+graphics).&nbsp;&nbsp; </blockquote>
+
+<b><u>Display Color<br>
+</u></b><b><br>
+&nbsp;&nbsp;&nbsp;&nbsp; Emulator Colors</b><b>:</b> 
+<blockquote>Specifies the foreground and background color
+of the sdltrs window.&nbsp; Default is black (0x000000) for foreground and white (0xFFFFFF) for background.<br>
+   </blockquote>
+
+<b>&nbsp;&nbsp;&nbsp; Fullscreen GUI Colors</b><b>:</b> 
+<blockquote>Specifies the foreground and background color
+of the fullscreen Text GUI.&nbsp; Default is green (0x008010) for foreground and white (0xFFFFFF) for background.&nbsp;   </blockquote>
+
+
+ <b><u>Disk Leds<br> <br></u></b><div style="margin-left: 40px;">This option allows the user to chose if disk activity indicators are shown in the TRS-80 Emulator window (lower edge).<br>
+</div><br>
+<b><u>Character Fonts</u></b> <br>
+<blockquote>Select among several sets of
+built-in character bitmaps.&nbsp; The three different options allow you
+to specify the character set used for each model, should you change
+models during sdltrs execution using the GUI. &nbsp; In Model I mode , five sets are available.
+The default, wider, is a modified Model III set with characters 8
+pixels wide; it looks better on a modern computer screen with square
+pixels than the real Model I fonts, which were 6 pixels wide. lcmod is
+the character set in the replacement character generator that was
+supplied with the Radio Shack lower case modification. (It was
+reconstructed partly from memory and may have some minor bit errors.)
+stock is the character set in the stock character generator supplied
+with most upper case only machines. Since sdltrs currently always
+emulates the extra bit of display memory needed to support lower case,
+this character set gives you the authentic, unpleasant effect that real
+Model I users
+saw when they tried to do homebrew lower case modifications without
+replacing the character generator: lower case letters appear at an
+inconsistent height, and if you are using the Level II BASIC ROM
+display driver, upper case letters are replaced by meaningless symbols.
+early is the same as stock, but with the standard ASCII
+characters [, \, ], and ^ in the positions where most Model I's
+had directional arrows. This was the default programming in the
+Motorola character generator ROM that Radio Shack used, and a
+few early machines were actually shipped with this ROM.
+Finally, german or genie gives an approximate emulation of the
+GENIE, a German Model I clone. Characters are 8
+pixels wide, and double width is supported even though later GENIE
+models did not include it.<br>
+  <br>
+
+In Model III , 4 and 4P ( modes, three sets are
+available:<br>
+
+katakana (the default for Model III) is the original Model III
+set with Japanese Katakana characters in the alternate character
+positions. This set was also used in early Model 4's. international
+(the default for Model 4 and 4P) is a later Model 4
+set with accented Roman letters in the alternate positions.<br>
+
+bold is a bold set from a character generator ROM found in
+one Model III, origin uncertain.<br>
+
+   </blockquote>
+&nbsp;<a name="TRS-80_Tab_"></a><big style="font-weight: bold; text-decoration: underline;"><big>Preferences:TRS-80 Tab </big></big><span style="text-decoration: underline;"><span style="font-weight: bold;"></span></span><b></b><br> <br>
+<img style="width: 727px; height: 490px;" alt="" src="images/TRS80Tab.png"><br>
+<br>
+
+<span style="text-decoration: underline;"><span style="font-weight: bold;">TRS-80 Model</span></span><br>
+<br>
+<div style="margin-left: 40px;">Specifies what TRS-80 model to emulate.&nbsp;<br>
+</div>
+<br>
+<span style="text-decoration: underline;"><span style="font-weight: bold;">Hi-Res Graphics<br>
+</span></span><br>
+
+<div style="margin-left: 40px;">In Model III or 4/4P mode select which
+hi-res graphics card to emulate, the Micro Labs Grafyx Solution hi-res
+graphics card or Radio Shack hi-res
+card.&nbsp; In Model I mode, the HRG1B 384x192 hi-res graphics card is
+emulated.&nbsp; Note that
+the Model III and Model 4/4P cards from Micro Labs are very different
+from one another.
+</div>
+
+<br>
+<span style="text-decoration: underline;"><span style="font-weight: bold;">Keyboard<br>
+<br>
+</span></span><b>&nbsp;&nbsp;&nbsp; Shift Bracket Emulation</b><b>:</b> 
+<blockquote>Chose Shift Bracket Emulation on or off.&nbsp; If on, emulate [, \, ], ^, and _ as
+shifted keys, and {, |, }, and ~ as
+unshifted. This is the default in Model 4 and 4P modes, and it
+works well with the keyboard driver in Model 4 TRSDOS/LS-DOS 6. If off, emulate [, \, ], ^, and _ as
+unshifted keys, and {, |, }, and ~
+as shifted. This is the default in Model I and III modes, and
+it works well with many TRS-80 keyboard drivers. With some keyboard
+drivers these keys do not work at all, however.
+   </blockquote>
+
+
+<b>&nbsp;&nbsp;&nbsp; Keystretch Value</b><b>:</b> 
+<blockquote>Fine-tune the keyboard behavior.
+To prevent keystrokes from being lost, sdltrs "stretches" the intervals
+between key transitions, so that the Z-80 program has time to see each
+transition before the next one occurs. Whenever the Z-80 program reads
+the keyboard matrix and sees an emulated key go up or down, sdltrs
+waits cycles Z-80 clock cycles (T-states) before it allows the program
+to see another key transition. Key transitions that are received during
+the waiting period or when the Z-80 program
+is not reading the keyboard are held in a queue. The default stretch
+value is 4000 cycles; it should seldom if ever be necessary to change
+it.&nbsp;   </blockquote>
+
+
+
+ 
+<span style="text-decoration: underline;"><span style="font-weight: bold;">Serial Port<br>
+<br>
+</span></span><b>&nbsp;&nbsp;&nbsp; Serial Port Switches</b><b>:</b> 
+<blockquote>Set the sense switches on the
+Model I serial port card. This
+option is meaningful only in Model I mode, and only when the Serial Port Name is not set to "". The default value is 0x6f,
+which Radio Shack software conventionally interprets as 9600 bps, 8
+bits/word, no parity, 1 stop bit.<br>
+   </blockquote>
+
+
+<b>&nbsp;&nbsp;&nbsp; Serial Port Name</b><b>:</b> 
+<blockquote>Set the tty device to be used
+for I/O to the TRS-80's serial
+port. The default is "".
+Setting the name to be empty&nbsp; emulates
+having no serial port.&nbsp;   </blockquote>
+
+
+
+ <span style="text-decoration: underline;"><span style="font-weight: bold;">
+
+</span></span><span style="text-decoration: underline;"><span style="font-weight: bold;">Disk Drives<br>
+<br>
+</span></span><b>&nbsp;&nbsp;&nbsp; Disk Drive Size</b><b>:</b> 
+<blockquote>Selectively set whether drives
+are emulated as 5-inch or 8-inch. The default setting&nbsp; is 5,5,5,5,8,8,8,8. You can omit values from the end of
+the list; those drives will get the default values. Setting one
+or more of the first four drives to 8-inch may be useful for
+CP/M software that supports 8-inch drives. You can also use
+XTRS8/DCT with 8-inch drives in the first four positions; even
+though the prompt suggests the unit number must be 4-7, numbers
+0-3 are accepted. XTRS8 does not check whether the unit you've
+selected is really being emulated as an 8-inch drive, however;
+you'll simply get errors during FORMAT if you get this wrong.<br>
+   </blockquote>
+
+
+<b>&nbsp;&nbsp;&nbsp; Doubler Type</b><b>:</b> 
+<blockquote>Specify what type of double
+density adaptor to emulate (Model I
+mode only). The type may be percom, radioshack (or tandy), both, or
+none. The type may be abbreviated to one character. The default is
+both, which causes the double density adaptor emulation to respond to
+the special commands of both the Percom and Radio Shack cards.&nbsp;   </blockquote>
+
+
+
+
+ <b>&nbsp;&nbsp;&nbsp; True DAM Emulation</b><b>:</b> 
+<blockquote>Turn off the single density data
+address mark remapping kludges
+described in the "Emulated floppy disks" and "Real floppy disks"
+sections above. With this option given, the distinction between
+F8 and FA data address marks is strictly observed on both writing and
+reading. This option is probably not useful unless you need to deal
+with Model I disks that use the distinction as part of a
+copy-protection scheme. See also "Common File Formats for
+Emulated TRS-80 Floppy Disks", available at http://www.tim-
+mann.org/trs80/dskspec.html.&nbsp;   </blockquote>
+
+
+
+
+ <span style="text-decoration: underline;"><span style="font-weight: bold;"></span></span><span style="text-decoration: underline;"><span style="font-weight: bold;">Emtsafe<br>
+<br>
+</span></span>
+<div style="margin-left: 40px;">Turn on/off ability for emts (Emulation traps) to write to unexpected places in the host filesystem.<br>
+</div>
+<span style="text-decoration: underline;"><span style="font-weight: bold;">
+<br>
+</span></span><big><big><span style="text-decoration: underline;"><span style="font-weight: bold;"><a name="Printer_Tab"></a>Preferences: Printer Tab<br>
+<br>
+</span></span></big></big>The Printer Tab controls the type of printer emulation that is used for
+outputting to the printer TRS-80. <br>
+<br>
+The are three choices for printer emulation, None, Text Printer, and
+Epson FX-80. &nbsp;The Text printer simply sends the printer
+output to a text file with optional script processing, while the Epson
+choice emulates a legacy printer, and allow the user to save the
+printer output in a PDF file.<br>
+<br>
+ <img style="width: 726px; height: 491px;" alt="" src="images/PrinterTab.png"><br>
+ The sections below describe the options available for each of the printer types.<br>
+ <br>
+<b><u>Text Printer</u></b><br>
+<blockquote> <span style="font-weight: bold; text-decoration: underline;">Print Command:</span><br>
+The only option for this printer type is&nbsp;the command used to print.
+&nbsp;Within the command, %s is used to represent the file name of the
+temporary file generated during printing. &nbsp;For example, if you wanted
+the printed text to be opened in BBEdit, you would enter "bbedit %s"
+(without quotes) in the box. &nbsp;By default, the OSX command "open %s" is
+used, which will open the printed text in TextEdit by default, unless
+you have changed your file associations. &nbsp;The temporary files used for
+printing are created in the printer output directory, which you can
+choose on the <a href="#Default_Directories_Tab">Default Directories Tab</a>. &nbsp;Also, if you have UNIX printing set up, you could directly print using "lpr %s"<br> </blockquote>
+<br>
+ <b><u>Epson FX-80 Printer</u><br> </b><br>
+ 
+<div style="margin-left: 40px;"><span style="font-weight: bold; text-decoration: underline;">Character Set:</span><br>
+
+This&nbsp;option allows you to choose which international character set will
+be used by default with the printer. &nbsp;On the real Epson, this was set
+by a DIP switch.<br>
+<span style="font-weight: bold; text-decoration: underline;"></span><br>
+<span style="font-weight: bold; text-decoration: underline;"> Print Pitch:</span><br>
+
+This&nbsp;option allows you to choose which character pitch will be used by
+default with the printer. &nbsp;On the real Epson, this was set by a DIP
+switch.<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Print Weight:</span><br>
+
+This&nbsp;option allows you to choose which character weight will be used by
+default with the printer. &nbsp;On the real Epson, this was set by a DIP
+switch.<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Form Length:</span><br>
+
+This option sets the form length, in inches, for pages output by the
+Printer Emulation. &nbsp;On the Epson emulation, this sets both the internal
+page length in the emulated printer, as well as determining the length
+of a page in the PDF output file from the Printer Emulation. &nbsp;For more
+details, see the&nbsp;<a href="#Printer_Emulation">Printer Emulation</a> section.<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Auto Linefeed:</span><br>
+
+This option, which is set by default, will automatically add a linefeed
+character to every carriage return sent from the emulated Atari to the
+emulated Printer. &nbsp;This function was normally performed by the printer
+hardware interface or driver on the Atari (Atari 850 or other). &nbsp;If you
+get blank lines in your output, you may need to turn this option off.<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Print Slashed Zero:</span><br>
+
+This&nbsp;option allows you to choose if zero characters are printed with a
+slash by default with the printer. &nbsp;On the real Epson, this was set by
+a DIP switch.<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Auto Skip Perforation:</span><br>
+
+This option, sets the printer to automatically skip 6 lines at the end
+of the page. &nbsp;This is very useful for program listings and other
+non-page formated output. &nbsp;On the real Epson, this was set by a DIP
+switch. &nbsp;Also, if you choose this option, you may additionally choose
+to split the 6 lines between the top and bottom of the page, giving a 3
+line margin at the top, and a 3 line margin at the bottom &nbsp;of the page.
+&nbsp;This additional option was not available on the original printer.<br>
+</div>
+           <br>
+<br>
+<big style="font-weight: bold; text-decoration: underline;"><big><a name="ROMS_Tab"></a>Preferences: ROMS Tab</big></big><br>
+<br>
+This tab allows you to chose the ROM files used in the emulation of the
+Atari. &nbsp;These files are not provided with the emulator. &nbsp;To select the
+file, press the select button, and the chosen filename will appear in
+the text field.&nbsp; <br>
+<br>
+<img style="width: 725px; height: 491px;" alt="" src="images/RomsTab.png"><br>
+<br>
+<br>
+<big style="font-weight: bold; text-decoration: underline;"><big><a name="Default_Directories_Tab"></a>Preferences: Default Directories Tab</big></big><br>
+<br>
+ This tab allows the user to specify the default directories used for
+loading/saving various types of file used by the emulator. &nbsp;To choose
+the directory, press the select button next to the field, and when the
+directory is chosen, it's name will appear in the text field.<br>
+ <br>
+<img style="width: 725px; height: 492px;" alt="" src="images/DirectoriesTab.png"><br>
+<br>
+<big style="font-weight: bold; text-decoration: underline;"><big><a name="Joystick_Tab"></a>Preferences: Joystick Tab</big></big><br>
+<br>
+This tab allows you to choose the Joystick options for the emulator:<br>
+<br>
+<img style="width: 725px; height: 492px;" alt="" src="images/JoystickTab.png"><br>
+<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Use Numeric Keypad for Joystick</span><br>
+<br>
+<div style="margin-left: 40px;">
+This checkbox determines if the numeric keypad is used for emulation of a joystick.<br>
+</div>
+
+<br>
+<span style="font-weight: bold; text-decoration: underline;">USB Joystick/Gamepad</span><br>
+<br>
+<div style="margin-left: 40px;">
+This dropdown allows the user to select which USB joystick, if any, is used for emulation of the TRS-80 Joystick.<br>
+</div>
+
+<br>
+<big style="font-weight: bold; text-decoration: underline;"><big><a name="Printer_Emulation"></a>Printer Emulation</big></big><br>
+<br>
+The Printer Tab controls the type of printer emulation that is used for
+outputting to the printer device from the emulated TRS-80.<br>
+ <br>
+
+The are two choices for printer emulation, Text Printer, and Epson FX-80. &nbsp;The Text printer simply sends the printer
+output to a text file with optional script processing, while the other
+three choices emulator a legacy printer, and allow the user to save the
+printer output in a PDF file. &nbsp;For information on setting printer
+options, see the <a href="#Printer_Tab">Printer Tab</a> of the Preferences pane. &nbsp;The current printer can be selected, and preview output opened, by either an entry in the <a href="#Media_Menu">Media Menu</a> or by using the printer area in the <a href="#Media_Status_Window">Media Status Window</a>.<br>
+ <br>
+
+The legacy printer emulations allow the user to preview what has been
+printed to the printer so far. &nbsp;This preview is presented as a pane
+which drops down from the main emulator window, and is shown below.
+&nbsp;Besides previewing the output, there are controls that allow the user
+to control the emulated printer and output<br>
+ <br>
+ <img style="width: 613px; height: 509px;" alt="" src="images/PrintPreview.png"><br>
+ <br>
+ <br>
+
+While the preview is open, the printer is offline, and the main
+emulator is paused. The printer comes back online when the preview
+sheet is closed.<br>
+<p>The preview shows the printed output on one or
+more pages of fanfold paper. The length of one page can be chosen in
+the Printer tab of the Preferences panel, and is 11 inches by default.
+Two purple triangles, on the left and right hand side of the paper,
+indicate the "current position"; this is where the next line of output
+will appear. &nbsp;Breaks between the pages will appear as dotted lines,
+simulating the perforations in fanfold paper. &nbsp;These dotted lines will
+not appear in the output.</p>
+<p>At the bottom of the sheet are several buttons:</p>
+<ul>
+<li>Leave in Printer: pressing this button closes the preview sheet without affecting the output.</li><li>Tear
+Off and Save: this button saves the print output in a pdf file. It then
+clears the print output from the preview and closes the sheet. So
+metaphorically this is like tearing off the fanfold paper and storing
+the output in a safe place.&nbsp;After saving the output to a pdf file you
+can use Apple's Preview program or Adobe Acrobat Reader to view the
+output or print it on a real printer.</li><li>Tear Off and Delete: this clears the output without saving it and closes the sheet.</li><li>LF: &nbsp;Line Feed, This will cause the current position of the printer to advance by one line.</li><li>Rev LF: &nbsp;Reverse Line Feed, This will cause the current position of the printer to go back by one line.</li><li>FF: &nbsp;Form Feed, This will cause the current position of the printer to advance to the top of the next page.</li><li>Reset
+Printer: &nbsp;This is equivalent to power cycling the emulated printer,
+reseting any control characters that may have been sent by the emulated
+computer. &nbsp;It will also clear the print output,&nbsp; start at the top of a
+blank page, and close the preview window.</li>
+</ul>
+<b><u>Text Printer<br> <span style="font-weight: bold;"><span style="text-decoration: underline;"><span style="text-decoration: underline;"><br> </span></span></span></u></b>The
+Text Printer is used to send output to a plain text file. &nbsp;The file
+will be stored in the default print output directory, which is settable
+on the <a href="#Default_Directories_Tab">Directories Tab</a>
+of the Preferences window. &nbsp;The file name will be automatically
+generated, and will be off the form SPOOL_xxxxx, where xxxxx is a
+random character string picked by the program/OS. &nbsp;The file may then be
+post-processed by a shell command, which is specified on the <a href="#Printer_Tab">Printer Tab</a> of the Preferences window. &nbsp;By default, the text file is opened in TextEdit.<br>
+ <br>
+ <span style="text-decoration: underline; font-weight: bold;">Epson FX-80 Printer</span><br>
+ <br>
+ The Epson FX-80 was a very popular printer in the 1980's, and is therefore supported by many Atari programs.<br>
+
+The emulation is intended to support all of the functions of the
+original printer, such as different character pitches, bold, italic and
+underlined text, margins, tabs, and graphic modes. It does not support
+user defined characters however. &nbsp;It does support proportional printing
+well, as opposed to the Atari 825 emulation's proportional print
+support, which is poor.<br>
+ <br>
+ The technology used by the emulator
+for text rendering is very different from the technology used in the
+original Epson. As a result, the characters are somewhat different, but
+the size and looks of the characters are just like the real thing,<br>
+ <span style="text-decoration: underline; font-weight: bold;"></span><br><a name="Media_Menu"></a>
+ <big style="font-weight: bold; text-decoration: underline;"><big>Media Menu</big></big><br>
+<br>
+<img style="width: 264px; height: 268px;" alt="" src="images/MediaMenu.png"><br>
+<br>
+The Media menu on the SDLTRS emulator allows you to insert and
+remove digital media into the emulator, the same way you would on a
+real TRS-80. &nbsp;It has the following menu selections:<br>
+ <br>
+<b><u>Floppy Disk Management (cmd-D)</u><br> </b>
+<blockquote>This
+menu item supplies access to a full Disk Drive Management window which
+allows you to insert and remove disks in all 8 floppy disk drives, as well as
+manage the status of the emulated drives and create images.&nbsp; It brings up a window which looks like:<br>
+  <br>
+  <img style="width: 676px; height: 422px;" alt="" src="images/FloppyManagement.png"><br>
+  <br>
+  <u><b>Drive Status</b></u><br>
+ <br>
+ 
+  <blockquote>Each Disk drive can have one of three states:<br>
+<ul><li>Empty - The drive has no disk.</li><li>Read Only - A disk is inserted, but has write protect switch on, so that you may only read from the disk.</li><li>R/W - A disk is inserted, and can be either read from or written to.</li></ul>The Read Only and R/W status of the drive may be set after a disk is inserted.<br> </blockquote>
+  <b><u>Eject All<br> </u></b>
+  <blockquote>This button allows the user to eject all 8 disks from the drive with one action. &nbsp;It has a keyboard shortcut of command-E.<br></blockquote>
+  <b><u>Save Disk Set Button<br> </u></b>
+  <blockquote>This
+button allows the user to save the names of the disk images that are
+currently in the drives to a file, to be loaded later. &nbsp;The file that
+the set is save in has an extension of ".set", and it is a human
+readable text file, containing the paths of the image files, or "Empty"
+or "Off" for a drive that has no disk. &nbsp;It has a keyboard shortcut of
+command-S. </blockquote>
+  <b><u>Load Disk Set Button<br> <br> </u></b>
+  <blockquote>This
+button allows the user to load a disk set saved earlier with the Save
+Disk Set Button. &nbsp;The user is allowed to browse for the set file,
+displaying files ending in ".set". &nbsp;The emulator then loads the disk
+images specified in the file into the corresponding drives. &nbsp;If a drive
+in the set file is "Empty" or "Off", no changes are made to the drive.
+&nbsp; This allows the user to load multiple disk sets sequentially. &nbsp;It has
+a keyboard shortcut of command-L. </blockquote>
+  <u><b>New Disk Image Button<br> </b></u>
+  <blockquote>This
+button will display a new window which you may use to create a new disk
+image. &nbsp; It has a keyboard
+shortcut of command-N.<br> <br>
+    <img style="width: 324px; height: 451px;" alt="" src="images/FloppyCreation.png"><br>
+<br> In the Create Disk Image window,&nbsp; you
+may choose a format of a disk. It may be created in either the JV1, JV3, or DMK disk image format (See the <a href="Features.html#Emulated_5-inch_floppy_disks">Features</a> page for info on the disk formats). <br> <br> If the "Insert New Disk image into drive" checkbox is checked, the created image will be mounted on the specified floppy drive.<br>
+  </blockquote>
+  </blockquote>
+<b><u>Insert Floppy (cmd-1 through cmd-8)</u><br> </b>
+<blockquote>This
+sub-menu allows you to insert an image file into any of the 8 emulated
+disk drives. <br> </blockquote>
+<b><u>Remove Floppy (ctrl-cmd-1 through ctrl-cmd-8, and ctrl-cmd-0)</u><br> </b>
+<blockquote>This
+sub-menu allows you to remove a image file from one of the emulated
+disk drives, or you may empty all of the drives at once.<br> </blockquote>
+<b><u>Hard Disk Management</u><br> </b>
+<blockquote>This
+menu item supplies access to a full Disk Drive Management window which
+allows you to insert and remove disks in all 4 hard disk drives, as well as
+manage the status of the emulated drives and create images.<br>
+  <br>
+  <img style="width: 669px; height: 287px;" alt="" src="images/HardManagement.png"><br>
+  <br>
+  <u><b>Drive Status</b></u><br>
+
+ <br>
+
+ 
+  <blockquote>Each Disk drive can have one of three states:<br>
+<ul><li>Empty - The drive has no disk.</li><li>Read Only - A disk is inserted, but has write protect switch on, so that you may only read from the disk.</li><li>R/W - A disk is inserted, and can be either read from or written to.</li></ul>The Read Only and R/W status of the drive may be set after a disk is inserted.<br> </blockquote>
+
+  <b><u>Eject All<br> </u></b>
+  <blockquote>This button allows the user to eject all 8 disks from the drive with one action. &nbsp;It has a keyboard shortcut of command-E.<br></blockquote>
+
+  <b><u>Save Disk Set Button<br> </u></b>
+  <blockquote>This
+button allows the user to save the names of the disk images that are
+currently in the drives to a file, to be loaded later. &nbsp;The file that
+the set is save in has an extension of ".set", and it is a human
+readable text file, containing the paths of the image files, or "Empty"
+or "Off" for a drive that has no disk. &nbsp;It has a keyboard shortcut of
+command-S. </blockquote>
+
+  <b><u>Load Disk Set Button<br> <br> </u></b>
+  <blockquote>This
+button allows the user to load a disk set saved earlier with the Save
+Disk Set Button. &nbsp;The user is allowed to browse for the set file,
+displaying files ending in ".set". &nbsp;The emulator then loads the disk
+images specified in the file into the corresponding drives. &nbsp;If a drive
+in the set file is "Empty" or "Off", no changes are made to the drive.
+&nbsp; This allows the user to load multiple disk sets sequentially. &nbsp;It has
+a keyboard shortcut of command-L. </blockquote>
+
+  <u><b>New Disk Image Button<br> </b></u>
+  <blockquote>This
+button will display a new window which you may use to create a new disk
+image. &nbsp; It has a keyboard
+shortcut of command-N.<br> <br>
+  <img style="width: 322px; height: 349px;" alt="" src="images/HardCreation.png"><br>
+<br> In the Create Disk Image window,&nbsp; you
+may choose a format of a disk. (See the <a href="Features.html#Emulated_hard_disks_">Features</a> page for info on the hard disk formats). <br> <br> If the "Insert New Disk image into drive" checkbox is checked, the created image will be mounted on the specified hard drive.</blockquote>
+  <br>
+ </blockquote>
+
+<b><u>Attach Hard Disk</u><br> </b>
+<blockquote>This
+sub-menu allows you to insert an image file into any of the 4 emulated
+disk drives. <br> </blockquote>
+
+<b><u>Remove Hard Disk</u><br> </b>
+<blockquote>This
+sub-menu allows you to remove a image file from one of the emulated
+hard disk drives.<br>
+</blockquote>
+<b><u>Cassette Management</u><br> </b>
+<blockquote>This
+menu item supplies access to a full Cassette Management window which
+allows you to insert and remove cassette images into the drive, as well as
+manage the status of the emulated drives and create images.<br>
+  <br>
+  <img style="width: 621px; height: 183px;" alt="" src="images/CassetteManagement.png"><br>
+  <br>
+  <u><b>Drive Position</b></u><br>
+  <blockquote>You can set the position of the cassette tape by changing
+the Position field.&nbsp; Valid values are 0 (fully rewound) through
+the number of bytes on the tape (at end of tape).<br> </blockquote>
+
+  <u><b>New Cassette Image Button<br> </b></u>
+  <blockquote>This
+button will display a new window which you may use to create a new disk
+image. &nbsp; It has a keyboard
+shortcut of command-N.<br> <br>
+  <img style="width: 318px; height: 258px;" alt="" src="images/CassetteCreation.png"><br>
+<br> In the Create Disk Image window,&nbsp; you
+may choose a format of a cassette (.cas or .wav). <br> <br> If the "Insert New Disk image into drive" checkbox is checked, the created image will be mounted on in the cassette drive.</blockquote>
+ </blockquote>
+
+<b><u>Select Printer</u><br> </b>
+<blockquote>This sub-menu item allows
+you to&nbsp;allows you to chose which printer emulation you are using. &nbsp;You
+may choose the Text Printer,&nbsp; or Epson FX-80.
+&nbsp;The sub-menu also has an option to reset the printer, which is
+equivalent to turning the printer off and on. &nbsp;For more info on Printer
+Emulation, see the <a href="#Printer_Emulation">Printer Emulation</a> help section. &nbsp;For setting the printer options, see the <a href="#Printer_Tab">Printer Tab</a> in Preferences.<br> </blockquote>
+<b><u>Preview Printer Output</u><br> </b>
+<blockquote>This
+menu item&nbsp;is used to view what the current printer output looks like.
+&nbsp;It is active for every printer emulation except the Text Printer. </blockquote>
+<b><u>Show Media Status Window</u><br> </b>
+<blockquote>This menu item allows to display the Media Status Window if
+it has been closed.&nbsp; For more information on this window, see the <a href="#Media_Status_Window">Media Status Window</a> help section..<br> </blockquote>
+<blockquote> </blockquote>
+
+<a name="Display_Menu"></a>
+<big style="font-weight: bold; text-decoration: underline;"><big>Display Menu</big></big><br>
+<br>
+<img style="width: 177px; height: 88px;" alt="" src="images/DisplayMenu.png"><br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Screen Bigger</span><br>
+<br>
+<div style="margin-left: 40px;">Set windowed mode scaling to next higher size. (1x, 2x, 3x,&nbsp; and then wraps).<br>
+</div>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Screen Smaller</span><br>
+<br>
+<div style="margin-left: 40px;">Set windowed mode scaling to next lower size. (3x, 2x, 1x and then wraps).<br>
+</div>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Fullscreen</span><br>
+<br>
+<div style="margin-left: 40px;">Switch from Windowed to Fullscreen mode.<br>
+</div>
+<br><a name="Control_Menu"></a>
+<big style="font-weight: bold; text-decoration: underline;"><big>Control Menu</big></big><br>
+<br>
+<img style="width: 265px; height: 311px;" alt="" src="images/ControlMenu.png"><br>
+<br>
+The Control menu on the SDLTRS emulator allows the user to pause, reset, and save/load the state of the emulator. &nbsp;It
+has the following menu selections:<br>
+<big style="font-weight: bold; text-decoration: underline;"><big>
+</big></big><br>
+<b><u>Pause (cmd-P)</u><br> </b>
+<blockquote>This menu item allows you to toggle the Pausing of emulation.<br> </blockquote>
+<b><u>Soft Reset (F10)</u><br>
+ </b>
+<blockquote>This menu item allows you to do a warm reset on the emulator, the equivalent of pressing reset on the TRS80.<br> </blockquote>
+<b><u>Hard Reset (shift-F10)</u><br> </b>
+<blockquote>This menu item allows you to do a hard reset on the emulator, the equivalent of cycling power on the TRS80.<br> </blockquote>
+<b><u>TRS80 Model Submenu</u><br> </b>
+<blockquote>This
+submenu item allows you to select the type of TRS80 computer which is
+emulated.&nbsp; The type of computer may also be chosen in the <a href="#TRS-80_Tab_">TRS80 Tab</a> of the Preferences Window.&nbsp; <br> </blockquote>
+<b><u>High Res Graphics Model Submenu</u><br> </b>
+<blockquote>This
+submenu item allows you to select the type of TRS80 hi-res graphics card which is
+emulated.&nbsp; The type of card&nbsp; may also be chosen in the <a href="OSXFeatures.html#TRS-80_Tab_">TRS80 Tab</a> of the Preferences Window.&nbsp;   </blockquote>
+<b><u>Save State (cmd-S)</u><br> </b>
+<blockquote>This
+menu item allows you to save the state of the emulator, so that it may
+be loaded later with the Load State command. Disk images inserted into the computer are stored in the state file.&nbsp; &nbsp;<br> </blockquote>
+<b><u>Load State (cmd-L)</u><br> </b>
+<blockquote>This
+menu item allows you load a state file (.t8s) previous saved with the
+Save State command.&nbsp; <br> </blockquote>
+<b><u>Write Configuration (cmd-W)</u><br> </b>
+<blockquote>This
+menu item allows you to save the configuration of the emulator, so that
+it may be loaded later with the Load Configuration command.
+&nbsp;Configuration files (.t8c) are discussed further on the <a href="Features.html#Configuration_Files">Features</a> page.&nbsp;<br> </blockquote>
+<b><u>Read Configuration (cmd-R)</u><br> </b>
+<blockquote>This menu item allows you load a Configuration file (.t8c) previous saved with the Save Configuration command. <br> </blockquote>
+<b><u>Monitor (F9)</u><br> </b>
+<blockquote>This
+menu item invokes monitor console, to be used for debugging Atari
+programs, viewing memory contents and other advanced actions. Type help
+to display list of available monitor commands, type cont to close the
+monitor console and continue emulation.<br> </blockquote>
+<span style="text-decoration: underline;"><span style="font-weight: bold;"></span></span><span style="text-decoration: underline;"><span style="font-weight: bold;"></span></span><span style="text-decoration: underline;"><span style="font-weight: bold;">Show Message Window</span></span><b><br> </b>
+<div style="margin-left: 40px;">This
+menu item shows the message window which will display status/startup
+information about the emulator, and any serious error messages
+encountered during emulation will be displayed here. &nbsp;The author may
+use this tool with you to debug difficult, or non-repeatable issues.<br>
+</div>
+ </body></html>

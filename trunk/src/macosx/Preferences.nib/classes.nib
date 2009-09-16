@@ -1,83 +1,169 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {
-                browseCassDir = id; 
-                browseDiskDir = id; 
-                browseDiskSetDir = id; 
-                browseHardDir = id; 
-                browseModel1Rom = id; 
-                browseModel3Rom = id; 
-                browseModel4pRom = id; 
-                browsePrintDir = id; 
-                browseStateDir = id; 
-                miscChanged = id; 
-                ok = id; 
-                revert = id; 
-                revertToDefault = id; 
-                showPanel = id; 
-            }; 
-            CLASS = Preferences; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                backgroundPot = id; 
-                brushedSteelButton = id; 
-                cassImageDirField = id; 
-                disk1SizeMatrix = id; 
-                disk2SizeMatrix = id; 
-                disk3SizeMatrix = id; 
-                disk4SizeMatrix = id; 
-                disk5SizeMatrix = id; 
-                disk6SizeMatrix = id; 
-                disk7SizeMatrix = id; 
-                disk8SizeMatrix = id; 
-                diskImageDirField = id; 
-                diskSetDirField = id; 
-                doublerTypePulldown = id; 
-                emtSafeButton = id; 
-                epsonAutoLinefeedButton = id; 
-                epsonAutoSkipButton = id; 
-                epsonCharSetPulldown = id; 
-                epsonFormLengthField = id; 
-                epsonFormLengthStepper = id; 
-                epsonPrintPitchPulldown = id; 
-                epsonPrintSlashedZerosButton = id; 
-                epsonPrintWeightPulldown = id; 
-                epsonSplitSkipButton = id; 
-                foregroundPot = id; 
-                fullScreenMatrix = id; 
-                guiBackgroundPot = id; 
-                guiForegroundPot = id; 
-                hardImageDirField = id; 
-                keyboardJoystickButton = id; 
-                keyboardStretchField = id; 
-                ledStatusButton = id; 
-                model1FontPulldown = id; 
-                model1RomFileField = id; 
-                model3FontPulldown = id; 
-                model3RomFileField = id; 
-                model4FontPulldown = id; 
-                model4pRomFileField = id; 
-                prefTabView = id; 
-                printCommandField = id; 
-                printDirField = id; 
-                printerTypePulldown = id; 
-                resize3Button = id; 
-                resize4Button = id; 
-                savedStateDirField = id; 
-                scaleFactorMatrix = id; 
-                serialPortField = id; 
-                serialSwitchesField = id; 
-                shiftBracketButton = id; 
-                trsGraphicsPulldown = id; 
-                trsModelPulldown = id; 
-                trueDamButton = id; 
-                usbJoystickPulldown = id; 
-                windowBorderWidthField = id; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>browseCassDir</key>
+				<string>id</string>
+				<key>browseDiskDir</key>
+				<string>id</string>
+				<key>browseDiskSetDir</key>
+				<string>id</string>
+				<key>browseHardDir</key>
+				<string>id</string>
+				<key>browseModel1Rom</key>
+				<string>id</string>
+				<key>browseModel3Rom</key>
+				<string>id</string>
+				<key>browseModel4pRom</key>
+				<string>id</string>
+				<key>browsePrintDir</key>
+				<string>id</string>
+				<key>browseStateDir</key>
+				<string>id</string>
+				<key>miscChanged</key>
+				<string>id</string>
+				<key>ok</key>
+				<string>id</string>
+				<key>revert</key>
+				<string>id</string>
+				<key>revertToDefault</key>
+				<string>id</string>
+				<key>showPanel</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>Preferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>backgroundPot</key>
+				<string>id</string>
+				<key>brushedSteelButton</key>
+				<string>id</string>
+				<key>cassImageDirField</key>
+				<string>id</string>
+				<key>disk1SizeMatrix</key>
+				<string>id</string>
+				<key>disk2SizeMatrix</key>
+				<string>id</string>
+				<key>disk3SizeMatrix</key>
+				<string>id</string>
+				<key>disk4SizeMatrix</key>
+				<string>id</string>
+				<key>disk5SizeMatrix</key>
+				<string>id</string>
+				<key>disk6SizeMatrix</key>
+				<string>id</string>
+				<key>disk7SizeMatrix</key>
+				<string>id</string>
+				<key>disk8SizeMatrix</key>
+				<string>id</string>
+				<key>diskImageDirField</key>
+				<string>id</string>
+				<key>diskSetDirField</key>
+				<string>id</string>
+				<key>doublerTypePulldown</key>
+				<string>id</string>
+				<key>emtSafeButton</key>
+				<string>id</string>
+				<key>epsonAutoLinefeedButton</key>
+				<string>id</string>
+				<key>epsonAutoSkipButton</key>
+				<string>id</string>
+				<key>epsonCharSetPulldown</key>
+				<string>id</string>
+				<key>epsonFormLengthField</key>
+				<string>id</string>
+				<key>epsonFormLengthStepper</key>
+				<string>id</string>
+				<key>epsonPrintPitchPulldown</key>
+				<string>id</string>
+				<key>epsonPrintSlashedZerosButton</key>
+				<string>id</string>
+				<key>epsonPrintWeightPulldown</key>
+				<string>id</string>
+				<key>epsonSplitSkipButton</key>
+				<string>id</string>
+				<key>foregroundPot</key>
+				<string>id</string>
+				<key>fullScreenMatrix</key>
+				<string>id</string>
+				<key>guiBackgroundPot</key>
+				<string>id</string>
+				<key>guiForegroundPot</key>
+				<string>id</string>
+				<key>hardImageDirField</key>
+				<string>id</string>
+				<key>keyboardJoystickButton</key>
+				<string>id</string>
+				<key>keyboardStretchField</key>
+				<string>id</string>
+				<key>ledStatusButton</key>
+				<string>id</string>
+				<key>model1FontPulldown</key>
+				<string>id</string>
+				<key>model1RomFileField</key>
+				<string>id</string>
+				<key>model3FontPulldown</key>
+				<string>id</string>
+				<key>model3RomFileField</key>
+				<string>id</string>
+				<key>model4FontPulldown</key>
+				<string>id</string>
+				<key>model4pRomFileField</key>
+				<string>id</string>
+				<key>prefTabView</key>
+				<string>id</string>
+				<key>printCommandField</key>
+				<string>id</string>
+				<key>printDirField</key>
+				<string>id</string>
+				<key>printerTypePulldown</key>
+				<string>id</string>
+				<key>resize3Button</key>
+				<string>id</string>
+				<key>resize4Button</key>
+				<string>id</string>
+				<key>savedStateDirField</key>
+				<string>id</string>
+				<key>scaleFactorMatrix</key>
+				<string>id</string>
+				<key>serialPortField</key>
+				<string>id</string>
+				<key>serialSwitchesField</key>
+				<string>id</string>
+				<key>shiftBracketButton</key>
+				<string>id</string>
+				<key>trsGraphicsPulldown</key>
+				<string>id</string>
+				<key>trsModelPulldown</key>
+				<string>id</string>
+				<key>trueDamButton</key>
+				<string>id</string>
+				<key>usbJoystickPulldown</key>
+				<string>id</string>
+				<key>windowBorderWidthField</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
