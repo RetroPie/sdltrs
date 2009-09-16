@@ -2,6 +2,8 @@
 <html><head><title>SDLTRS Help Options</title>
 
 
+
+
   
 
   
@@ -22,6 +24,7 @@ Options<br>
 &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <a href="TextGUI.html">Text GUI</a>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="OSXFeatures.html">OS X
 Features</a>
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="KnownBugs.html">Known Bugs</a>
 &nbsp; &nbsp; &nbsp; &nbsp; <a href="ReleaseHistory.html">Release
 History</a>
 &nbsp; &nbsp; <a href="Credits.html">Credits</a> </td>
@@ -46,9 +49,9 @@ On the Macintosh, all of the same setting can also be found in the Preferences d
 <br>
 Also on the command line, any command line arguments ending in .t8c
 will be assumed to be a configuration file, and those options will be
-loaded before startup of the emualtor.&nbsp; Any command line arguments
+loaded before startup of the emulator.&nbsp; Any command line arguments
 ending in .t8s will be assumed to be a state file, and that emulator
-state will be restored upon startup of the emaultor.<br>
+state will be restored upon startup of the emulator.<br>
 
 <br>
 
@@ -382,18 +385,17 @@ all real floppy drives. Linux only. This is the default.</td>
       <td style="vertical-align: top;"> -stepmap s0,s1,s2,s3,s4,s5,s6,s7</td>
       <td style="vertical-align: top;">Selectively set double-step mode
 for individual real floppy
-drives. If sU is 2 and diskM-U is a real drive, the drive
+drives. If sU is 2 and the disk is a real drive, the drive
 will be double-stepped; if sU is 1, it will be single-stepped. You can
 omit values from the end of the list; those drives will get the default
 value set by -doublestep or -nodoublestep.<br>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: top; width: 33%;"> -sizemap
+      <td style="vertical-align: top; width: 33%;"> -sizesize
 z0,z1,z2,z3,z4,z5,z6,z7</td>
       <td style="vertical-align: top;">Selectively set whether drives
-are emulated as 5-inch or 8-inch;
-see the section "Emulated 8-inch floppy disks" above. If zU is 5, the
+are emulated as 5-inch or 8-inch. If zU is 5, the
 drive will appear to Z-80 software as 5-inch; if 8, as
 8-inch. The default setting (as reflected in the documentation
 above) is 5,5,5,5,8,8,8,8. You can omit values from the end of
@@ -459,7 +461,7 @@ bits/word, no parity, 1 stop bit. </td>
     <tr>
       <td style="vertical-align: top;">-nokeypadjoy<br>
       </td>
-      <td style="vertical-align: top;">Do not use numberic keypad as joystick.<br>
+      <td style="vertical-align: top;">Do not use numeric keypad as joystick.<br>
       </td>
     </tr>
     <tr>

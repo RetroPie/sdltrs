@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+  <title>SDLTRS Help Known Bugs</title>
+
+  
+  
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+</head><body>
+<table border="0" cellpadding="2" cellspacing="2" width="100%">
+
+  <tbody>
+    <tr>
+      <td valign="top" width="10%"><img style="width: 108px; height: 136px;" src="images/TRS80.png" alt=""> <br>
+      </td>
+      <td valign="top"><b><font size="+3">SDLTRS Help<br>
+Known Bugs<br>
+      <br>
+      </font></b> <a href="index.html">Introduction</a>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="Features.html">Features</a>
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <a href="Options.html">Options</a>
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <a href="TextGUI.html">Text GUI</a>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="OSXFeatures.html">OS X
+Features</a>
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="KnownBugs.html">Known Bugs</a>
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="ReleaseHistory.html">Release
+History</a>
+&nbsp; &nbsp; <a href="Credits.html">Credits</a> </td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<big style="font-weight: bold; text-decoration: underline;"><big>
+Bugs and limitations<br>
+</big></big><br>
+
+ The emulated serial port's modem status and control signals are not
+ tied to the signals on the real serial port, because the real signals
+ are not available to software through the Unix tty device interface.
+ The ability to check for parity, framing, and overrun errors and
+ receive an interrupt when one occurs is not emulated. Unix does not
+ support 2000, 3600, or 7200 baud, so these TRS-80 data rates are
+ remapped to 38400, 57600, and 115200 baud respectively.<br>
+
+<br>
+
+ Some features of the floppy disk controller are not currently emulated:
+ Force Interrupt with condition bits 0x01, 0x02, or 0x04 is not 
+ implemented. Read Track is implemented only for DMK emulated floppies. 
+ The multiple-sector flags in Read and Write are not implemented. The 
+ timing of returned sectors is emulated only for the Read Address command,
+ and not very accurately for JV1 or JV3. If a disk has more than one
+ sector with the same number on a track, sdltrs will always see the first
+ (counting from the index hole) when reading or writing; a real machine
+ would see the next one to come under the head depending on the current
+ rotational position of the disk. Partially reformatting a track (which
+ TRS-80 programs like HyperZap and Model I Super Utility do to achieve
+ mixed density) is supported for DMK but not JV3; however, switching
+ densities while formatting (which Model III and 4 Super Utility do)
+ works on both DMK and JV3.<br>
+
+<br>
+Real physical floppy disks are supported only under Linux, because the
+other OS's does not define a portable interface to the low-level floppy
+controller functionality that sdltrs needs, or support the floppy
+controllers themselves.&nbsp; Also note, this is untested in sdltrs,
+but was just brought over from xtrs.&nbsp; There are some limitations
+even under Linux: Index holes are faked, not detected on the real disk,
+and the timing of returned sectors is not emulated at all. Due to the
+limitations of PC-style floppy disk controllers, when formatting a
+physical floppy under sdltrs, you cannot mix sectors of different sizes
+on the same track, switch densities in the middle of a track, or
+reformat only part of a track. However, sdltrs can read and write to
+physical floppies that have already been formatted in these ways
+(perhaps by a real TRS-80).<br>
+
+<br>
+
+ The extended JV3 limit of 5802 sectors is somewhat arbitrary. It could
+ be raised by generalizing the code to permit more than two blocks of
+ 2901, but this does not seem too useful. 5802 sectors is already
+ enough for a 3.5-inch HD (1.44MB) floppy, which the TRS-80 didn't 
+ support anyway. If you need more space, use emulated hard drives instead
+ of emulated floppies with huge numbers of tracks.<br>
+
+<br>
+
+ XTRSHARD/DCT ignores the internal write-protected flag in hard drive
+ images, but a hard drive image can still be effectively write protected
+ by turning off its Unix write permission bits.<br>
+
+<br>
+
+ The emulator uses a heuristic to decide what format a ROM file is in.
+ If a raw binary ROM image starts with 0x01, 0x05, or 0x22, it can be
+ misidentified as being in a different format. This is rather unlikely
+ to occur, as ROMs typically begin with 0xF3, the DI instruction.<br>
+
+<br>
+
+ If you discover other bugs, write fixes for any of these, or make any
+ other enhancements, please let us know so that we can incorporate the
+ changes into future releases.<br>
+
+<br>
+
+</body></html>

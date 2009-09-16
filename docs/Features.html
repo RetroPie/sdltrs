@@ -4,6 +4,8 @@
 
 
 
+
+
   
 
   
@@ -24,6 +26,7 @@ Features<br>
 &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; <a href="TextGUI.html">Text GUI</a>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="OSXFeatures.html">OS X
 Features</a>
+&nbsp; &nbsp; &nbsp; &nbsp; <a href="KnownBugs.html">Known Bugs</a>
 &nbsp; &nbsp; &nbsp; &nbsp; <a href="ReleaseHistory.html">Release
 History</a>
 &nbsp; &nbsp; <a href="Credits.html">Credits</a> </td>
@@ -77,12 +80,12 @@ A printer is emulated by sending its output to a text file, or under
 Mac OS X only a Epson FX-80 emulator that can save to a PDF file. A
 serial port is emulated using a host serial port. Cassette I/O is
 emulated using files to store the cassette data. Game sound and music
-outpu are also supported. Though the cassette port, through the Model 4
+output are also supported. Though the cassette port, through the Model 4
 sound option, and through the optional Orchestra-85/90 music
 synthesizer card are all emulated. In Model I mode, the HRG1B graphics
 card is emulated. In Model III and 4/4P mode, you can select whether
 the Radio Shack graphics card or Micro Labs Grafyx Solution is
-emulated. There is also a mouse driver forModel 4/4P mode. Several
+emulated. There is also a mouse driver for model 4/4P mode. Several
 common time-of-day clock cards are emulated on all models. The Alpha
 Products joystick is emulated using the numeric keypad, or through a
 SDL compatible joystick.<br>
@@ -102,7 +105,7 @@ The Z-80 emulator has a debugger called zbx. You can enter the debugger
 either by starting sdltrs with the -debug flag or by pressing F9 while
 sdltrs is running. The debugger runs in the command line terminal
 window that you started sdltrs from, or on the Mac OS X port, from a
-seperate window. Once you are in the debugger, type "help" for more
+separate window. Once you are in the debugger, type "help" for more
 information.<br>
 
 <br>
@@ -290,7 +293,7 @@ some TRS-80 software)</td>
       <td style="vertical-align: top;">LeftAlt + '=' (think +)<br>
 (or Left Cmd + '='<br>
       </td>
-      <td style="vertical-align: top;">Set windowed mode scaling to next higher size. (1x, 2x, 3x, 4x and then wraps).<br>
+      <td style="vertical-align: top;">Set windowed mode scaling to next higher size. (1x, 2x, 3x,&nbsp; and then wraps).<br>
       </td>
     </tr>
     <tr>
@@ -298,7 +301,7 @@ some TRS-80 software)</td>
 
 (or Left Cmd + '-' on the Mac)<br>
       </td>
-      <td style="vertical-align: top;">Set windowed mode scaling to next lower size. (4x, 3x, 2x, 1x and then wraps).</td>
+      <td style="vertical-align: top;">Set windowed mode scaling to next lower size. (3x, 2x, 1x and then wraps).</td>
     </tr>
     <tr>
       <td style="vertical-align: top;">LeftAlt + Enter<br>
@@ -576,7 +579,7 @@ below.<br>
 
 <br>
 
-Blank disks may be creaded from the Text GUI (or the Media menu on Mac
+Blank disks may be created from the Text GUI (or the Media menu on Mac
 OSX).<br>
 
 <br>
@@ -592,7 +595,7 @@ problem, sdltrs implements the following kludge. On writing in single
 density, an F8 data address mark is recorded as FA. On reading with an
 emulated WD1771 (available in Model I mode only), FA is returned as FA;
 on reading with a WD179x, FA is returned as F8. This trick makes
-thedifferent operating systems perfectly compatible with each other,
+the different operating systems perfectly compatible with each other,
 which is better than
 on a real Model I! You can use the -truedam flag to turn off this
 kludge if you need to; in that case the original hardware is emulated
@@ -685,9 +688,8 @@ In case you want to write your own driver for another TRS-80 operating
 system, here are details on the emulated pseudo-hardware. The 8-inch
 drives are accessed through the normal floppy disk controller, exactly
 like 5.25-inch drives. The four 5.25-inch drives have hardware select
-codes 1, 2, 4, and 8, corresponding respectively to files diskM-0,
--1,-2, and -3. The four 8-inch drives have hardware select codes 3, 5,
-6, and 7, corresponding respectively to files diskM-4, -5, -6, and -7.
+codes 1, 2, 4, and 8. The four 8-inch drives have hardware select codes 3, 5,
+6, and 7, corresponding respectively to files.
 (See also the -sizemap option below, however.)<br>
 
 <br>
@@ -1227,7 +1229,7 @@ standard Select All shortcut Ctrl-a Cmd-a (or select Select All from the menu on
 selection rectangle around the edge of the screen. &nbsp;The second
 selection method is by clicking and dragging on the main TRS-80 screen,
 which will draw the selection rectangle. &nbsp;If you change your mind,
-simply click or hit a key, and the selction will be cancelled.<br>
+simply click or hit a key, and the selection will be canceled.<br>
 <br>
 Once
 the text is selected, then you can use the standard Ctrl-c or Cmd-c shortcut (or
