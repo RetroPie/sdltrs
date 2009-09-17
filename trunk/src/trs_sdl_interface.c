@@ -832,7 +832,15 @@ int trs_load_config_file(char *alternate_file)
   if (alternate_file) 
     strcpy(trs_config_file,alternate_file);
   else
+#ifdef __linux
+    {
+      char *home = getenv("HOME");
+      strcpy(trs_config_file,home):
+      strcat(trs_config_file,"/sdltrs.t8c");
+    }
+#else
     strcpy(trs_config_file,"./sdltrs.t8c");
+#endif
   
   trs_set_to_defaults();
   
