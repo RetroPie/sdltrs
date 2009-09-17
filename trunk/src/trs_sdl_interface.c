@@ -835,7 +835,7 @@ int trs_load_config_file(char *alternate_file)
 #ifdef __linux
     {
       char *home = getenv("HOME");
-      strcpy(trs_config_file,home):
+      strcpy(trs_config_file,home);
       strcat(trs_config_file,"/sdltrs.t8c");
     }
 #else
