@@ -1,0 +1,201 @@
+;; settime.z80
+;;
+;; Read date and time from xtrs 1.9 emulator trap and set
+;; TRS-80 system date and time.
+;;
+;; Copyright (c) 1998 Ulrich Mueller
+;;
+;; This software may be copied, modified, and used for any
+;; purpose without fee, provided that (1) the above copyright
+;; notice is retained, and (2) modified versions are clearly
+;; marked as having been modified, with the modifier's name and
+;; the date included.  
+
+;; Modified on Fri May 19 00:38:41 PDT 2000 by Timothy Mann
+;; $Id: settime.z80,v 1.5 2008/06/26 04:39:56 mann Exp $
+
+;; Model I/III addresses
+@exit	equ 402dh
+@abort	equ 4030h
+
+;; Model 1 and 3 store the last 2 digits of the year in the year byte
+time1$	equ 4041h		; seconds/minutes/hours
+date1$	equ 4044h		; year/day/month
+time3$	equ 4217h
+date3$	equ 421ah
+
+;; Model 4 SVCs
+@svc	equ 40  ; rst address for SVCs
+;@svc	equ 5   ; older zmac requires 8080-style "rst 5"
+@exit6	equ 22
+@abort6	equ 21
+
+;; Model 4 stores the offset from 1900 in the year byte
+time4$	equ 002dh
+date4$	equ 0033h
+
+;; Emulator trap instructions
+emt_time	equ 36edh
+
+	org 5200h
+settime:
+	call initj		; init OS-dependent tables
+	ld bc, 0ffffh
+	ld a, 1			; get local time from Unix
+	defw emt_time		; BCDE: seconds since 1970
+	ld a, b
+	and c
+	inc a
+	jp z, abort
+	di
+	ld hl, (time)
+	ld a, 60
+	call divide
+	ld (hl), a		; seconds
+	inc hl
+	ld a, 60
+	call divide
+	ld (hl), a		; minutes
+	inc hl
+	ld a, 24
+	call divide
+	ld (hl), a		; hours
+	ex de, hl		; HL: days since 1970
+	ld bc, 19*256+70-1
+	ld de, 365
+year1:	inc c			; count years in C
+	ld a, c
+	sub 100
+	jr c, year2
+	ld c, a
+	inc b			; centuries
+	ld a, b
+year2:	and 3
+	sub 1
+	sbc hl, de
+	jr nc, year1
+	rlca
+	adc hl, de		; HL: days since 1 january
+	push hl
+	ld hl, (date)
+	call putyr		; year to (hl)
+	inc hl
+	ex (sp), hl
+	and 1			; A=1 for leap year, 0 else
+	add a, 28
+	ld c, a
+	ld b, 0
+	ld d, b
+month1:	inc b			; count months in B
+	ld a, b
+	ld e, c
+	cp 2
+	jr z, month2		; february
+	ld e, 31
+	and 9
+	jp po, month2		; 31 days
+	dec e			; 30 days
+month2:	sbc hl, de		; subtract length of month
+	jr nc, month1
+	adc hl, de
+	ld c, l
+	pop hl
+	ld (hl), c		; day
+	inc hl
+	ld (hl), b		; month
+	ei
+	ld hl,0			; needed on Model 4 --mann
+	jr exit
+
+;; divide BCDE / A
+;; returns quotient in BCDE, remainder in A
+divide:	push hl
+	neg
+	ld h, a
+	sub a
+	ld l, 33
+div1:	rla
+	add a, h
+	jr c, div2
+	sub h
+div2:	rl e
+	rl d
+	rl c
+	rl b
+	dec l
+	jr nz, div1
+	pop hl
+	ret
+
+;; Jump tables for OS independence
+;; Model 1
+startj:
+exit:	jp @exit
+abort:	jp @abort
+time:	defw time1$
+date:	defw date1$
+putyr:	jp putyr1
+endj:
+
+;; Model 3
+startj3:
+	jp @exit
+	jp @abort
+	defw time3$
+	defw date3$
+	jp putyr3
+
+;; Model 4
+startj4:
+	ld a, @exit6
+	rst @svc
+	ld a, @abort6
+	rst @svc
+	defw time4$
+	defw date4$
+	jp putyr4
+
+;; Initialize tables
+;; Changed to work even on a Model III (or Model 4 in III mode)
+;;  using MODELA/III as its ROM.  Previous version didn't.  --mann
+;;
+initj:	ld hl, startj4		; model 4?
+	ld a, (000ah)
+	cp 40h
+	jr nz, movej		; go if so
+	ld hl, startj3		; model 3?
+	ld a, (0125h)
+	cp 'I'
+	ret nz			; return if not
+movej:	ld de, startj
+	ld bc, endj - startj
+	ldir
+	ret
+
+;; Create year byte.
+;; On entry, c has 2-digit year, b has century.
+;; On exit, (hl) has year byte.
+
+;; Model I/III, put 2-digit year
+putyr1:
+putyr3:	ld (hl), c
+	ret
+
+;; Model 4, put offset from 1900 (laboriously recomputed, sigh)
+putyr4:	push af
+	push bc
+	ld a, b
+	sub 19
+	ld b, a
+	ld a, c
+	jr z, py41
+py40:	add a, 100
+	djnz py40
+py41:	ld (hl), a
+	pop bc
+	pop af
+	ret
+
+	end settime
+
+

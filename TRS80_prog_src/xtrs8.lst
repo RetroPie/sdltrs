@@ -1,0 +1,545 @@
+   1:			;*=*=*
+   2:			;	xtrs8/dct
+   3:			;	LDOS driver for xtrs emulation of 8" floppy
+   4:			;
+   5:			;	Copyright (c) 1998, Timothy Mann
+   6:			;       $Id: xtrs8.z80,v 1.2 2008/06/26 04:39:56 mann Exp $
+   7:			;
+   8:			;	This software may be copied, modified, and used for any
+   9:			;	purpose without fee, provided that (1) the above copyright
+  10:			;	notice is retained, and (2) modified versions are clearly
+  11:			;	marked as having been modified, with the modifier's name and
+  12:			;	the date included.  
+  13:			;*=*=*
+  14:			
+  15:			
+  16:			; Number of floppy drives xtrs allows
+  17:	0008          	ndrive	equ	8	
+  18:			
+  19:			; ASCII chars
+  20:	000A          	LF      equ     10
+  21:	000D          	CR	equ	13
+  22:	0003          	ETX	equ	3
+  23:			
+  24:			; Model 4 SVC numbers
+  25:	0064          	@high   equ     100
+  26:	000A          	@dsply  equ     10
+  27:	0065          	@flags  equ     101
+  28:	000C          	@logot  equ     12
+  29:	0052          	@gtdcb  equ	82 
+  30:	0053          	@gtmod	equ	83
+  31:	0009          	@keyin	equ	9
+  32:			
+  33:			; Model I/III hard addresses
+  34:	0125          	m3flag$ equ	0125h	; 'I' in ROM on Model III
+  35:	447B          	@logot1 equ     447bh
+  36:	428A          	@logot3	equ	428ah
+  37:	4467          	@dsply1	equ	4467h
+  38:	4467          	@dsply3	equ	4467h
+  39:	4049          	high$1  equ     4049h
+  40:	4411          	high$3  equ     4411h
+  41:	4758          	cflag$1 equ     4758h
+  42:	4758          	cflag$3 equ     4758h
+  43:	0040          	@keyin1	equ	0040h
+  44:	0040          	@keyin3	equ	0040h
+  45:	441F          	osver$3 equ	441fh
+  46:			
+  47:			; Very undocumented! ugh!
+  48:	4585          	flop31	equ	4585h	;Model III LDOS 5.1.x floppy driver
+  49:	4583          	flop33	equ	4583h   ;Model III LDOS 5.3.x floppy driver
+  50:			
+  51:			;*=*=*
+  52:			;	Set origin to be safe on both LDOS 5 and 6
+  53:			;*=*=*
+  54:	6000          		org	6000h
+  55:			
+  56:			;*=*=*
+  57:			; 	Relocator for disk driver
+  58:			;*=*=*
+  59:	6000  ED533363	instal:	ld	(dct),de	;Save DCT address
+  60:	6004  3A0A00  		ld	a,(000ah)	;Determine TRS-80 model
+  61:	6007  FE40    		cp	40h
+  62:	6009  C2F960  		jp	nz,lsdos6	;Model 4 (or other LS-DOS, I hope)
+  63:	600C  3A2501  		ld	a,(m3flag$)
+  64:	600F  FE49    		cp	'I'
+  65:	6011  CA8660  		jp	z,model3	;Go if Model III
+  66:			;*=*=*
+  67:			; 	LDOS 5 Model I - See LS-DOS 6 version for comments
+  68:			;*=*=*
+  69:	6014  3ECD    		ld	a,0cdh		;Insert Model I @LOGOT
+  70:	6016  32E761  		ld	(logot),a
+  71:	6019  217B44  		ld	hl,@logot1
+  72:	601C  22E861  		ld	(logot+1),hl
+  73:	601F  214762  		ld	hl,hello_
+  74:	6022  CD6744  		call	@dsply1
+  75:	6025  3A5847  		ld      a,(cflag$1)
+  76:	6028  CB5F    		bit     3,a		;System request?
+  77:	602A  CADC61  		jp      z,viaset
+  78:	602D  ED5B3363		ld	de,(dct)
+  79:	6031  7A      		ld	a,d		;DRIVE= must be specified
+  80:	6032  B3      		or	e
+  81:	6033  CAD861  		jp	z,needdr
+  82:	6036  21F062  	asku1:	ld	hl,unit_	;Ask which unit number
+  83:	6039  CD6744  		call	@dsply1
+  84:	603C  213563  		ld	hl,unit
+  85:	603F  010001  		ld	bc,100h
+  86:	6042  CD4000  		call	@keyin1
+  87:	6045  DAE461  		jp	c,hitbrk
+  88:	6048  C2E461  		jp	nz,hitbrk
+  89:	604B  3A3563  		ld	a,(unit)
+  90:	604E  FE30    		cp	'0'
+  91:	6050  38E4    		jr	c,asku1
+  92:	6052  FE38    		cp	'0'+ndrive
+  93:	6054  30E0    		jr	nc,asku1
+  94:	6056  114D64  		ld	de,modnam	;Module already loaded?
+  95:	6059  2A4940  		ld	hl,(high$1)
+  96:	605C  CD1562  		call	xgtmod
+  97:	605F  CA9761  		jp	z,setdct
+  98:	6062  113F64  		ld	de,fd1		;Find fdubl driver
+  99:	6065  2A4940  		ld	hl,(high$1)
+ 100:	6068  CD1562  		call	xgtmod
+ 101:	606B  C2D061  		jp	nz,needfd	;go if missing
+ 102:	606E  225764  		ld	(flop),hl
+ 103:	6071  2A4940  		ld      hl,(high$1)
+ 104:	6074  223163  		ld      (newend),hl
+ 105:	6077  112C00  		ld	de,length
+ 106:	607A  97      		sub	a
+ 107:	607B  ED52    		sbc	hl,de
+ 108:	607D  224940  		ld      (high$1),hl
+ 109:	6080  CDEE61  		call	relo
+ 110:	6083  C38961  		jp	move
+ 111:			;*=*=*
+ 112:			; 	LDOS 5 Model III
+ 113:			;*=*=*
+ 114:	6086          	model3:
+ 115:	6086  3ECD    		ld	a,0cdh		;Insert Model III @LOGOT
+ 116:	6088  32E761  		ld	(logot),a
+ 117:	608B  218A42  		ld	hl,@logot3
+ 118:	608E  22E861  		ld	(logot+1),hl
+ 119:	6091  214762  		ld	hl,hello_
+ 120:	6094  CD6744  		call	@dsply3
+ 121:	6097  3A5847  		ld      a,(cflag$3)
+ 122:	609A  CB5F    		bit     3,a		;System request?
+ 123:	609C  CADC61  		jp      z,viaset
+ 124:	609F  ED5B3363		ld	de,(dct)
+ 125:	60A3  7A      		ld	a,d		;DRIVE= must be specified
+ 126:	60A4  B3      		or	e
+ 127:	60A5  CAD861  		jp	z,needdr
+ 128:	60A8  21F062  	asku3:	ld	hl,unit_	;Ask which unit number
+ 129:	60AB  CD6744  		call	@dsply3
+ 130:	60AE  213563  		ld	hl,unit
+ 131:	60B1  010001  		ld	bc,100h
+ 132:	60B4  CD4000  		call	@keyin3
+ 133:	60B7  DAE461  		jp	c,hitbrk
+ 134:	60BA  C2E461  		jp	nz,hitbrk
+ 135:	60BD  3A3563  		ld	a,(unit)
+ 136:	60C0  FE30    		cp	'0'
+ 137:	60C2  38E4    		jr	c,asku3
+ 138:	60C4  FE38    		cp	'0'+ndrive
+ 139:	60C6  30E0    		jr	nc,asku3
+ 140:	60C8  114D64  		ld	de,modnam	;Module already loaded?
+ 141:	60CB  2A1144  		ld	hl,(high$3)
+ 142:	60CE  CD1562  		call	xgtmod
+ 143:	60D1  CA9761  		jp	z,setdct
+ 144:			;
+ 145:			; Doesn't work on Model III:
+ 146:			;	ld	de,fd3		;Find floppy driver
+ 147:			;	ld	hl,(high$3)
+ 148:			;	call	xgtmod
+ 149:			;	jp	nz,needfd	;go if missing
+ 150:			;
+ 151:			; Cheat instead:
+ 152:	60D4  3A1F44  		ld	a,(osver$3)
+ 153:	60D7  FE51    		cp	51h
+ 154:	60D9  218545  		ld	hl,flop31
+ 155:	60DC  2803    		jr	z,gotit
+ 156:	60DE  218345  		ld	hl,flop33
+ 157:	60E1          	gotit:
+ 158:			;
+ 159:	60E1  225764  		ld	(flop),hl
+ 160:	60E4  2A1144  		ld      hl,(high$3)
+ 161:	60E7  223163  		ld      (newend),hl
+ 162:	60EA  112C00  		ld	de,length
+ 163:	60ED  97      		sub	a
+ 164:	60EE  ED52    		sbc	hl,de
+ 165:	60F0  221144  		ld      (high$3),hl
+ 166:	60F3  CDEE61  		call	relo
+ 167:	60F6  C38961  		jp	move
+ 168:			
+ 169:			;*=*=*
+ 170:			; 	LS-DOS 6
+ 171:			;*=*=*
+ 172:	60F9  214762  	lsdos6:	ld      hl,hello_
+ 173:	60FC  3E0A    		ld      a,@dsply        ;Display hello
+ 174:	60FE  EF      		rst     40
+ 175:			;*=*=*
+ 176:			;       Check if entry from SYSTEM command.
+ 177:			;*=*=*
+ 178:	60FF  3E65    		ld      a,@flags        ;Get flags pointer into IY
+ 179:	6101  EF      		rst     40
+ 180:	6102  FD7E02  		ld      a,(iy+'C'-'A')  ;Get CFLAG$
+ 181:	6105  CB5F    		bit     3,a		;System request?
+ 182:	6107  CADC61  		jp      z,viaset
+ 183:	610A  ED5B3363		ld	de,(dct)
+ 184:	610E  7A      		ld	a,d		;DRIVE= must be specified
+ 185:	610F  B3      		or	e
+ 186:	6110  CAD861  		jp	z,needdr
+ 187:			;*=*=*
+ 188:			;	Ask which unit number
+ 189:			;*=*=*
+ 190:	6113  21F062  	asku4:	ld	hl,unit_	;Ask which unit number
+ 191:	6116  3E0A    		ld	a,@dsply
+ 192:	6118  EF      		rst	40
+ 193:	6119  213563  		ld	hl,unit
+ 194:	611C  010001  		ld	bc,100h
+ 195:	611F  3E09    		ld	a,@keyin
+ 196:	6121  EF      		rst	40
+ 197:	6122  DAE461  		jp	c,hitbrk
+ 198:	6125  C2E461  		jp	nz,hitbrk
+ 199:	6128  3A3563  		ld	a,(unit)
+ 200:	612B  FE30    		cp	'0'
+ 201:	612D  38E4    		jr	c,asku4
+ 202:	612F  FE38    		cp	'0'+ndrive
+ 203:	6131  30E0    		jr	nc,asku4
+ 204:			;*=*=*
+ 205:			;       Check if driver already loaded
+ 206:			;*=*=*
+ 207:	6133  114D64  		ld	de,modnam
+ 208:	6136  3E53    		ld	a,@gtmod
+ 209:	6138  EF      		rst	40
+ 210:	6139  CA9761  		jp	z,setdct	;Already loaded, skip loading
+ 211:			;*=*=*
+ 212:			;	Find system floppy driver
+ 213:			;*=*=*
+ 214:	613C  114464  		ld	de,fd4
+ 215:	613F  3E53    		ld	a,@gtmod
+ 216:	6141  EF      		rst	40
+ 217:	6142  C2D461  		jp	nz,curdl	;Fatal error if not found
+ 218:	6145  225764  		ld	(flop),hl
+ 219:			;*=*=*
+ 220:			;       Obtain low memory driver pointer.  Bizarre API here!
+ 221:			;*=*=*
+ 222:	6148  1E4B    	        ld      e,'K'           ;Locate pointer to *KI DCB
+ 223:	614A  1649    		ld	d,'I'		;  via @GTDCB SVC
+ 224:	614C  3E52    	        ld      a,@gtdcb        
+ 225:	614E  EF      	        rst     40
+ 226:	614F  C2D461  	        jp      nz,curdl        ;No error unless KI clobbered!
+ 227:	6152  2B      	        dec     hl              ;Decrement to driver pointer
+ 228:	6153  56      	        ld      d,(hl)          ;P/u hi-order of pointer,
+ 229:	6154  2B      	        dec     hl              ;  decrement to and p/u
+ 230:	6155  5E      	        ld      e,(hl)          ;  lo-order of pointer
+ 231:			;*=*=*
+ 232:			;       Check if driver will fit into [(LCPTR), X'12FF']
+ 233:			;*=*=*
+ 234:	6156  E5      		push	hl		;Save address of pointer
+ 235:	6157  212C00  	        ld      hl,length	;New pointer will be
+ 236:	615A  19      	        add     hl,de		;  pointer + LENGTH
+ 237:	615B  54      		ld	d,h		;Save a copy in DE
+ 238:	615C  5D      		ld	e,l
+ 239:	615D  010113  	        ld      bc,1301h        ;If > 1300H, driver won't fit
+ 240:	6160  97      	        sub     a               ;Reset carry flag
+ 241:	6161  ED42    	        sbc     hl,bc
+ 242:	6163  E1      		pop	hl		;Get back address of pointer
+ 243:	6164  300A    	        jr      nc,usehi        ;Go if driver won't fit
+ 244:	6166  73      		ld	(hl),e		;Store new value of pointer
+ 245:	6167  23      		inc	hl
+ 246:	6168  72      		ld	(hl),d
+ 247:	6169  1B      		dec	de		;Last byte of driver goes here
+ 248:	616A  ED533163		ld      (newend),de
+ 249:	616E  1816    		jr	dorelo
+ 250:			;*=*=*
+ 251:			;       Put in high memory instead.
+ 252:			;*=*=*
+ 253:	6170  210000  	usehi:	ld      hl,0            ;Get current HIGH$
+ 254:	6173  45      		ld      b,l
+ 255:	6174  3E64    		ld      a,@high 
+ 256:	6176  EF      		rst     40
+ 257:	6177  C2E061  		jp      nz,nomem
+ 258:	617A  223163  		ld      (newend),hl	;Last byte of driver goes here
+ 259:	617D  112C00  		ld	de,length
+ 260:	6180  97      		sub	a		;Reset carry flag
+ 261:	6181  ED52    		sbc	hl,de		;Compute new HIGH$
+ 262:	6183  3E64    		ld      a,@high         ;Set new HIGH$ into the system
+ 263:	6185  EF      		rst     40
+ 264:			;*=*=*
+ 265:			;       Relocate internal references in driver.
+ 266:			;	HL = address for last byte of driver.
+ 267:			;*=*=*
+ 268:	6186  CDEE61  	dorelo:	call	relo
+ 269:			;*=*=*
+ 270:			;       Move driver into low or high memory.
+ 271:			;*=*=*
+ 272:	6189          	move:
+ 273:	6189  ED5B3163		ld      de,(newend)     ;Destination address
+ 274:	618D  217364  		ld      hl,dvrend       ;Last byte of module
+ 275:	6190  012C00  		ld      bc,length       ;Length of filter
+ 276:	6193  EDB8    		lddr
+ 277:	6195  EB      		ex      de,hl
+ 278:	6196  23      		inc     hl              ;Bump to driver entry
+ 279:			;*=*=*
+ 280:			;	Setup DCT
+ 281:			;*=*=*
+ 282:	6197          	setdct:
+ 283:	6197  FD2A3363		ld	iy,(dct)
+ 284:	619B  FD7501  		ld      (iy+1),l          ;Driver address
+ 285:	619E  FD7402  		ld      (iy+2),h
+ 286:	61A1  FD360320		ld	(iy+3),00100000b  ;Flags: 8" floppy
+ 287:	61A5  3A3563  		ld	a,(unit)	  ;Xlate unit number to select code
+ 288:	61A8  E607    		and	07h
+ 289:	61AA  4F      		ld	c,a
+ 290:	61AB  0600    		ld	b,0
+ 291:	61AD  213764  		ld	hl,utab
+ 292:	61B0  09      		add	hl,bc
+ 293:	61B1  7E      		ld	a,(hl)
+ 294:	61B2  F640    		or	01000000b         ;Flags: dden capable, select code
+ 295:	61B4  FD7704  		ld	(iy+4),a
+ 296:	61B7  FD360500		ld	(iy+5),0	  ;current cylinder number
+ 297:	61BB  FD36064C		ld	(iy+6),76	  ;high cylinder number
+ 298:	61BF  FD36070F		ld	(iy+7),0fh        ;init to sden head/sec/gran config
+ 299:	61C3  FD360827		ld	(iy+8),27h
+ 300:	61C7  FD360926		ld	(iy+9),38	  ;Directory cylinder (guess)
+ 301:			
+ 302:	61CB  210000  		ld      hl,0            ;Successful completion
+ 303:	61CE  97      		sub	a
+ 304:	61CF  C9      		ret
+ 305:			;*=*=*
+ 306:	61D0  211363  	needfd:	ld	hl,needfd_
+ 307:	61D3  DD      		defb	0ddh
+ 308:	61D4  217B62  	curdl:	ld	hl,curdl_	;Other error
+ 309:	61D7  DD      		defb	0ddh
+ 310:	61D8  21D662  	needdr:	ld	hl,needdr_
+ 311:	61DB  DD      		defb	0ddh
+ 312:	61DC  21AC62  	viaset: ld      hl,viaset_
+ 313:	61DF  DD      		defb    0ddh
+ 314:	61E0  218E62  	nomem:  ld      hl,nomem_
+ 315:	61E3  DD      		defb    0ddh
+ 316:	61E4  210A63  	hitbrk:	ld	hl,hitbrk_
+ 317:	61E7  3E0C    	logot:	ld	a,@logot 
+ 318:	61E9  EF      		rst	40
+ 319:	61EA  21FFFF  		ld      hl,-1            ;Unuccessful completion
+ 320:	61ED  C9      		ret
+ 321:			
+ 322:			;*=*=*
+ 323:			;       Relocate internal references in driver.
+ 324:			;	HL = address for last byte of driver.
+ 325:			;*=*=*
+ 326:	61EE  2A3163  	relo:	ld	hl,(newend)
+ 327:	61F1  FD217464		ld      iy,reltab       ;Point to relocation tbl
+ 328:	61F5  117364  		ld      de,dvrend
+ 329:	61F8  97      		sub     a               ;Clear carry flag
+ 330:	61F9  ED52    		sbc     hl,de
+ 331:	61FB  44      		ld      b,h             ;Move to BC
+ 332:	61FC  4D      		ld      c,l
+ 333:	61FD  FD6E00  	rloop:  ld      l,(iy)          ;Get address to change
+ 334:	6200  FD6601  		ld      h,(iy+1)
+ 335:	6203  7C      		ld      a,h
+ 336:	6204  B5      		or      l
+ 337:	6205  C8      		ret	z
+ 338:	6206  5E      		ld      e,(hl)          ;P/U address
+ 339:	6207  23      		inc     hl
+ 340:	6208  56      		ld      d,(hl)
+ 341:	6209  EB      		ex      de,hl           ;Offset it
+ 342:	620A  09      		add     hl,bc
+ 343:	620B  EB      		ex      de,hl
+ 344:	620C  72      		ld      (hl),d          ;And put back
+ 345:	620D  2B      		dec     hl
+ 346:	620E  73      		ld      (hl),e
+ 347:	620F  FD23    		inc     iy
+ 348:	6211  FD23    		inc     iy
+ 349:	6213  18E8    		jr      rloop           ;Loop till done
+ 350:			
+ 351:			;*=*=*
+ 352:			;	Search for existing copy of driver.
+ 353:			;        Rough Model I/III emulation of Model 4 @GTMOD,
+ 354:			;        hardcoded with driver address.
+ 355:			;	Entry: HL = (HIGH$)
+ 356:			;              DE => module name, terminated with a character <= 0x1f
+ 357:			;	Exit Z: HL = driver address
+ 358:			;            NZ: driver not found
+ 359:			;*=*=*
+ 360:	6215  23      	xgtmod:	inc	hl
+ 361:	6216  7C      		ld	a,h
+ 362:	6217  B5      		or	l
+ 363:	6218  2002    		jr	nz,xgtm1
+ 364:	621A  3D      		dec	a		;not found
+ 365:	621B  C9      		ret
+ 366:	621C  7E      	xgtm1:	ld	a,(hl)
+ 367:	621D  FE18    		cp	18h		;unconditional jr?
+ 368:	621F  C0      		ret	nz		;not a module header
+ 369:	6220  D5      		push	de		;save desired name ptr
+ 370:	6221  E5      		push	hl		;save start address
+ 371:	6222  23      		inc	hl		;skip jr
+ 372:	6223  23      		inc	hl		;skip offset
+ 373:	6224  23      		inc	hl		;skip start address
+ 374:	6225  23      		inc	hl
+ 375:	6226  46      		ld	b,(hl)		;get name length
+ 376:	6227  23      		inc	hl
+ 377:	6228  1A      	xgtm2:	ld	a,(de)
+ 378:	6229  FE20    		cp	20h
+ 379:	622B  3810    		jr	c,nextmd	;desired name shorter - skip
+ 380:	622D  BE      		cp	(hl)
+ 381:	622E  200D    		jr	nz,nextmd	;character different - skip
+ 382:	6230  13      		inc	de
+ 383:	6231  23      		inc	hl
+ 384:	6232  10F4    		djnz	xgtm2
+ 385:	6234  1A      		ld	a,(de)
+ 386:	6235  FE20    		cp	20h
+ 387:	6237  3004    		jr	nc,nextmd	;desired name longer - skip
+ 388:	6239  E1      		pop	hl		;same - found
+ 389:	623A  D1      		pop	de
+ 390:	623B  97      		sub	a
+ 391:	623C  C9      		ret
+ 392:	623D  E1      	nextmd:	pop	hl		;get back start of module
+ 393:	623E  23      		inc	hl
+ 394:	623F  23      		inc	hl
+ 395:	6240  5E      		ld	e,(hl)		;pointer to last byte
+ 396:	6241  23      		inc	hl
+ 397:	6242  56      		ld	d,(hl)
+ 398:	6243  EB      		ex	de,hl
+ 399:	6244  D1      		pop	de
+ 400:	6245  18CE    		jr	xgtmod
+ 401:			
+ 402:			;*=*=*
+ 403:			;	Messages and globals
+ 404:			;*=*=*
+ 405:	6247  58545253	hello_: defb    'XTRS8 - Emulated 8" floppy driver for xtrs - 4/9/98',CR
+	      38202D20
+	      456D756C
+	      61746564
+	      20382220
+	      666C6F70
+	      70792064
+	      72697665
+	      7220666F
+	      72207874
+	      7273202D
+	      20342F39
+	      2F39380D
+ 406:	627B  4C532D44	curdl_:	defb	'LS-DOS is curdled!',CR
+	      4F532069
+	      73206375
+	      72646C65
+	      64210D
+ 407:	628E  48696768	nomem_: defb    'High memory is not available!',CR
+	      206D656D
+	      6F727920
+	      6973206E
+	      6F742061
+	      7661696C
+	      61626C65
+	      210D
+ 408:	62AC  4D757374	viaset_:defb    'Must install via SYSTEM (DRIVE=,DRIVER=)!',CR
+	      20696E73
+	      74616C6C
+	      20766961
+	      20535953
+	      54454D20
+	      28445249
+	      56453D2C
+	      44524956
+	      45523D29
+	      210D
+ 409:	62D6  44524956	needdr_:defb	'DRIVE= must be specified!',CR
+	      453D206D
+	      75737420
+	      62652073
+	      70656369
+	      66696564
+	      210D
+ 410:	62F0  456E7465	unit_:	defb	'Enter unit number (4-7): ',ETX
+	      7220756E
+	      6974206E
+	      756D6265
+	      72202834
+	      2D37293A
+	      2003
+ 411:	630A  41626F72	hitbrk_:defb	'Aborted!',CR
+	      74656421
+	      0D
+ 412:	6313  46445542	needfd_:defb	'FDUBL must be loaded first!',CR
+	      4C206D75
+	      73742062
+	      65206C6F
+	      61646564
+	      20666972
+	      7374210D
+ 413:	632F  0000    	lcptr:	defw	0
+ 414:	6331  0000    	newend:	defw	0
+ 415:	6333  0000    	dct:    defw	0
+ 416:	6335          	unit:   defs	2
+ 417:	6337          	errbuf:	defs	256
+ 418:	6437  01020408	utab:   defb	1,2,4,8,3,5,6,7
+	      03050607
+ 419:	643F  24464444	fd1:	defb	'$FDD',ETX
+	      03
+ 420:	6444  24464403	fd4:	defb	'$FD',ETX
+ 421:			
+ 422:			;
+ 423:			; Driver - just a tiny wrapper around LDOS dden floppy driver
+ 424:			;
+ 425:			
+ 426:	6448  180C    	entry:  jr      begin           ;The driver starts with the
+ 427:	644A  7364    		defw    dvrend          ;  DOS standard header
+ 428:	644A          	rx00	equ	$-2
+ 429:	644C  05      		defb    modptr-modnam   ;Length of name
+ 430:	644D  78747273	modnam:	defb    'xtrs8'         ;Name for @GTMOD requests
+	      38
+ 431:	6452  0000    	modptr: defw    0               ;These pointers are unused, but 1st byte MBZ
+ 432:	6454  0000    		defw    0
+ 433:			
+ 434:	6456  CD0000  	begin:	call	$-$		;call the real driver
+ 435:	6457          	flop	equ	$-2
+ 436:	6459  F5      		push 	af
+ 437:	645A  FDCB036E		bit 	5,(iy+3)	;8" drive?
+ 438:	645E  2812    		jr 	z,done		;go if not
+ 439:	6460  01491D  		ld	bc,1d49h	;init for dden
+ 440:	6463  FDCB0376		bit	6,(iy+3)	;dden?
+ 441:	6467  2003    		jr	nz,ldden	;go if so
+ 442:	6469  01270F  		ld	bc,0f27h
+ 443:	646C  FD7007  	ldden:	ld	(iy+7), b
+ 444:	646F  FD7108  		ld	(iy+8), c
+ 445:	6472  F1      	done:   pop	af
+ 446:	6473  C9      		ret
+ 447:			
+ 448:	6473          	dvrend  equ     $-1
+ 449:	002C          	length  equ     $-entry
+ 450:	6474  4A640000	reltab: defw    rx00,0
+ 451:	6000          		end     instal
+
+
+
+Statistics:
+
+    76	symbols
+   886	bytes
+
+
+
+Symbol Table:
+
+@dsply         =   a     entry           6448     ndrive         =   8     
+@dsply1        =4467     errbuf          6337+    needdr          61d8     
+@dsply3        =4467     etx            =   3     needdr_         62d6     
+@flags         =  65     fd1             643f     needfd          61d0     
+@gtdcb         =  52     fd4             6444     needfd_         6313     
+@gtmod         =  53     flop           =6457     newend          6331     
+@high          =  64     flop31         =4585     nextmd          623d     
+@keyin         =   9     flop33         =4583     nomem           61e0     
+@keyin1        =  40     gotit           60e1     nomem_          628e     
+@keyin3        =  40     hello_          6247     osver3         =441f     
+@logot         =   c     high1          =4049     relo            61ee     
+@logot1        =447b     high3          =4411     reltab          6474     
+@logot3        =428a     hitbrk          61e4     rloop           61fd     
+asku1           6036     hitbrk_         630a     rx00           =644a     
+asku3           60a8     instal          6000     setdct          6197     
+asku4           6113     lcptr           632f+    unit            6335     
+begin           6456     ldden           646c     unit_           62f0     
+cflag1         =4758     length         =  2c     usehi           6170     
+cflag3         =4758     lf             =   a+    utab            6437     
+cr             =   d     logot           61e7     viaset          61dc     
+curdl           61d4     lsdos6          60f9     viaset_         62ac     
+curdl_          627b     m3flag         = 125     xgtm1           621c     
+dct             6333     model3          6086     xgtm2           6228     
+done            6472     modnam          644d     xgtmod          6215     
+dorelo          6186     modptr          6452     
+dvrend         =6473     move            6189     

@@ -1,0 +1,224 @@
+   1:			;; settime.z80
+   2:			;;
+   3:			;; Read date and time from xtrs 1.9 emulator trap and set
+   4:			;; TRS-80 system date and time.
+   5:			;;
+   6:			;; Copyright (c) 1998 Ulrich Mueller
+   7:			;;
+   8:			;; This software may be copied, modified, and used for any
+   9:			;; purpose without fee, provided that (1) the above copyright
+  10:			;; notice is retained, and (2) modified versions are clearly
+  11:			;; marked as having been modified, with the modifier's name and
+  12:			;; the date included.  
+  13:			
+  14:			;; Modified on Fri May 19 00:38:41 PDT 2000 by Timothy Mann
+  15:			;; $Id: settime.z80,v 1.5 2008/06/26 04:39:56 mann Exp $
+  16:			
+  17:			;; Model I/III addresses
+  18:	402D          	@exit	equ 402dh
+  19:	4030          	@abort	equ 4030h
+  20:			
+  21:			;; Model 1 and 3 store the last 2 digits of the year in the year byte
+  22:	4041          	time1$	equ 4041h		; seconds/minutes/hours
+  23:	4044          	date1$	equ 4044h		; year/day/month
+  24:	4217          	time3$	equ 4217h
+  25:	421A          	date3$	equ 421ah
+  26:			
+  27:			;; Model 4 SVCs
+  28:	0028          	@svc	equ 40  ; rst address for SVCs
+  29:			;@svc	equ 5   ; older zmac requires 8080-style "rst 5"
+  30:	0016          	@exit6	equ 22
+  31:	0015          	@abort6	equ 21
+  32:			
+  33:			;; Model 4 stores the offset from 1900 in the year byte
+  34:	002D          	time4$	equ 002dh
+  35:	0033          	date4$	equ 0033h
+  36:			
+  37:			;; Emulator trap instructions
+  38:	36ED          	emt_time	equ 36edh
+  39:			
+  40:	5200          		org 5200h
+  41:	5200          	settime:
+  42:	5200  CDB452  		call initj		; init OS-dependent tables
+  43:	5203  01FFFF  		ld bc, 0ffffh
+  44:	5206  3E01    		ld a, 1			; get local time from Unix
+  45:	5208  ED36    		defw emt_time		; BCDE: seconds since 1970
+  46:	520A  78      		ld a, b
+  47:	520B  A1      		and c
+  48:	520C  3C      		inc a
+  49:	520D  CA9052  		jp z, abort
+  50:	5210  F3      		di
+  51:	5211  2A9352  		ld hl, (time)
+  52:	5214  3E3C    		ld a, 60
+  53:	5216  CD7452  		call divide
+  54:	5219  77      		ld (hl), a		; seconds
+  55:	521A  23      		inc hl
+  56:	521B  3E3C    		ld a, 60
+  57:	521D  CD7452  		call divide
+  58:	5220  77      		ld (hl), a		; minutes
+  59:	5221  23      		inc hl
+  60:	5222  3E18    		ld a, 24
+  61:	5224  CD7452  		call divide
+  62:	5227  77      		ld (hl), a		; hours
+  63:	5228  EB      		ex de, hl		; HL: days since 1970
+  64:	5229  014513  		ld bc, 19*256+70-1
+  65:	522C  116D01  		ld de, 365
+  66:	522F  0C      	year1:	inc c			; count years in C
+  67:	5230  79      		ld a, c
+  68:	5231  D664    		sub 100
+  69:	5233  3803    		jr c, year2
+  70:	5235  4F      		ld c, a
+  71:	5236  04      		inc b			; centuries
+  72:	5237  78      		ld a, b
+  73:	5238  E603    	year2:	and 3
+  74:	523A  D601    		sub 1
+  75:	523C  ED52    		sbc hl, de
+  76:	523E  30EF    		jr nc, year1
+  77:	5240  07      		rlca
+  78:	5241  ED5A    		adc hl, de		; HL: days since 1 january
+  79:	5243  E5      		push hl
+  80:	5244  2A9552  		ld hl, (date)
+  81:	5247  CD9752  		call putyr		; year to (hl)
+  82:	524A  23      		inc hl
+  83:	524B  E3      		ex (sp), hl
+  84:	524C  E601    		and 1			; A=1 for leap year, 0 else
+  85:	524E  C61C    		add a, 28
+  86:	5250  4F      		ld c, a
+  87:	5251  0600    		ld b, 0
+  88:	5253  50      		ld d, b
+  89:	5254  04      	month1:	inc b			; count months in B
+  90:	5255  78      		ld a, b
+  91:	5256  59      		ld e, c
+  92:	5257  FE02    		cp 2
+  93:	5259  2808    		jr z, month2		; february
+  94:	525B  1E1F    		ld e, 31
+  95:	525D  E609    		and 9
+  96:	525F  E26352  		jp po, month2		; 31 days
+  97:	5262  1D      		dec e			; 30 days
+  98:	5263  ED52    	month2:	sbc hl, de		; subtract length of month
+  99:	5265  30ED    		jr nc, month1
+ 100:	5267  ED5A    		adc hl, de
+ 101:	5269  4D      		ld c, l
+ 102:	526A  E1      		pop hl
+ 103:	526B  71      		ld (hl), c		; day
+ 104:	526C  23      		inc hl
+ 105:	526D  70      		ld (hl), b		; month
+ 106:	526E  FB      		ei
+ 107:	526F  210000  		ld hl,0			; needed on Model 4 --mann
+ 108:	5272  1819    		jr exit
+ 109:			
+ 110:			;; divide BCDE / A
+ 111:			;; returns quotient in BCDE, remainder in A
+ 112:	5274  E5      	divide:	push hl
+ 113:	5275  ED44    		neg
+ 114:	5277  67      		ld h, a
+ 115:	5278  97      		sub a
+ 116:	5279  2E21    		ld l, 33
+ 117:	527B  17      	div1:	rla
+ 118:	527C  84      		add a, h
+ 119:	527D  3801    		jr c, div2
+ 120:	527F  94      		sub h
+ 121:	5280  CB13    	div2:	rl e
+ 122:	5282  CB12    		rl d
+ 123:	5284  CB11    		rl c
+ 124:	5286  CB10    		rl b
+ 125:	5288  2D      		dec l
+ 126:	5289  20F0    		jr nz, div1
+ 127:	528B  E1      		pop hl
+ 128:	528C  C9      		ret
+ 129:			
+ 130:			;; Jump tables for OS independence
+ 131:			;; Model 1
+ 132:	528D          	startj:
+ 133:	528D  C32D40  	exit:	jp @exit
+ 134:	5290  C33040  	abort:	jp @abort
+ 135:	5293  4140    	time:	defw time1$
+ 136:	5295  4440    	date:	defw date1$
+ 137:	5297  C3D052  	putyr:	jp putyr1
+ 138:	529A          	endj:
+ 139:			
+ 140:			;; Model 3
+ 141:	529A          	startj3:
+ 142:	529A  C32D40  		jp @exit
+ 143:	529D  C33040  		jp @abort
+ 144:	52A0  1742    		defw time3$
+ 145:	52A2  1A42    		defw date3$
+ 146:	52A4  C3D052  		jp putyr3
+ 147:			
+ 148:			;; Model 4
+ 149:	52A7          	startj4:
+ 150:	52A7  3E16    		ld a, @exit6
+ 151:	52A9  EF      		rst @svc
+ 152:	52AA  3E15    		ld a, @abort6
+ 153:	52AC  EF      		rst @svc
+ 154:	52AD  2D00    		defw time4$
+ 155:	52AF  3300    		defw date4$
+ 156:	52B1  C3D252  		jp putyr4
+ 157:			
+ 158:			;; Initialize tables
+ 159:			;; Changed to work even on a Model III (or Model 4 in III mode)
+ 160:			;;  using MODELA/III as its ROM.  Previous version didn't.  --mann
+ 161:			;;
+ 162:	52B4  21A752  	initj:	ld hl, startj4		; model 4?
+ 163:	52B7  3A0A00  		ld a, (000ah)
+ 164:	52BA  FE40    		cp 40h
+ 165:	52BC  2009    		jr nz, movej		; go if so
+ 166:	52BE  219A52  		ld hl, startj3		; model 3?
+ 167:	52C1  3A2501  		ld a, (0125h)
+ 168:	52C4  FE49    		cp 'I'
+ 169:	52C6  C0      		ret nz			; return if not
+ 170:	52C7  118D52  	movej:	ld de, startj
+ 171:	52CA  010D00  		ld bc, endj - startj
+ 172:	52CD  EDB0    		ldir
+ 173:	52CF  C9      		ret
+ 174:			
+ 175:			;; Create year byte.
+ 176:			;; On entry, c has 2-digit year, b has century.
+ 177:			;; On exit, (hl) has year byte.
+ 178:			
+ 179:			;; Model I/III, put 2-digit year
+ 180:	52D0          	putyr1:
+ 181:	52D0  71      	putyr3:	ld (hl), c
+ 182:	52D1  C9      		ret
+ 183:			
+ 184:			;; Model 4, put offset from 1900 (laboriously recomputed, sigh)
+ 185:	52D2  F5      	putyr4:	push af
+ 186:	52D3  C5      		push bc
+ 187:	52D4  78      		ld a, b
+ 188:	52D5  D613    		sub 19
+ 189:	52D7  47      		ld b, a
+ 190:	52D8  79      		ld a, c
+ 191:	52D9  2804    		jr z, py41
+ 192:	52DB  C664    	py40:	add a, 100
+ 193:	52DD  10FC    		djnz py40
+ 194:	52DF  77      	py41:	ld (hl), a
+ 195:	52E0  C1      		pop bc
+ 196:	52E1  F1      		pop af
+ 197:	52E2  C9      		ret
+ 198:			
+ 199:	5200          		end settime
+
+
+
+Statistics:
+
+    36	symbols
+   227	bytes
+
+
+
+Symbol Table:
+
+@abort         =4030     emt_time       =36ed     settime         5200     
+@abort6        =  15     endj            529a     startj          528d     
+@exit          =402d     exit            528d     startj3         529a     
+@exit6         =  16     initj           52b4     startj4         52a7     
+@svc           =  28     month1          5254     time            5293     
+abort           5290     month2          5263     time1          =4041     
+date            5295     movej           52c7     time3          =4217     
+date1          =4044     putyr           5297     time4          =  2d     
+date3          =421a     putyr1          52d0     year1           522f     
+date4          =  33     putyr3          52d0     year2           5238     
+div1            527b     putyr4          52d2     
+div2            5280     py40            52db     
+divide          5274     py41            52df     

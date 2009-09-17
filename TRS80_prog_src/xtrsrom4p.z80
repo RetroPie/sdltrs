@@ -1,0 +1,285 @@
+;------------------------------------------------------------------
+; Free Model 4P mode boot ROM for xtrs - Version 0.05
+; Copyright 1999, Peter W. Cervasio (cervasio@airmail.net)
+;------------------------------------------------------------------
+; This software may be copied, modified, and used for any purpose
+; without fee, provided that (1) the above copyright notice is
+; retained, and (2) modified versions are clearly marked as having
+; been modified, with the modifier's name and the date included.
+;------------------------------------------------------------------
+; Checks to see if a disk image is loaded in emulated drive 0.  If
+; so, it reads the boot sector to 0x4300 and jumps to that address.
+; If no disk image loaded, complains and sits in a loop.
+;
+; This is only useful for the Model 4P mode of operation, and it
+; might not work for all programs.  Complains if xtrs thinks it's
+; in model 1, 3, or 4 mode.
+;
+; Written with the help of the LS-DOS 6.3.1 source code, which is
+; freely avaliable, though Roy Soltoff holds the copyright to it,
+; and the Model 4/4P technical reference.
+;
+; $Id: xtrsrom4p.z80,v 1.8 2008/06/26 04:39:56 mann Exp $
+;
+; 3-19-99, Tim Mann:  Improved disk error handling.  Ruled out 
+;   attempts to work in plain Model 4 mode. (v0.03)
+; 4-4-99, Tim Mann:  Made read loop continue until NMI instead of
+;   counting 256 bytes; this should let boot sectors of other than
+;   256 bytes work. (v0.04)  Fixed bug in sending fdc read command;
+;   don't use fdcmd, since that waits for completion. (v0.05)
+;
+; TODO:
+;   possibly write code for the RST handlers as in the real 4P rom
+;------------------------------------------------------------------
+
+;
+;	misc equates needed
+;
+video	equ	3c00h+7*64
+bootram	equ	4300h		; load to this address
+goboot	equ	401ah		; jump here to run boot sec!
+;
+;	hardware addresses
+;
+opreg	equ	084h		; Operation control
+romport	equ	09ch		; ROM control
+wrnmiport equ	0e4h		; NMI mask register
+modport	equ	0ech		; speed, etc.
+;
+fdccmnd equ	0f0h		; FDC Command register (write)
+fdcstat equ	0f0h		; FDC Status register (read)
+fdctrak equ	0f1h		; FDC Track register (r/w)
+fdcsect equ	0f2h		; FDC Sector register (r/w)
+fdcdata equ	0f3h		; FDC Data register (r/w)
+fdcslct equ	0f4h		; Drive select, SDEN/DDEN,
+
+	org	0
+
+;	The following three instructions are what you would
+;	have in RAM at address 0, which would set up the
+;	Model 4/4P to turn the ROM back on (lsdos does this)
+;
+start:	di			; disable interrupts
+	ld	a,1		; map in the ROM
+	out	(romport),a	; do it!
+;
+;	start of "real" ROM instructions
+;
+	jp	contin		; continue farther up
+;
+;	rst 08h through rst 38h jumps (per tech ref)
+;
+rst8:	jp	4000h
+	db	0,0,0,0,0
+rst10:	jp	4003h
+	db	0,0,0,0,0
+rst18:	jp	4006h
+	db	0,0,0,0,0
+rst20:	jp	4009h
+	db	0,0,0,0,0
+rst28:	jp	400ch
+	db	0,0,0,0,0
+rst30:	jp	400fh
+	db	0,0,0,0,0
+rst38:	jp	4012h
+;
+;	Data to load from 4000h to ??
+;
+retdat:	ret			; 4000h (rst 8h)
+	dw	0
+	ret			; 4003h (rst 10h)
+	dw	0
+	ret			; 4006h (rst 18h)
+	dw	0
+	ret			; 4009h (rst 20h)
+	dw	0
+	ret			; 400ch (rst 28h)
+	dw	0
+	ret			; 400fh (rst 30h)
+	dw	0
+	ret			; 4012h (rst 38h)
+	dw	0
+	jp	nmiret		; 4015h (nmi)
+;
+	db	'MO'		; 4P detect by sysinit
+;
+;	code that jumps to the boot sector (401ah)
+;
+	xor	a
+	out	(romport),a	; disable rom
+	jp	bootram		; run boot sector
+;
+retlen	equ	$-retdat	; size of code
+;
+;	nmi address
+;
+	org	66h
+;
+	jp	4015h		; std M4 point in RAM
+;
+;	continue booting the machine
+;
+contin:	xor	a
+	out	(wrnmiport),a	; disable interrupts
+	ld	a,1
+	out	(opreg),a	; set ram mode
+	ld	a,01010000b
+	out	(modport),a	; set speed/vid
+;
+	ld	sp,bootram-100h	; set stack pointer
+;
+	ld	hl,retdat	; code for RAM
+	ld	de,4000h	; move it here
+	ld	bc,retlen
+	ldir
+;
+	ld	hl,3c00h	; clear video screen
+	ld	de,3c01h
+	ld	bc,1023
+	ld	(hl),' '
+	ldir
+;
+	im	1
+;
+	call	chkmdl		; check for model 4p
+	call	rstdrv		; restore drive
+	call	z,readbt	; read boot sector
+	jp	nz,dskerr	; go on error
+;
+jmprom:	jp	goboot		; jump to boot sector
+;
+;	chkmdl - make sure we're in 4P mode
+;
+chkmdl:	ld	a,5		; model query
+	dw	3cedh		; emt_misc instr.
+	ld	a,l		; get model in a
+	cp	5		; model 4p?
+	ret	z
+;
+;	romerr - rom installed in model 1, 3, or 4 mode!!
+;
+romerr:	push	af
+	ld	hl,rommsg	; "invalid rom for model"
+	ld	de,video
+	ld	bc,romlen
+	ldir			; put msg
+	add	a,'0'		; convert model to ascii
+	ld	(de),a		; stuff onto screen
+	jr	$		; and hang
+;
+;	dskerr - error reading disk
+;
+dskerr:	ld	hl,errtab	; table of error messages
+	scf			; ensure termination
+nxterr:	rra			; loop through bits, low first
+	jr	c,goterr	; go if error bit found
+	inc	hl		; no, step to next message
+	inc	hl
+	jr	nxterr
+goterr:	ld	e,(hl)		; get message address
+	inc	hl
+	ld	d,(hl)
+	ex	de,hl
+	ld	de,video	; where to show it
+chrout:	ld	a,(hl)
+	and	a
+	jr	z,$		; hang in a loop when done
+	ld	(de),a
+	inc	hl
+	inc	de
+	jr	chrout
+;
+;	rstdrv - seek track 0 and set up for boot read
+;
+rstdrv:	ld	a,81h		; drive 0, dden (no nmi)
+	out	(fdcslct),a	; select drive
+	ld	a,0d0h		; force interrupt
+	call	fdcmd		; send to fdc
+	ld	b,0
+	djnz	$		; wait a bit
+	ld	a,0ch		; restore w/verify
+	call	fdcmd		;
+	and	99h		; mask error bits
+	ret	z		; return if okay
+	jr	dskerr
+;
+;	readbt - read boot sector from drive 0
+;
+readbt:	ld	de,0001h	; trk 0, sec 1
+	ld	hl,bootram	; set buffer
+	call	readsb		; attempt read
+	and	1ch		; keep RNF,CRC,LOST DATA
+	ret	z		; return if no error
+	jp	dskerr		; go on error
+;
+;	readsb - read sector to buffer
+;
+readsb:	ld	b,81h
+	ld	c,fdcslct	; set dden,ds0
+	out	(c),b		; select
+	dec	c		; set to data register
+	ld	a,18h		; fdc seek command
+	out	(c),d		; track # to fdc
+	call	fdcmd		; send command to fdc
+	ld	a,e
+	out	(fdcsect),a	; desired sector
+	ld	a,81h		; dden & ds0
+	out	(fdcslct),a	; reselect drive
+	ld	de,08116h	; D=DS0, dden, wait
+				; E=mask to see DRQ or error
+	ld	a,80h		; fdc read command
+	out	(fdccmnd),a	; send command
+	ld	b,100		; short delay
+	djnz	$
+	ld	a,0c0h		; enable intrq
+	out	(wrnmiport),a
+rdlp1:	in	a,(fdcstat)	; get status
+	and	e		; test bit 1
+	jr	z,rdlp1
+	ini
+	ld	a,d
+rdlp2:	out	(fdcslct),a
+	ini
+	jr	rdlp2		; tight loop waiting for NMI
+;	jr	nz,rdlp2
+;	in	a,(fdcstat)
+;	ret
+
+nmiret:	xor	a
+	out	(wrnmiport),a	; no interrupts
+	ld	a,81h		; DS 0, dden
+	out	(fdcslct),a
+	in	a,(fdcstat)
+	ex	(sp),hl		; discard one level of return address
+	pop	hl
+	retn
+
+;
+;	fdcmd - send command in A to fdc and wait for completion
+;
+fdcmd:	out	(fdccmnd),a	; send command
+	ld	b,100		; short delay
+	djnz	$
+fdst:	in	a,(fdcstat)
+	bit	0,a		; busy?
+	ret	z		; return if not
+	bit	7,a		; not ready?
+	ret	nz		; return if set
+	jr	fdst		;   else loop
+	
+
+;------------------------------------------------------------------
+;	messages
+;------------------------------------------------------------------
+;
+rommsg:	db	'This ROM code does NOT work when emulating Model '
+romlen	equ	$-rommsg
+;
+errtab:	dw	dskmsg,ecant,elost,ecrc,ernf,ecant,ecant,dskmsg,ecant
+elost:
+ecant:	db	'Emulator or ROM bug',0
+ecrc:	db	'Boot sector CRC error',0
+ernf:	db	'Boot sector not found on disk',0
+dskmsg:	db	'You do not have a disk image loaded',0
+;
+	end	start

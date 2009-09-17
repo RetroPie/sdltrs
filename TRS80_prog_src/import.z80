@@ -1,0 +1,407 @@
+;; import.z80
+;; Timothy Mann, 8/24/97
+;; $Id: import.z80,v 1.16 2008/06/26 04:39:56 mann Exp $
+;;
+;;	Copyright (c) 1997, Timothy Mann
+;;
+;;	This software may be copied, modified, and used for any
+;;	purpose without fee, provided that (1) the above copyright
+;;	notice is retained, and (2) modified versions are clearly
+;;	marked as having been modified, with the modifier's name and
+;;	the date included.  
+;;
+;; Use xtrs emulator traps to copy a file from Unix to TRS-80
+;; Usage: IMPORT [-lne] unixfile [tofile]
+;; Parameter -l will convert the Unix file to lower case.
+;;  (Needed for NEWDOS/80.  They insist on uppercasing the
+;;  command line.)
+;; If the -n parameter is given, each newline ('\n') in the Unix
+;;  file is converted to a carriage return ('\r'), the TRS-80 end of
+;;  line character.
+;; The program tries to determine what DOS it is running on and use
+;;  the correct FCB end of file convention, but this works only on
+;;  TRSDOS, LDOS, and NEWDOS/80.  For other DOSes that use the
+;;  NEWDOS/80 convention (such as DOSPLUS), give the -e paramter.
+;; If the tofile parameter is omitted, the last component of the
+;;  Unix pathname is used, with '.' changed to '/'.  If this is
+;;  not a legal TRS-80 filename, you get an error message.
+
+;; Model I/III addresses
+@fspec  equ 441ch
+@init   equ 4420h
+@open   equ 4424h
+@close  equ 4428h
+@read   equ 4436h
+@write  equ 4439h
+@error  equ 4409h
+@exit   equ 402dh
+@abort  equ 4030h       
+@put	equ 001bh
+dodcb$	equ 401dh
+
+;; Model 4 SVCs
+@svc	equ 40  ; rst address for SVCs
+;@svc	equ 5   ; older zmac requires 8080-style "rst 5"
+@fspec6	equ 78
+@init6	equ 58
+@open6	equ 59
+@close6	equ 60
+@read6	equ 67
+@write6	equ 75
+@error6	equ 26
+@exit6	equ 22
+@abort6	equ 21
+@dsply6	equ 10
+
+;; Model 4 only: file init or open with wrong LRL.  Can be ignored.
+lrlerr  equ 42
+
+	org 5200h
+
+;; Jump tables for OS independence
+startj:
+fspec:	call @fspec
+	ret
+init:	call @init
+	ret
+open:	call @open
+	ret
+close:	call @close
+	ret
+reed:	call @read
+	ret
+write:	call @write
+	ret
+error:	call @error
+	ret
+exit:	call @exit
+	ret
+abort:	call @abort
+	ret
+dsply:	call dsply5
+	ret
+setern:	call setern5
+	ret
+endj:
+
+; Model 4
+startj6:
+	ld a, @fspec6
+	rst @svc
+	ret
+	ld a, @init6
+	rst @svc
+	ret
+	ld a, @open6
+	rst @svc
+	ret
+	ld a, @close6
+	rst @svc
+	ret
+	ld a, @read6
+	rst @svc
+	ret
+	ld a, @write6
+	rst @svc
+	ret
+	ld a, @error6
+	rst @svc
+	ret
+	ld a, @exit6
+	rst @svc
+	ret
+	ld a, @abort6
+	rst @svc
+	ret
+	ld a, @dsply6
+	rst @svc
+	ret
+	call setern6
+	ret
+
+; Nonzero for LDOS ern convention
+ernldos: db 1
+
+; Emulator trap instructions, byte-reversed for use in defw:
+emt_open	equ 30edh
+emt_close	equ 31edh
+emt_read	equ 32edh
+emt_write	equ 33edh
+emt_lseek	equ 34edh
+emt_strerror	equ 35edh
+
+EO_ACCMODE  equ     3q
+EO_RDONLY   equ     0q
+EO_WRONLY   equ     1q
+EO_RDWR     equ     2q
+EO_CREAT    equ   100q
+EO_EXCL     equ   200q
+EO_TRUNC    equ  1000q
+EO_APPEND   equ  2000q
+
+iobsize	equ 8192		; must be divisible by 256
+
+import: 
+	ld a, (000ah)		; Model 4?
+	cp 40h
+	jr z, not4
+	push hl
+	ld de, startj
+	ld hl, startj6
+	ld bc, endj - startj
+	ldir
+	pop hl
+not4:
+	ld a, (4427h)		; system id for Newdos/80...
+	sub 82h			; ...should be 82h (v2.0)
+	jr z, gotid
+	ld a, (441fh)		; system version number for most other DOSes
+	sub 13h			; TRSDOS 1.3?
+gotid:  ld (ernldos), a
+
+flag0:	ld a, (hl)		; look for flags
+	cp ' '
+	jp c, usage		; error if line ends here
+	jr nz, flag1
+	inc hl
+	jr flag0
+flag1:	cp '-'
+	jr nz, unix1
+	inc hl
+	ld a, (hl)
+flag3:	or 20h
+	cp 'e'
+	jr nz, flagl
+	sub a
+	ld (ernldos), a
+	jr flag2
+flagl:	cp 'l'
+	jr nz, flagn		; check for next flag
+	ld a, 1
+	ld (lflag), a
+	jr flag2
+flagn:	cp 'n'
+	jr nz, usage		; unknown flag
+	ld a, 1
+	ld (nflag), a
+flag2:	inc hl
+	ld a, (hl)
+	cp ' '
+	jr nz, flag3		; another flag follows
+	inc hl
+	jr flag0
+
+unix1:	ld de, iobuf		; copy Unix filename
+	ld a, ' '
+unix2:	cp (hl)
+	ldi
+	jr c, unix2
+	dec de			; NUL terminate Unix name
+	ld a, 0
+	ld (de), a              
+	jr z, trs80		; go if two names given
+
+;; Translate last component of Unix name to TRS-80 name			
+	dec hl			; back up to terminator
+unix3:	dec hl			; back up to last byte of name
+	ld a, (hl)
+	cp '.'			; change '.' to '/'
+	jr nz, notdot
+	ld (hl), '/'
+notdot:	cp '/'
+	jr z, unix4
+	cp ' '
+	jr nz, unix3
+unix4:	inc hl			; point to start of modified last component 
+
+trs80:	ld de, dcb              ; ready to get TRS-80 filename from (HL)
+        call fspec
+        jr nz, usage
+	ld hl, iobuf		; Unix path
+	ld a, (lflag)
+	or a
+	call nz, lcconv		; convert path to lower case
+	ld bc, EO_RDONLY
+	ld de, 0		; mode (ignored)
+	defw emt_open
+	jr z, openok		; go if OK
+	ld hl, uopner		; error message and exit
+	jp uerror
+
+openok:	push de			; save fd
+        ld hl, iobuf
+        ld de, dcb
+        ld b, 0
+        call init               ; open the file
+	pop de
+	jr z, opn2ok
+	cp lrlerr
+	jr z, opn2ok
+	ld c, a
+        call error
+        jp abort
+usage:  ld hl, usager           ; error message and exit
+        call dsply
+        jp abort
+
+;; Read
+rloop:
+opn2ok:	ld hl, iobuf            ; read a buffer
+	ld bc, iobsize
+	defw emt_read
+	jr z, readok
+        ld hl, urder            ; read error (!!code in A)
+	jr uerror
+readok:	push de			; save fd
+
+;; Translate
+        ld a, (nflag)		; check for NL feature
+	and a
+	jr z, nlfals
+	ld hl, iobuf
+	push bc			; save byte count
+	ld a, 0ah
+	ld d, 0dh
+	inc c			; deal with b=0 and/ c=0
+	inc b
+	jr tstrt
+tloop:	cp (hl)
+	jr nz, notcr
+	ld (hl), d
+notcr:	inc hl
+tstrt:	dec c
+	jr nz, tloop
+	djnz tloop
+	pop bc			; restore byte count
+
+;; Write
+nlfals:	push bc			; save byte count
+	ld hl, iobuf
+	ld de, dcb
+	inc b			; deal with b=0 and/or c=0
+	ld a, c
+	and a
+	jr z, wstrt
+wloop:  ld (dcb+3), hl
+	call write              ; write 256 bytes to file
+        jr z, wrok
+	ld c, a
+        call error              ; oops, i/o error
+        jp abort
+wrok:	inc h
+wstrt:  djnz wloop
+	pop bc			; restore byte count
+
+;; Done?
+	pop de			; restore fd
+	ld a, c
+	and a
+	jr nz, closit		; done for sure
+	cp b
+	jr nz, rloop		; maybe not done (sloppy)
+
+closit:	defw emt_close		; close Unix file
+	jr z, closok
+        ld hl, uclser           ; close error (!!code in A)
+	jr uerror
+closok:	ld a, c
+	ld (dcb+8), a		; set EOF offset
+	call setern		; set ERN (in case shortening file)
+	ld de, dcb
+        call close              ; close the TRS-80 file
+        jr z, cls2ok
+	ld c, a
+        call error              ; oops, i/o error
+        jp abort
+cls2ok: ld hl, 0                ; all is well
+	jp exit
+
+;; Unix error, msg in hl, errno in a
+uerror: push af
+	call dsply
+	pop af
+	ld hl, iobuf
+	ld bc, 256
+	defw emt_strerror
+	call dsply
+        jp abort
+
+;; Display message in HL.  03h terminate, 0dh newline and terminate.
+dsply5:	ld de, dodcb$
+	push hl
+dsply0:	ld a, (hl)
+	cp 03h
+	jr z, dsply1
+	push af
+	call @put
+	pop af
+	inc hl
+	cp 0dh
+	jr nz, dsply0
+dsply1:	pop hl
+	ret
+
+;; Convert (NUL terminated) string in HL to lower case.
+lcconv:	push hl
+	ld d, h
+	ld e, l
+lcloop:	ld a, (hl)
+	cp 5bh			; use '[' or uparrow as escape
+	jr nz, lconv1
+	inc hl
+	ld a, (hl)
+	jr lconv2		; char after esc: don't convert
+lconv1:	sub 'A'
+	cp 26
+	ld a, (hl)
+	jr nc, lconv2
+	or 20h			; convert to lower case
+lconv2:	ld (de), a
+	inc hl
+	inc de
+	or a			; NUL terminator?
+	jr nz, lcloop
+	pop hl
+	ret
+
+;; EOF handling differs between TRS-80 DOSes:
+;;  For TRSDOS 2.3 and LDOS, word (dcb+12) contains the number of
+;;  256 byte records in the file, byte (dcb+8) contains the EOF
+;;  offset in the last record (0=256).
+;;  For NEWDOS/80 and TRSDOS 1.3, byte (dcb+8) and word (dcb+12) 
+;;  form a 24 bit number containing the relative byte address of EOF.
+;;  Thus (dcb+12) differs by one if the file length is not a
+;;  multiple of 256 bytes.  DOSPLUS also uses this convention,
+;;  and NEWDOS 2.1 probably does too (not checked).
+
+; Set ending record number of file to current position
+; EOF offset in C; destroys A, HL
+setern5:
+	ld hl, (dcb+10)		; current record number
+	ld a, (ernldos)         ; get ERN convention
+	or a
+	jr nz, noadj            ; go if TRSDOS 2.3/LDOS convention
+adj:	or c			; length multiple of 256 bytes?
+	jr z, noadj             ; go if so
+	dec hl			; no, # of records - 1
+noadj:	ld (dcb+12), hl
+	ret	
+
+; All Model 4 mode operating systems should be TRSDOS/LS-DOS 6.x compatible
+setern6:
+	ld hl, (dcb+10)
+	ld (dcb+12), hl
+	ret
+
+lflag:	defb 0
+nflag:	defb 0
+
+usager: defb 'Usage: IMPORT [-lne] unixfile [tofile]', 0dh
+uopner:	defb 'Error in Unix open: ', 03h
+urder:	defb 'Error in Unix read: ', 03h
+uclser:	defb 'Error in Unix close: ', 03h
+
+dcb:	defs 48			; 48 for Model III TRSDOS 1.3   
+iobuf:	defs iobsize
+        
+        end import
