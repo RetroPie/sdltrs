@@ -13,15 +13,15 @@ CXXINCS =  -I"C:/Dev-Cpp/include/c++"  -I"C:/Dev-Cpp/include/c++/mingw32"  -I"C:
 BIN  = sdltrs.exe
 CXXFLAGS = $(CXXINCS)  
 CFLAGS = $(INCS) -g -DWIN32 -mno-cygwin   
-RM = rm -f
+RM = del
 
-.PHONY: all all-before all-after clean clean-custom
+.PHONY: all all-before all-after clean
 
 all: all-before sdltrs.exe all-after
 
 
-clean: clean-custom
-	${RM} $(OBJ) $(BIN)
+clean: 
+	${RM} *.exe *.o
 
 $(BIN): $(OBJ)
 	$(CC) $(LINKOBJ) -o "sdltrs.exe" $(LIBS)
