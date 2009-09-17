@@ -1,0 +1,80 @@
+   1:			;
+   2:			; Fake ROM for xtrs, initial hack
+   3:			; $Id: fakerom.z80,v 1.2 2008/06/26 04:39:56 mann Exp $
+   4:			;
+   5:			
+   6:	3DC0          	video	equ	3c00h+7*64
+   7:			
+   8:	0000          		org	0
+   9:	0000  F3      	start:	di
+  10:	0001  213700  		ld	hl,fakemsg
+  11:	0004  11C03D  		ld	de,video
+  12:	0007  013000  		ld	bc,fmend-fakemsg
+  13:	000A  EDB0    		ldir
+  14:	000C  3E05    		ld	a,5		;query model
+  15:	000E  ED3C    		defw	3cedh		;emt_misc
+  16:	0010  3E30    		ld	a,'0'
+  17:	0012  85      		add	a,l
+  18:	0013  FE35    		cp	'5'
+  19:	0015  2816    		jr	z,mod4p
+  20:	0017  32F03D  		ld	(model-fakemsg+video),a
+  21:	001A  FE34    		cp	'4'
+  22:	001C  2802    		jr	z,mod4
+  23:	001E  18FE    		jr	$
+  24:			
+  25:	0020  216700  	mod4:	ld	hl,m4msg
+  26:	0023  11003E  		ld	de,video+64
+  27:	0026  012B00  		ld	bc,m4end-m4msg
+  28:	0029  EDB0    		ldir
+  29:	002B  18FE    		jr	$
+  30:			
+  31:	002D  21F03D  	mod4p:	ld	hl,model-fakemsg+video
+  32:	0030  3634    		ld	(hl),'4'
+  33:	0032  23      		inc	hl
+  34:	0033  3650    		ld	(hl),'P'
+  35:	0035  18FE    		jr	$
+  36:			
+  37:	0037  596F7520	fakemsg:defb	'You do not have a ROM image installed for Model '
+	      646F206E
+	      6F742068
+	      61766520
+	      6120524F
+	      4D20696D
+	      61676520
+	      696E7374
+	      616C6C65
+	      6420666F
+	      72204D6F
+	      64656C20
+  38:	0067          	model	equ	$
+  39:	0067          	fmend	equ	$
+  40:	0067  284D6F64	m4msg:	defb	'(Model 4 mode requires a Model 3 ROM image)'
+	      656C2034
+	      206D6F64
+	      65207265
+	      71756972
+	      65732061
+	      204D6F64
+	      656C2033
+	      20524F4D
+	      20696D61
+	      676529
+  41:	0092          	m4end	equ	$
+  42:			
+  43:	0000          		end	start
+
+
+
+Statistics:
+
+     9	symbols
+   146	bytes
+
+
+
+Symbol Table:
+
+fakemsg           37     mod4              20     video          =3dc0     
+fmend          =  67     mod4p             2d     
+m4end          =  92     model          =  67     
+m4msg             67     start              0     

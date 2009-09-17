@@ -1,0 +1,75 @@
+/* cd.ccc -- Misosys C program to change Unix working directory on xtrs */
+/* Copyright (c) 1998, Timothy Mann */
+/* $Id: cd.ccc,v 1.3 2008/06/26 04:39:56 mann Exp $ */
+
+/* This software may be copied, modified, and used for any purpose
+ * without fee, provided that (1) the above copyright notice is
+ * retained, and (2) modified versions are clearly marked as having
+ * been modified, with the modifier's name and the date included.  */
+
+#option redirect 0
+#include "xtrsemt.h"
+#include "xtrsemt.ccc"  /* could use separate compilation instead */
+
+usage()
+{
+    fprintf(stderr, "usage: cd [-l] unixdir\n");
+    exit(1);
+}
+
+#define ERRBUFSIZE 256
+#define NAMEBUFSIZE 256
+
+int main(argc, argv)
+     int argc;
+     char **argv;
+{
+    int ret, lower, i;
+    char errbuf[ERRBUFSIZE];
+    char namebuf[NAMEBUFSIZE];
+    char *p, *q;
+
+    if (argc < 2) {
+	usage();
+    }
+    i = 1;
+    if (argv[i][0] == '-') {
+	if (tolower(argv[i][1]) != 'l') {
+	    usage();
+        }
+	i++;
+	lower = 1;
+    } else {
+	lower = 0;
+    }
+    if (argc - i != 1) {
+	usage();
+    }
+
+    p = namebuf;
+    q = argv[i];
+    if (lower) {
+	while (*q) {
+	    if (*q == '[' && *(q+1)) {
+		q++;
+		*p++ = *q++;
+	    } else if (isalpha(*q)) {
+	        *p++ = tolower(*q++);
+	    } else {
+		*p++ = *q++;
+ 	    }
+	}
+    } else {
+	while (*q) *p++ = *q++;
+    }
+    *p = '\000';
+
+    ret = emt_chdir(namebuf);
+    if (ret != 0) {
+	emt_strerror(errno, errbuf, ERRBUFSIZE);
+	fprintf(stderr, "%s: %s\n", namebuf, errbuf);
+	exit(1);
+    }
+    exit(0);
+}
+

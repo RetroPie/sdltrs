@@ -1,0 +1,917 @@
+   1:			;*=*=*
+   2:			;	xtrshard/dct
+   3:			;	Emulate hard disk in a Unix file under xtrs
+   4:			;
+   5:			;	Copyright (c) 1998, Timothy Mann
+   6:			;       $Id: xtrshard.z80,v 1.9 2008/06/26 04:39:56 mann Exp $
+   7:			;
+   8:			;	This software may be copied, modified, and used for any
+   9:			;	purpose without fee, provided that (1) the above copyright
+  10:			;	notice is retained, and (2) modified versions are clearly
+  11:			;	marked as having been modified, with the modifier's name and
+  12:			;	the date included.  
+  13:			;*=*=*
+  14:			
+  15:			
+  16:			; Number of drives to allow
+  17:	0008          	ndrive	equ	8	
+  18:			
+  19:			
+  20:			; ASCII chars
+  21:	000A          	LF      equ     10
+  22:	000D          	CR	equ	13
+  23:	0003          	ETX	equ	3
+  24:			
+  25:			; Model 4 SVC numbers
+  26:	0064          	@high   equ     100
+  27:	000A          	@dsply  equ     10
+  28:	0065          	@flags  equ     101
+  29:	000C          	@logot  equ     12
+  30:	0052          	@gtdcb  equ	82 
+  31:	0053          	@gtmod	equ	83
+  32:	005D          	@div8	equ	93
+  33:	005B          	@mul16	equ	91
+  34:	0009          	@keyin	equ	9
+  35:			
+  36:			; Model I/III hard addresses
+  37:	0125          	m3flag$ equ	0125h	; 'I' in ROM on Model III
+  38:	447B          	@logot1 equ     447bh
+  39:	428A          	@logot3	equ	428ah
+  40:	4467          	@dsply1	equ	4467h
+  41:	4467          	@dsply3	equ	4467h
+  42:	4049          	high$1  equ     4049h
+  43:	4411          	high$3  equ     4411h
+  44:	4758          	cflag$1 equ     4758h
+  45:	4758          	cflag$3 equ     4758h
+  46:	4303          	@icnfg1	equ	4303h
+  47:	421D          	@icnfg3	equ	421dh
+  48:	4B8F          	@mult1	equ	4b8fh
+  49:	444E          	@mult3	equ	444eh
+  50:	4B7B          	@divea1	equ	4b7bh
+  51:	4B7A          	@divea3	equ	4b7ah
+  52:	0040          	@keyin1	equ	0040h
+  53:	0040          	@keyin3	equ	0040h
+  54:			
+  55:			; Emulator trap instructions in byte-reversed form
+  56:	32ED          	emt_read	equ	32EDH
+  57:	33ED          	emt_write	equ	33EDH
+  58:	34ED          	emt_lseek	equ	34EDH
+  59:	35ED          	emt_strerror	equ	35EDH
+  60:	3DED          	emt_ftruncate	equ	3DEDH
+  61:	3EED          	emt_opendisk	equ	3EEDH
+  62:	3FED          	emt_closedisk	equ	3FEDH
+  63:			
+  64:			; Constants for emt_opendisk
+  65:	0000          	EO_RDONLY	equ    00o
+  66:	0001          	EO_WRONLY	equ    01o
+  67:	0002          	EO_RDWR		equ    02o
+  68:	0040          	EO_CREAT	equ  0100o
+  69:	0080          	EO_EXCL		equ  0200o
+  70:	0200          	EO_TRUNC	equ 01000o
+  71:	0400          	EO_APPEND	equ 02000o
+  72:			
+  73:			;*=*=*
+  74:			;	Set origin to be safe on both LDOS 5 and 6
+  75:			;*=*=*
+  76:	6000          		org	6000h
+  77:			
+  78:			;*=*=*
+  79:			; 	Relocator for disk driver
+  80:			;*=*=*
+  81:	6000  ED537363	instal:	ld	(dct),de	;Save DCT address
+  82:	6004  3A0A00  		ld	a,(000ah)	;Determine TRS-80 model
+  83:	6007  FE40    		cp	40h
+  84:	6009  C23661  		jp	nz,lsdos6	;Model 4 (or other LS-DOS, I hope)
+  85:	600C  3A2501  		ld	a,(m3flag$)
+  86:	600F  FE49    		cp	'I'
+  87:	6011  CAA560  		jp	z,model3	;Go if Model III
+  88:			;*=*=*
+  89:			; 	LDOS 5 Model I - See LS-DOS 6 version for comments
+  90:			;*=*=*
+  91:	6014  3ECD    		ld	a,0cdh		;Insert Model I @LOGOT
+  92:	6016  324262  		ld	(logot),a
+  93:	6019  217B44  		ld	hl,@logot1
+  94:	601C  224362  		ld	(logot+1),hl
+  95:	601F  327B65  		ld	(domul),a	;Insert Model I MULT
+  96:	6022  218F4B  		ld	hl,@mult1
+  97:	6025  227C65  		ld	(domul+1),hl
+  98:	6028  32FA65  		ld	(dodiv),a	;Insert Model I DIVEA
+  99:	602B  217B4B  		ld	hl,@divea1
+ 100:	602E  22FB65  		ld	(dodiv+1),hl
+ 101:	6031  3E31    		ld	a,'1'		;Modify filename
+ 102:	6033  325366  		ld	(hmod),a
+ 103:	6036  219D62  		ld	hl,hello_
+ 104:	6039  CD6744  		call	@dsply1
+ 105:	603C  3A5847  		ld      a,(cflag$1)
+ 106:	603F  CB5F    		bit     3,a		;System request?
+ 107:	6041  CA3762  		jp      z,viaset
+ 108:	6044  ED5B7363		ld	de,(dct)
+ 109:	6048  7A      		ld	a,d		;DRIVE= must be specified
+ 110:	6049  B3      		or	e
+ 111:	604A  CA3362  		jp	z,needdr
+ 112:	604D  214A63  	asku1:	ld	hl,unit_	;Ask which unit number
+ 113:	6050  CD6744  		call	@dsply1
+ 114:	6053  217563  		ld	hl,unit
+ 115:	6056  010001  		ld	bc,100h
+ 116:	6059  CD4000  		call	@keyin1
+ 117:	605C  DA3F62  		jp	c,hitbrk
+ 118:	605F  C23F62  		jp	nz,hitbrk
+ 119:	6062  3A7563  		ld	a,(unit)
+ 120:	6065  FE30    		cp	'0'
+ 121:	6067  38E4    		jr	c,asku1
+ 122:	6069  FE38    		cp	'0'+ndrive
+ 123:	606B  30E0    		jr	nc,asku1
+ 124:	606D  2A4940  		ld	hl,(high$1)
+ 125:	6070  CD7062  		call	xgtmod		;Module already loaded?
+ 126:	6073  CAEF61  		jp	z,setdct
+ 127:	6076  2A4940  		ld      hl,(high$1)
+ 128:	6079  227163  		ld      (newend),hl
+ 129:	607C  11E001  		ld	de,length
+ 130:	607F  97      		sub	a
+ 131:	6080  ED52    		sbc	hl,de
+ 132:	6082  224940  		ld      (high$1),hl
+ 133:	6085  CD4166  		call	dvrini
+ 134:	6088  CD4962  		call	relo
+ 135:	608B  3A0343  		ld	a,(@icnfg1)
+ 136:	608E  323E66  		ld	(link),a
+ 137:	6091  2A0443  		ld	hl,(@icnfg1+1)
+ 138:	6094  223F66  	        ld      (link+1),hl
+ 139:	6097  213666  		ld	hl,dvrcfg
+ 140:	6098          	rx16	equ	$-2
+ 141:	609A  220443  	        ld      (@icnfg1+1),hl
+ 142:	609D  3EC3    		ld	a,0c3h
+ 143:	609F  320343  		ld	(@icnfg1),a
+ 144:	60A2  C3E161  		jp	move
+ 145:			;*=*=*
+ 146:			; 	LDOS 5 Model III
+ 147:			;*=*=*
+ 148:	60A5          	model3:
+ 149:	60A5  3ECD    		ld	a,0cdh		;Insert Model III @LOGOT
+ 150:	60A7  324262  		ld	(logot),a
+ 151:	60AA  218A42  		ld	hl,@logot3
+ 152:	60AD  224362  		ld	(logot+1),hl
+ 153:	60B0  327B65  		ld	(domul),a	;Insert Model III MULT
+ 154:	60B3  214E44  		ld	hl,@mult3
+ 155:	60B6  227C65  		ld	(domul+1),hl
+ 156:	60B9  32FA65  		ld	(dodiv),a	;Insert Model III DIVEA
+ 157:	60BC  217A4B  		ld	hl,@divea3
+ 158:	60BF  22FB65  		ld	(dodiv+1),hl
+ 159:	60C2  3E33    		ld	a,'3'		;Modify filename
+ 160:	60C4  325366  		ld	(hmod),a
+ 161:	60C7  219D62  		ld	hl,hello_
+ 162:	60CA  CD6744  		call	@dsply3
+ 163:	60CD  3A5847  		ld      a,(cflag$3)
+ 164:	60D0  CB5F    		bit     3,a		;System request?
+ 165:	60D2  CA3762  		jp      z,viaset
+ 166:	60D5  ED5B7363		ld	de,(dct)
+ 167:	60D9  7A      		ld	a,d		;DRIVE= must be specified
+ 168:	60DA  B3      		or	e
+ 169:	60DB  CA3362  		jp	z,needdr
+ 170:	60DE  214A63  	asku3:	ld	hl,unit_	;Ask which unit number
+ 171:	60E1  CD6744  		call	@dsply3
+ 172:	60E4  217563  		ld	hl,unit
+ 173:	60E7  010001  		ld	bc,100h
+ 174:	60EA  CD4000  		call	@keyin3
+ 175:	60ED  DA3F62  		jp	c,hitbrk
+ 176:	60F0  C23F62  		jp	nz,hitbrk
+ 177:	60F3  3A7563  		ld	a,(unit)
+ 178:	60F6  FE30    		cp	'0'
+ 179:	60F8  38E4    		jr	c,asku3
+ 180:	60FA  FE38    		cp	'0'+ndrive
+ 181:	60FC  30E0    		jr	nc,asku3
+ 182:	60FE  2A1144  		ld	hl,(high$3)
+ 183:	6101  CD7062  		call	xgtmod		;Module already loaded?
+ 184:	6104  CAEF61  		jp	z,setdct
+ 185:	6107  2A1144  		ld      hl,(high$3)
+ 186:	610A  227163  		ld      (newend),hl
+ 187:	610D  11E001  		ld	de,length
+ 188:	6110  97      		sub	a
+ 189:	6111  ED52    		sbc	hl,de
+ 190:	6113  221144  		ld      (high$3),hl
+ 191:	6116  CD4166  		call	dvrini
+ 192:	6119  CD4962  		call	relo
+ 193:	611C  3A1D42  		ld	a,(@icnfg3)
+ 194:	611F  323E66  		ld	(link),a
+ 195:	6122  2A1E42  		ld	hl,(@icnfg3+1)
+ 196:	6125  223F66  	        ld      (link+1),hl
+ 197:	6128  213666  		ld	hl,dvrcfg
+ 198:	6129          	rx17	equ	$-2
+ 199:	612B  221E42  	        ld      (@icnfg3+1),hl
+ 200:	612E  3EC3    		ld	a,0c3h
+ 201:	6130  321D42  		ld	(@icnfg3),a
+ 202:	6133  C3E161  		jp	move
+ 203:			
+ 204:			;*=*=*
+ 205:			; 	LS-DOS 6
+ 206:			;*=*=*
+ 207:	6136  3E34    	lsdos6:	ld	a,'4'		;Modify filename
+ 208:	6138  325366  		ld	(hmod),a
+ 209:	613B  219D62  		ld      hl,hello_
+ 210:	613E  3E0A    		ld      a,@dsply        ;Display hello
+ 211:	6140  EF      		rst     40
+ 212:			;*=*=*
+ 213:			;       Check if entry from SYSTEM command.
+ 214:			;*=*=*
+ 215:	6141  3E65    		ld      a,@flags        ;Get flags pointer into IY
+ 216:	6143  EF      		rst     40
+ 217:	6144  FD7E02  		ld      a,(iy+'C'-'A')  ;Get CFLAG$
+ 218:	6147  CB5F    		bit     3,a		;System request?
+ 219:	6149  CA3762  		jp      z,viaset
+ 220:	614C  ED5B7363		ld	de,(dct)
+ 221:	6150  7A      		ld	a,d		;DRIVE= must be specified
+ 222:	6151  B3      		or	e
+ 223:	6152  CA3362  		jp	z,needdr
+ 224:			;*=*=*
+ 225:			;	Ask which unit number
+ 226:			;*=*=*
+ 227:	6155  214A63  	asku4:	ld	hl,unit_	;Ask which unit number
+ 228:	6158  3E0A    		ld	a,@dsply
+ 229:	615A  EF      		rst	40
+ 230:	615B  217563  		ld	hl,unit
+ 231:	615E  010001  		ld	bc,100h
+ 232:	6161  3E09    		ld	a,@keyin
+ 233:	6163  EF      		rst	40
+ 234:	6164  DA3F62  		jp	c,hitbrk
+ 235:	6167  C23F62  		jp	nz,hitbrk
+ 236:	616A  3A7563  		ld	a,(unit)
+ 237:	616D  FE30    		cp	'0'
+ 238:	616F  38E4    		jr	c,asku4
+ 239:	6171  FE38    		cp	'0'+ndrive
+ 240:	6173  30E0    		jr	nc,asku4
+ 241:			;*=*=*
+ 242:			;       Check if driver already loaded
+ 243:			;*=*=*
+ 244:	6175  117C64  		ld	de,modnam
+ 245:	6178  3E53    		ld	a,@gtmod
+ 246:	617A  EF      		rst	40
+ 247:	617B  CAEF61  		jp	z,setdct	;Already loaded, skip loading
+ 248:			;*=*=*
+ 249:			;       Obtain low memory driver pointer.  Bizarre API here!
+ 250:			;*=*=*
+ 251:	617E  1E4B    	        ld      e,'K'           ;Locate pointer to *KI DCB
+ 252:	6180  1649    		ld	d,'I'		;  via @GTDCB SVC
+ 253:	6182  3E52    	        ld      a,@gtdcb        
+ 254:	6184  EF      	        rst     40
+ 255:	6185  C22F62  	        jp      nz,curdl        ;No error unless KI clobbered!
+ 256:	6188  2B      	        dec     hl              ;Decrement to driver pointer
+ 257:	6189  56      	        ld      d,(hl)          ;P/u hi-order of pointer,
+ 258:	618A  2B      	        dec     hl              ;  decrement to and p/u
+ 259:	618B  5E      	        ld      e,(hl)          ;  lo-order of pointer
+ 260:			;*=*=*
+ 261:			;       Check if driver will fit into [(LCPTR), X'12FF']
+ 262:			;*=*=*
+ 263:	618C  E5      		push	hl		;Save address of pointer
+ 264:	618D  21E001  	        ld      hl,length	;New pointer will be
+ 265:	6190  19      	        add     hl,de		;  pointer + LENGTH
+ 266:	6191  54      		ld	d,h		;Save a copy in DE
+ 267:	6192  5D      		ld	e,l
+ 268:	6193  010113  	        ld      bc,1301h        ;If > 1300H, driver won't fit
+ 269:	6196  97      	        sub     a               ;Reset carry flag
+ 270:	6197  ED42    	        sbc     hl,bc
+ 271:	6199  E1      		pop	hl		;Get back address of pointer
+ 272:	619A  300A    	        jr      nc,usehi        ;Go if driver won't fit
+ 273:	619C  73      		ld	(hl),e		;Store new value of pointer
+ 274:	619D  23      		inc	hl
+ 275:	619E  72      		ld	(hl),d
+ 276:	619F  1B      		dec	de		;Last byte of driver goes here
+ 277:	61A0  ED537163		ld      (newend),de
+ 278:	61A4  1816    		jr	dorelo
+ 279:			;*=*=*
+ 280:			;       Put in high memory instead.
+ 281:			;*=*=*
+ 282:	61A6  210000  	usehi:	ld      hl,0            ;Get current HIGH$
+ 283:	61A9  45      		ld      b,l
+ 284:	61AA  3E64    		ld      a,@high 
+ 285:	61AC  EF      		rst     40
+ 286:	61AD  C23B62  		jp      nz,nomem
+ 287:	61B0  227163  		ld      (newend),hl	;Last byte of driver goes here
+ 288:	61B3  11E001  		ld	de,length
+ 289:	61B6  97      		sub	a		;Reset carry flag
+ 290:	61B7  ED52    		sbc	hl,de		;Compute new HIGH$
+ 291:	61B9  3E64    		ld      a,@high         ;Set new HIGH$ into the system
+ 292:	61BB  EF      		rst     40
+ 293:			;*=*=*
+ 294:			;       Relocate internal references in driver.
+ 295:			;	HL = address for last byte of driver.
+ 296:			;*=*=*
+ 297:	61BC  CD4166  	dorelo:	call	dvrini		;Final driver init before move
+ 298:	61BF  CD4962  		call	relo
+ 299:			;*=*=*
+ 300:			;	Link to @ICNFG (must follow address relocation and precede movement)
+ 301:			;*=*=*
+ 302:	61C2  3E65    		ld      a,@flags        ;Get flags pointer into IY
+ 303:	61C4  EF      		rst     40
+ 304:	61C5  FD7E1C  	        ld      a,(iy+28)       ;Copy current @ICNFG into LINK
+ 305:	61C8  FD6E1D  	        ld      l,(iy+29)
+ 306:	61CB  FD661E  	        ld      h,(iy+30)
+ 307:	61CE  323E66  		ld	(link),a
+ 308:	61D1  223F66  	        ld      (link+1),hl
+ 309:	61D4  213666  		ld	hl,dvrcfg	;Get relocated init address
+ 310:	61D5          	rx10	equ	$-2
+ 311:	61D7  FD751D  	        ld      (iy+29),l       ;Save in @ICNFG vector
+ 312:	61DA  FD741E  	        ld      (iy+30),h
+ 313:	61DD  FD361CC3		ld	(iy+28),0c3h	;Insert JP opcode
+ 314:			;*=*=*
+ 315:			;       Move driver into low or high memory.
+ 316:			;*=*=*
+ 317:	61E1          	move:
+ 318:	61E1  ED5B7163		ld      de,(newend)     ;Destination address
+ 319:	61E5  215666  		ld      hl,dvrend       ;Last byte of module
+ 320:	61E8  01E001  		ld      bc,length       ;Length of filter
+ 321:	61EB  EDB8    		lddr
+ 322:	61ED  EB      		ex      de,hl
+ 323:	61EE  23      		inc     hl              ;Bump to driver entry
+ 324:			;*=*=*
+ 325:			;	Setup DCT (iy+5 to iy+9 are reset by ckopen if successful)
+ 326:			;*=*=*
+ 327:	61EF          	setdct:
+ 328:	61EF  FD2A7363		ld	iy,(dct)
+ 329:	61F3  FD3600C3		ld	(iy),0c3h	  ;JP instruction (enable driver)
+ 330:	61F7  FD7501  		ld      (iy+1),l          ;Driver address
+ 331:	61FA  FD7402  		ld      (iy+2),h
+ 332:	61FD  FD36030C		ld	(iy+3),00001100b  ;Flags: rigid, fixed, step rate 0
+ 333:	6201  3A7563  		ld	a,(unit)
+ 334:	6204  E60F    		and	0fh
+ 335:	6206  F610    		or	00010000b         ;Flags: alien (=no index pulses), unit#
+ 336:	6208  FD7704  		ld	(iy+4),a
+ 337:	620B  FD360500		ld	(iy+5),0	  ;LDOS undefined; we use as sec/cyl (0=256).
+ 338:	620F  FD3606C9		ld	(iy+6),201	  ;high cylinder number
+ 339:	6213  FD3607FF		ld	(iy+7),11111111b  ;high head # (111), high sec/trak (11111)
+ 340:	6217  FD3608FF		ld	(iy+8),11111111b  ;high gran # (111), high sec/gran (11111)
+ 341:	621B  FD3609FF		ld	(iy+9),0ffh	  ;Directory cylinder
+ 342:			;*=*=*
+ 343:			;	Open file now so user can get error if any, and so geometry
+ 344:			;	is established as early as possible.
+ 345:			;*=*=*
+ 346:	621F  CD9965  		call	ckopen
+ 347:	6222  210000  		ld      hl,0            ;Successful completion
+ 348:	6225  C8      		ret	z		;Fall thru if error
+ 349:			;*=*=*
+ 350:	6226  217763  	uerror:	ld	hl,errbuf	;Unix error
+ 351:	6229  010001  		ld	bc,256
+ 352:	622C  ED35    		defw	emt_strerror
+ 353:	622E  DD      		defb	0ddh
+ 354:	622F  21D562  	curdl:	ld	hl,curdl_	;Other error
+ 355:	6232  DD      		defb	0ddh
+ 356:	6233  213063  	needdr:	ld	hl,needdr_
+ 357:	6236  DD      		defb	0ddh
+ 358:	6237  210663  	viaset: ld      hl,viaset_
+ 359:	623A  DD      		defb    0ddh
+ 360:	623B  21E862  	nomem:  ld      hl,nomem_
+ 361:	623E  DD      		defb    0ddh
+ 362:	623F  216663  	hitbrk:	ld	hl,hitbrk_
+ 363:	6242  3E0C    	logot:	ld	a,@logot 
+ 364:	6244  EF      		rst	40
+ 365:	6245  21FFFF  		ld      hl,-1            ;Unuccessful completion
+ 366:	6248  C9      		ret
+ 367:			
+ 368:			;*=*=*
+ 369:			;       Relocate internal references in driver.
+ 370:			;	HL = address for last byte of driver.
+ 371:			;*=*=*
+ 372:	6249  2A7163  	relo:	ld	hl,(newend)
+ 373:	624C  FD215766		ld      iy,reltab       ;Point to relocation tbl
+ 374:	6250  115666  		ld      de,dvrend
+ 375:	6253  97      		sub     a               ;Clear carry flag
+ 376:	6254  ED52    		sbc     hl,de
+ 377:	6256  44      		ld      b,h             ;Move to BC
+ 378:	6257  4D      		ld      c,l
+ 379:	6258  FD6E00  	rloop:  ld      l,(iy)          ;Get address to change
+ 380:	625B  FD6601  		ld      h,(iy+1)
+ 381:	625E  7C      		ld      a,h
+ 382:	625F  B5      		or      l
+ 383:	6260  C8      		ret	z
+ 384:	6261  5E      		ld      e,(hl)          ;P/U address
+ 385:	6262  23      		inc     hl
+ 386:	6263  56      		ld      d,(hl)
+ 387:	6264  EB      		ex      de,hl           ;Offset it
+ 388:	6265  09      		add     hl,bc
+ 389:	6266  EB      		ex      de,hl
+ 390:	6267  72      		ld      (hl),d          ;And put back
+ 391:	6268  2B      		dec     hl
+ 392:	6269  73      		ld      (hl),e
+ 393:	626A  FD23    		inc     iy
+ 394:	626C  FD23    		inc     iy
+ 395:	626E  18E8    		jr      rloop           ;Loop till done
+ 396:			
+ 397:			;*=*=*
+ 398:			;	Search for existing copy of driver.
+ 399:			;        Rough Model I/III emulation of Model 4 @GTMOD,
+ 400:			;        hardcoded with driver address.
+ 401:			;	Entry: HL holds HIGH$
+ 402:			;	Exit Z: HL holds driver address
+ 403:			;            NZ: driver not found
+ 404:			;*=*=*
+ 405:	6270  23      	xgtmod:	inc	hl
+ 406:	6271  7C      		ld	a,h
+ 407:	6272  B5      		or	l
+ 408:	6273  2002    		jr	nz,xgtm1
+ 409:	6275  3D      		dec	a		;not found
+ 410:	6276  C9      		ret
+ 411:	6277  7E      	xgtm1:	ld	a,(hl)
+ 412:	6278  FE18    		cp	18h		;unconditional jr?
+ 413:	627A  C0      		ret	nz		;not a module header
+ 414:	627B  E5      		push	hl		;save start address
+ 415:	627C  23      		inc	hl		;skip jr
+ 416:	627D  23      		inc	hl		;skip offset
+ 417:	627E  23      		inc	hl		;skip start address
+ 418:	627F  23      		inc	hl
+ 419:	6280  7E      		ld	a,(hl)		;compare name length
+ 420:	6281  FE08    		cp	modptr-modnam
+ 421:	6283  200F    		jr	nz,nextmd	;different - skip
+ 422:	6285  47      		ld	b,a		;compare name
+ 423:	6286  117C64  		ld	de,modnam
+ 424:	6289  23      		inc	hl
+ 425:	628A  1A      	xgtm2:	ld	a,(de)
+ 426:	628B  BE      		cp	(hl)
+ 427:	628C  2006    		jr	nz,nextmd	;different - skip
+ 428:	628E  13      		inc	de
+ 429:	628F  23      		inc	hl
+ 430:	6290  10F8    		djnz	xgtm2
+ 431:	6292  E1      		pop	hl		;same - found
+ 432:	6293  C9      		ret
+ 433:	6294  E1      	nextmd:	pop	hl		;get back start of module
+ 434:	6295  23      		inc	hl
+ 435:	6296  23      		inc	hl
+ 436:	6297  5E      		ld	e,(hl)		;pointer to last byte
+ 437:	6298  23      		inc	hl
+ 438:	6299  56      		ld	d,(hl)
+ 439:	629A  EB      		ex	de,hl
+ 440:	629B  18D3    		jr	xgtmod
+ 441:			
+ 442:			;*=*=*
+ 443:			;	Messages and globals
+ 444:			;*=*=*
+ 445:	629D  58545253	hello_: defb    'XTRSHARD - Emulated hard disk driver for xtrs - 5/17/00',CR
+	      48415244
+	      202D2045
+	      6D756C61
+	      74656420
+	      68617264
+	      20646973
+	      6B206472
+	      69766572
+	      20666F72
+	      20787472
+	      73202D20
+	      352F3137
+	      2F30300D
+ 446:	62D5  4C532D44	curdl_:	defb	'LS-DOS is curdled!',CR
+	      4F532069
+	      73206375
+	      72646C65
+	      64210D
+ 447:	62E8  48696768	nomem_: defb    'High memory is not available!',CR
+	      206D656D
+	      6F727920
+	      6973206E
+	      6F742061
+	      7661696C
+	      61626C65
+	      210D
+ 448:	6306  4D757374	viaset_:defb    'Must install via SYSTEM (DRIVE=,DRIVER=)!',CR
+	      20696E73
+	      74616C6C
+	      20766961
+	      20535953
+	      54454D20
+	      28445249
+	      56453D2C
+	      44524956
+	      45523D29
+	      210D
+ 449:	6330  44524956	needdr_:defb	'DRIVE= must be specified!',CR
+	      453D206D
+	      75737420
+	      62652073
+	      70656369
+	      66696564
+	      210D
+ 450:	634A  456E7465	unit_:	defb	'Enter unit number ([0]-','0'+ndrive-1,'): ',ETX
+	      7220756E
+	      6974206E
+	      756D6265
+	      7220285B
+	      305D2D37
+	      293A2003
+ 451:	6366  41626F72	hitbrk_:defb	'Aborted!',CR
+	      74656421
+	      0D
+ 452:	636F  0000    	lcptr:	defw	0
+ 453:	6371  0000    	newend:	defw	0
+ 454:	6373  0000    	dct:    defw	0
+ 455:	6375          	unit:   defs	2
+ 456:	6377          	errbuf:	defs	256
+ 457:			
+ 458:			;
+ 459:			; Driver - Based on skeletal driver from the Guide
+ 460:			;
+ 461:			
+ 462:	6477  1827    	entry:  jr      begin           ;The driver starts with the
+ 463:	6479  5666    		defw    dvrend          ;  DOS standard header
+ 464:	6479          	rx00	equ	$-2
+ 465:	647B  08      		defb    modptr-modnam   ;Length of name
+ 466:	647C  78747273	modnam:	defb    'xtrshard'      ;Name for @GTMOD requests
+	      68617264
+ 467:	6484  0000    	modptr: defw    0               ;These pointers are unused
+ 468:	6486  0000    		defw    0
+ 469:	6488          	fd:	defs	ndrive*2	;Unix file descriptors
+ 470:	6498  00000000	offset:	defw	0,0,0,0		;lseek offset buffer
+	      00000000
+ 471:	64A0          	begin:  
+ 472:			;*=*=*
+ 473:			;	First make sure the file is open and correct the geometry
+ 474:			;       in the DCT if needed.
+ 475:			;*=*=*
+ 476:	64A0  DDE5    		push	ix
+ 477:	64A2  CD9965  		call	ckopen
+ 478:	64A3          	rx03	equ	$-2
+ 479:	64A5  CDAB64  		call	body
+ 480:	64A6          	rx06	equ	$-2
+ 481:	64A8  DDE1    		pop	ix
+ 482:	64AA  C9      		ret
+ 483:	64AB  3E20    	body:	ld	a,32		;"Illegal drive number"
+ 484:	64AD  C0      		ret	nz
+ 485:	64AE  78      		ld      a,b             ;The first test will return
+ 486:	64AF  A7      		and     a               ;  to the caller on @DCSTAT
+ 487:	64B0  C8      		ret	z       	;  and set the Z-flag with A=0
+ 488:	64B1  FE07    	notdcs:	cp      7
+ 489:	64B3  2804    		jr      z,rslct         ;Transfer on @RSLCT
+ 490:	64B5  3004    		jr      nc,diskio       ;Transfer on physical I/O request
+ 491:			;*=*=*
+ 492:			;	@SLCT, @DCINIT, @DCRES, @RSTOR, @STEPI or @SEEK: no-op
+ 493:			;*=*=*
+ 494:	64B7  97      	retzer:	sub	a
+ 495:	64B8  C9      		ret
+ 496:			;*=*=*
+ 497:			;       The RSLCT function should return with the hardware
+ 498:			;       write protection status. Set bit 6 of the accumulator
+ 499:			;       to indicate the drive is write-protected
+ 500:			;*=*=*
+ 501:	64B9  97      	rslct:  sub	a               ;No emulated hardware WP for now
+ 502:	64BA  C9      		ret
+ 503:			;*=*=*
+ 504:	64BB  CB50    	diskio: bit     2,b             ;Test if read or write commands
+ 505:	64BD  2058    		jr      nz,wrcmd        ;Transfer if functions <12-15>
+ 506:	64BF  FE0A    		cp	10
+ 507:	64C1  2847    		jr	z,vrsec
+ 508:	64C3  304E    		jr	nc,rdtrk
+ 509:	64C5  FE09    		cp	9
+ 510:	64C7  2804    		jr	z,rdsec
+ 511:	64C9  3E20    	rdhdr:  ld	a,32		;Not supported ("Illegal drive number")
+ 512:	64CB  A7      	        and	a            
+ 513:	64CC  C9      		ret
+ 514:			;*=*=*
+ 515:	64CD          	rdsec:				;Read a sector of data
+ 516:	64CD  FD7E06  		ld	a,(iy+6)	;Get high cyl #
+ 517:	64D0  BA      		cp	d		;At or below it?
+ 518:	64D1  3003    		jr	nc,rdok
+ 519:	64D3  3E02    		ld	a,2		;"Seek error during read"
+ 520:	64D5  C9      		ret			;NZ already set
+ 521:	64D6  D5      	rdok:	push	de
+ 522:	64D7  E5      		push	hl
+ 523:	64D8  CD6F65  		call	doseek		;Setup and do lseek
+ 524:	64D9          	rx01	equ	$-2
+ 525:	64DB  E1      		pop	hl
+ 526:	64DC  3E05    		ld	a,5		;"Data record not found during read"
+ 527:	64DE  2007    		jr	nz,rddun
+ 528:	64E0  010001  		ld	bc,256
+ 529:	64E3  ED32    		defw	emt_read
+ 530:	64E5  3E04    		ld	a,4		;"Parity error during read"
+ 531:	64E7  D1      	rddun:	pop	de
+ 532:	64E8  C0      		ret	nz
+ 533:	64E9  78      		ld	a,b		;Check for end of file
+ 534:	64EA  B1      		or	c
+ 535:	64EB  2012    		jr	nz,rddun2
+ 536:	64ED  D5      		push	de
+ 537:	64EE  E5      		push	hl		;Return a block full of 0E5H		
+ 538:	64EF  C5      		push	bc
+ 539:	64F0  36E5    		ld	(hl),0e5h
+ 540:	64F2  54      		ld	d,h
+ 541:	64F3  5D      		ld	e,l
+ 542:	64F4  13      		inc	de
+ 543:	64F5  01FF00  		ld	bc,0ffh
+ 544:	64F8  EDB0    		ldir
+ 545:	64FA  C1      		pop	bc
+ 546:	64FB  E1      		pop	hl
+ 547:	64FC  D1      		pop	de
+ 548:	64FD  97      		sub	a
+ 549:	64FE  C9      		ret
+ 550:	64FF  7A      	rddun2:	ld	a,d
+ 551:	6500  FD9609  		sub	(iy+9)
+ 552:	6503  2003    		jr	nz,rddun1
+ 553:	6505  C606    		add	a,6		;"Attempted to read system data record"
+ 554:	6507  C9      		ret
+ 555:	6508  97      	rddun1:	sub	a
+ 556:	6509  C9      		ret
+ 557:			;*=*=*
+ 558:	650A          	vrsec:				;Read/verify -- we don't bother reading
+ 559:	650A  FD7E06  		ld	a,(iy+6)	;Get high cyl #
+ 560:	650D  BA      		cp	d		;At or below it?
+ 561:	650E  30EF    		jr	nc,rddun2	;Go if so
+ 562:	6510  3E02    		ld	a,2		;"Seek error during read"
+ 563:	6512  C9      		ret			;NZ already set
+ 564:			;*=*=*
+ 565:			;       On RDSEC and VRSEC, if the read referenced the
+ 566:			;       directory cylinder and was successful,
+ 567:			;       then you need to return an error code 6. A floppy
+ 568:			;       disk controller will provide the indicated status.
+ 569:			;       Hard disk users may have to compare the requested
+ 570:			;       cylinder to DIRCYL in the DCT.
+ 571:			;*=*=*
+ 572:	6513  3E20    	rdtrk:  ld	a,32		;Not supported ("Illegal drive number")
+ 573:	6515  A7      	        and	a            
+ 574:	6516  C9      		ret
+ 575:			;*=*=*
+ 576:	6517  FDCB037E	wrcmd:  bit     7,(iy+3)        ;Check for software write protect
+ 577:	651B  2803    		jr      z,wrcmd1        ;Transfer if no soft WP
+ 578:	651D  3E0F    		ld      a,15            ;Set "Write protected disk" error
+ 579:	651F  C9      		ret
+ 580:	6520  FE0E    	wrcmd1: cp	14              ;Now parse functions 12-15
+ 581:	6522  2829    		jr	z,wrssc
+ 582:	6524  3045    		jr	nc,wrtrk
+ 583:	6526  FE0D    		cp	13
+ 584:	6528  281E    		jr	z,wrsec
+ 585:			;*=*=*
+ 586:	652A          	hdfmt:                 		;Low-level format (=erase)
+ 587:	652A  FD3609FF		ld	(iy+9),0ffh	;Invalidate directory cylinder
+ 588:	652E  D5      		push	de
+ 589:	652F  E5      		push	hl
+ 590:	6530  DD5E00  		ld	e,(ix)		;Get fd
+ 591:	6533  DD5601  		ld	d,(ix+1)
+ 592:	6536  210001  	exists:	ld	hl,256		;Truncate file to just the header
+ 593:	6539  229964  		ld	(offset+1),hl
+ 594:	653A          	rx07	equ	$-2
+ 595:	653C  219864  		ld	hl,offset
+ 596:	653D          	rx08	equ	$-2
+ 597:	653F  ED3D    		defw	emt_ftruncate
+ 598:	6541  E1      	creatd:	pop	hl
+ 599:	6542  D1      		pop	de
+ 600:	6543  3E0E    		ld	a,14		;"Write fault on disk drive"
+ 601:	6545  C0      		ret	nz
+ 602:	6546  97      		sub	a
+ 603:	6547  C9      		ret
+ 604:			;*=*=*
+ 605:	6548          	wrsec:				;Write with X'FB' data address mark
+ 606:	6548  7A      		ld	a,d		;Check if writing track 0, sector 0
+ 607:	6549  B3      		or	e
+ 608:	654A  CC1566  		call	z,setdir	;Set directory cyl in Reed header
+ 609:	654B          	rx20	equ	$-2
+ 610:			;*=*=*
+ 611:	654D          	wrssc:				;Write with X'F8' data address mark
+ 612:	654D  FD7E06  		ld	a,(iy+6)	;Get high cyl #
+ 613:	6550  BA      		cp	d		;Beyond it?
+ 614:	6551  3003    		jr	nc,wrok1
+ 615:	6553  3E0A    		ld	a,10		;"Seek error during write"
+ 616:	6555  C9      		ret			;NZ already set
+ 617:			;*=*=*
+ 618:	6556  D5      	wrok1:  push	de
+ 619:	6557  E5      		push	hl
+ 620:	6558  CD6F65  		call	doseek
+ 621:	6559          	rx04	equ	$-2
+ 622:	655B  E1      		pop	hl
+ 623:	655C  3E0D    		ld	a,13		;"Data record not found during write"
+ 624:	655E  2007    		jr	nz,wrdun
+ 625:	6560  010001  		ld	bc,256
+ 626:	6563  ED33    		defw	emt_write
+ 627:	6565  3E0C    		ld	a,12		;"Parity error during write"
+ 628:	6567  D1      	wrdun:	pop	de
+ 629:	6568  C0      		ret	nz
+ 630:	6569  97      		sub	a
+ 631:	656A  C9      		ret
+ 632:			;*=*=*
+ 633:	656B  3E20    	wrtrk:  ld	a,32		;Write track
+ 634:	656D  A7      	        and	a               ;Not supported ("Illegal drive number")
+ 635:	656E  C9      		ret
+ 636:			;*=*=*
+ 637:			;	Perform lseek before r/w
+ 638:			;*=*=*
+ 639:	656F  97      	doseek: sub	a		;sec/cyl to hl, xlate 0 to 256
+ 640:	6570  67      		ld	h,a
+ 641:	6571  FD8605  		add	a,(iy+5)
+ 642:	6574  6F      		ld	l,a
+ 643:	6575  2001    		jr	nz,noinc
+ 644:	6577  24      		inc	h
+ 645:	6578  4A      	noinc:	ld	c,d		;cyl# to c
+ 646:	6579  43      		ld	b,e		;sec# to b
+ 647:	657A  79      		ld	a,c		;model I/III call uses a, not c
+ 648:	657B  3E5B    	domul:	ld	a,@mul16	;hla = hl * c, smash de
+ 649:	657D  EF      		rst	40
+ 650:	657E  54      		ld	d,h		;sec# to de (h is 0)
+ 651:	657F  58      		ld	e,b
+ 652:	6580  65      		ld	h,l		;product to hl
+ 653:	6581  6F      		ld	l,a
+ 654:	6582  23      		inc	hl		;add 1 extra for header
+ 655:	6583  19      		add	hl,de
+ 656:	6584  EB      		ex	de,hl		;offset to de
+ 657:	6585  219A64  		ld	hl,offset+2
+ 658:	6586          	rx15	equ	$-2
+ 659:	6588  72      		ld	(hl),d
+ 660:	6589  2B      		dec	hl
+ 661:	658A  73      		ld	(hl),e
+ 662:	658B  2B      		dec	hl
+ 663:	658C  010000  		ld	bc,0
+ 664:	658F  71      		ld	(hl),c
+ 665:	6590  DD5E00  		ld	e,(ix)		;Get fd
+ 666:	6593  DD5601  		ld	d,(ix+1)
+ 667:	6596  ED34    		defw	emt_lseek
+ 668:	6598  C9      		ret
+ 669:			
+ 670:			;*=*=*
+ 671:			;	Open file and read geometry if needed, and
+ 672:			;       get address of correct fd to ix.
+ 673:			;*=*=*
+ 674:	6599  DD218864	ckopen: ld	ix,fd		;Compute fd address
+ 675:	659B          	rx02	equ	$-2
+ 676:	659D  D5      		push	de
+ 677:	659E  1600    		ld	d,0
+ 678:	65A0  FD7E04  		ld	a,(iy+4)
+ 679:	65A3  E60F    		and	0fh
+ 680:	65A5  07      		rlca
+ 681:	65A6  5F      		ld	e,a
+ 682:	65A7  DD19    		add	ix,de
+ 683:	65A9  D1      		pop	de
+ 684:	65AA  DD7E00  		ld	a,(ix)		;fd == -1?
+ 685:	65AD  DDA601  		and	(ix+1)
+ 686:	65B0  3C      		inc	a
+ 687:	65B1  2802    		jr	z,doopen
+ 688:	65B3  97      		sub	a
+ 689:	65B4  C9      		ret
+ 690:	65B5  D5      	doopen:	push	de
+ 691:	65B6  C5      		push	bc
+ 692:	65B7  E5      		push	hl
+ 693:	65B8  010200  		ld	bc,EO_RDWR	;Prepare to open
+ 694:	65BB  11B601  		ld	de,0666o	;mode
+ 695:	65BE  214F66  		ld	hl,hard_	;name
+ 696:	65BF          	rx05	equ	$-2
+ 697:	65C1  FD7E04  		ld	a,(iy+4)
+ 698:	65C4  E60F    		and	0fh
+ 699:	65C6  C630    		add	a,'0'
+ 700:	65C8  325566  		ld	(hadr),a
+ 701:	65C9          	rx09	equ	$-2
+ 702:	65CB  ED3E    		defw	emt_opendisk
+ 703:	65CD  DD7300  		ld	(ix),e	
+ 704:	65D0  DD7201  		ld	(ix+1),d
+ 705:	65D3  203C    		jr	nz,opnerr
+ 706:	65D5  219864  		ld	hl,offset	;Prepare to read geometry
+ 707:	65D6          	rx13	equ	$-2
+ 708:	65D8  361C    		ld	(hl),28		;offset to cyl/sec/gran params
+ 709:	65DA  010000  		ld	bc,0
+ 710:	65DD  ED439964		ld	(offset+1),bc
+ 711:	65DF          	rx14	equ	$-2
+ 712:	65E1  ED34    		defw	emt_lseek
+ 713:	65E3  202C    		jr	nz,opnerr
+ 714:	65E5  010300  		ld	bc,3		;length
+ 715:	65E8  ED32    		defw	emt_read	;use offset buffer
+ 716:	65EA  2025    		jr	nz,opnerr
+ 717:	65EC  7E      		ld	a,(hl)		;cyl
+ 718:	65ED  3D      		dec	a
+ 719:	65EE  FD7706  		ld	(iy+6),a	;max cylinder
+ 720:	65F1  23      		inc	hl
+ 721:	65F2  46      		ld	b,(hl)		;sec
+ 722:	65F3  FD7005  		ld	(iy+5),b
+ 723:	65F6  23      		inc	hl
+ 724:	65F7  4E      		ld	c,(hl)		;gran
+ 725:	65F8  58      		ld	e,b		;compute sec/gran
+ 726:	65F9  79      		ld	a,c		;model I/III call uses a, not c
+ 727:	65FA  3E5D    	dodiv:	ld	a,@div8		;a = e / c, e = e % c
+ 728:	65FC  EF      		rst	40              ;remainder mbz, but we don't check here
+ 729:	65FD  3D      		dec	a
+ 730:	65FE  0D      		dec	c
+ 731:	65FF  CB09    		rrc	c
+ 732:	6601  CB09    		rrc	c
+ 733:	6603  CB09    		rrc	c
+ 734:	6605  B1      		or	c
+ 735:	6606  FD7707  		ld	(iy+7),a	;heads, secs per track
+ 736:	6609  FD7708  		ld	(iy+8),a	;grans, secs per gran
+ 737:	660C  FD3609FF		ld	(iy+9),0ffh	;dircyl unknown
+ 738:	6610  97      		sub	a		;no error
+ 739:	6611  E1      	opnerr:	pop	hl
+ 740:	6612  C1      		pop	bc
+ 741:	6613  D1      		pop	de
+ 742:	6614  C9      		ret
+ 743:			;*=*=*
+ 744:			;	Sleazy trick to update dir cyl in Reed header: do
+ 745:			;	it whenever track 0, sector 0 is written.
+ 746:			;	Only important if sharing images with Reed emulator.
+ 747:			;*=*=*
+ 748:	6615  E5      	setdir: push	hl
+ 749:	6616  C5      		push	bc
+ 750:	6617  D5      		push	de
+ 751:	6618  219864  		ld	hl,offset
+ 752:	6619          	rx18	equ	$-2
+ 753:	661B  42      		ld	b,d		;de is known to be 0 here
+ 754:	661C  4B      		ld	c,e
+ 755:	661D  DD5E00  		ld	e,(ix)		;Get fd
+ 756:	6620  DD5601  		ld	d,(ix+1)
+ 757:	6623  361F    		ld	(hl),31		;offset to dir cyl param
+ 758:	6625  ED439964		ld	(offset+1),bc
+ 759:	6627          	rx19	equ	$-2
+ 760:	6629  ED34    		defw	emt_lseek
+ 761:	662B  FD7E09  		ld	a,(iy+9)	;dir cyl value to write
+ 762:	662E  77      		ld	(hl),a
+ 763:	662F  03      		inc	bc
+ 764:	6630  ED33    		defw	emt_write
+ 765:	6632  D1      		pop	de		;cheat, ignore errors
+ 766:	6633  C1      		pop	bc
+ 767:	6634  E1      		pop	hl
+ 768:	6635  C9      		ret
+ 769:			;*=*=*
+ 770:			;	Boot-time initialization
+ 771:			;*=*=*
+ 772:	6636  11FFFF  	dvrcfg:	ld	de,-1		;@ICNFG chains in here
+ 773:	6639  ED3F    		defw	emt_closedisk	;close any files left from before reboot
+ 774:	663B  CD4166  		call	dvrini
+ 775:	663C          	rx11	equ	$-2	
+ 776:	663E  54696D  	link:	defb	'Tim'		;Replaced by next link in @ICNFG chain
+ 777:	6641  218864  	dvrini:	ld	hl,fd
+ 778:	6642          	rx12	equ	$-2
+ 779:	6644  54      		ld	d,h
+ 780:	6645  5D      		ld	e,l
+ 781:	6646  13      		inc	de
+ 782:	6647  36FF    		ld	(hl),0ffh
+ 783:	6649  010F00  		ld	bc,ndrive*2-1
+ 784:	664C  EDB0    		ldir
+ 785:	664E  C9      		ret
+ 786:			;*=*=*
+ 787:			;	Disk name: hardM-N for model M (1,3,4), number N (0-7)
+ 788:			;*=*=*
+ 789:	664F  68617264	hard_:	defb	'hard'
+ 790:	6653  312D    	hmod:   defb	'1-'
+ 791:	6655  3000    	hadr:	defb	'0',0
+ 792:			
+ 793:	6656          	dvrend  equ     $-1
+ 794:	01E0          	length  equ     $-entry
+ 795:	6657  7964D964	reltab: defw    rx00,rx01,rx02,rx03,rx04,rx05,rx06,rx07,rx08,rx09
+	      9B65A364
+	      5965BF65
+	      A6643A65
+	      3D65C965
+ 796:	666B  D5613C66		defw	rx10,rx11,rx12,rx13,rx14,rx15,rx16,rx17,rx18,rx19
+	      4266D665
+	      DF658665
+	      98602961
+	      19662766
+ 797:	667F  4B650000		defw	rx20,0
+ 798:	6000          		end     instal
+
+
+
+Statistics:
+
+   146	symbols
+  1393	bytes
+
+
+
+Symbol Table:
+
+@div8          =  5d     emt_write      =33ed     rdok            64d6     
+@divea1        =4b7b     entry           6477     rdsec           64cd     
+@divea3        =4b7a     eo_append      = 400+    rdtrk           6513     
+@dsply         =   a     eo_creat       =  40+    relo            6249     
+@dsply1        =4467     eo_excl        =  80+    reltab          6657     
+@dsply3        =4467     eo_rdonly      =   0+    retzer          64b7+    
+@flags         =  65     eo_rdwr        =   2     rloop           6258     
+@gtdcb         =  52     eo_trunc       = 200+    rslct           64b9     
+@gtmod         =  53     eo_wronly      =   1+    rx00           =6479     
+@high          =  64     errbuf          6377     rx01           =64d9     
+@icnfg1        =4303     etx            =   3     rx02           =659b     
+@icnfg3        =421d     exists          6536+    rx03           =64a3     
+@keyin         =   9     fd              6488     rx04           =6559     
+@keyin1        =  40     hadr            6655     rx05           =65bf     
+@keyin3        =  40     hard_           664f     rx06           =64a6     
+@logot         =   c     hdfmt           652a+    rx07           =653a     
+@logot1        =447b     hello_          629d     rx08           =653d     
+@logot3        =428a     high1          =4049     rx09           =65c9     
+@mul16         =  5b     high3          =4411     rx10           =61d5     
+@mult1         =4b8f     hitbrk          623f     rx11           =663c     
+@mult3         =444e     hitbrk_         6366     rx12           =6642     
+asku1           604d     hmod            6653     rx13           =65d6     
+asku3           60de     instal          6000     rx14           =65df     
+asku4           6155     lcptr           636f+    rx15           =6586     
+begin           64a0     length         = 1e0     rx16           =6098     
+body            64ab     lf             =   a+    rx17           =6129     
+cflag1         =4758     link            663e     rx18           =6619     
+cflag3         =4758     logot           6242     rx19           =6627     
+ckopen          6599     lsdos6          6136     rx20           =654b     
+cr             =   d     m3flag         = 125     setdct          61ef     
+creatd          6541+    model3          60a5     setdir          6615     
+curdl           622f     modnam          647c     uerror          6226+    
+curdl_          62d5     modptr          6484     unit            6375     
+dct             6373     move            61e1     unit_           634a     
+diskio          64bb     ndrive         =   8     usehi           61a6     
+dodiv           65fa     needdr          6233     viaset          6237     
+domul           657b     needdr_         6330     viaset_         6306     
+doopen          65b5     newend          6371     vrsec           650a     
+dorelo          61bc     nextmd          6294     wrcmd           6517     
+doseek          656f     noinc           6578     wrcmd1          6520     
+dvrcfg          6636     nomem           623b     wrdun           6567     
+dvrend         =6656     nomem_          62e8     wrok1           6556     
+dvrini          6641     notdcs          64b1+    wrsec           6548     
+emt_closedisk  =3fed     offset          6498     wrssc           654d     
+emt_ftruncate  =3ded     opnerr          6611     wrtrk           656b     
+emt_lseek      =34ed     rddun           64e7     xgtm1           6277     
+emt_opendisk   =3eed     rddun1          6508     xgtm2           628a     
+emt_read       =32ed     rddun2          64ff     xgtmod          6270     
+emt_strerror   =35ed     rdhdr           64c9+    
