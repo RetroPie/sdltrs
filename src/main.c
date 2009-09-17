@@ -218,6 +218,9 @@ int SDLmain(int argc, char *argv[])
     debug_init();
     debug_shell();
     printf("Quitting.\n");
+#ifdef MACOSX
+    trs_mac_save_defaults();
+#endif
     exit(0);
 }
 
