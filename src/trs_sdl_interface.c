@@ -882,7 +882,7 @@ int trs_parse_command_line(int argc, char **argv, int *debug)
   for (i = 1; i < argc; i++) {
 	if (argv[i][0] == '-') {
 	  for (j=0;j<num_options;j++) {
-	    if (strcasecmp(argv[i], options[j].name) == 0) {
+	    if (strcasecmp(&argv[i][1], options[j].name) == 0) {
 		  if (options[j].hasArg)
 	        i++;
 		  break;
@@ -914,16 +914,18 @@ int trs_parse_command_line(int argc, char **argv, int *debug)
 	int argMissing = FALSE;
 
 	for (j=0;j<num_options;j++) {
-	  if (strcasecmp(argv[i], options[j].name) == 0) {
-	    if (options[j].hasArg) {
-		  if (argAvail) {
-			(*options[j].handler)(argv[++i],options[j].intArg,options[j].strArg);  
-		  } else {
-			argMissing = TRUE;
-		  }
-		} else
-			(*options[j].handler)(NULL,options[j].intArg,options[j].strArg); 
-		break;
+      if (argv[i][0] == '-') {
+        if (strcasecmp(&argv[i][1], options[j].name) == 0) {
+	      if (options[j].hasArg) {
+		    if (argAvail) {
+		      (*options[j].handler)(argv[++i],options[j].intArg,options[j].strArg);  
+		    } else {
+			  argMissing = TRUE;
+  		    }
+	  	  } else
+		      (*options[j].handler)(NULL,options[j].intArg,options[j].strArg); 
+		  break;
+        }
       }
 	}
   }
