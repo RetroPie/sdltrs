@@ -1590,8 +1590,13 @@ void trs_gui_hard_management(void)
    {" Hard 2:",MENU_HARD_BROWSE_TYPE,2},
    {" Hard 3:",MENU_HARD_BROWSE_TYPE,3},
    {" Hard 4:",MENU_HARD_BROWSE_TYPE,4},
-   {"Create Blank Hard Disk",MENU_NORMAL_TYPE,5},
+   {"Save Disk Set",MENU_NORMAL_TYPE,5},
+   {"Load Disk Set",MENU_NORMAL_TYPE,6},
+   {"Create Blank Hard Disk",MENU_NORMAL_TYPE,7},
    {"",0,-1}};
+   char filename[FILENAME_MAX];
+   char browse_dir[FILENAME_MAX];
+   int ret;
    int selection = 0;
    int done = 0;
    int i;
@@ -1616,6 +1621,23 @@ void trs_gui_hard_management(void)
                                       hard_menu, selection);
      switch(selection) {
        case 4:
+         filename[0] = 0;
+         trs_expand_dir(trs_disk_set_dir, browse_dir);
+         ret = trs_gui_input_string("Enter Filename (without extension), TAB selects directory", 
+                                    browse_dir,filename, 1);
+         if (ret)
+           break;
+         strcat(filename,".set");
+         trs_diskset_save(filename);
+         break;
+       case 5:
+         trs_expand_dir(trs_disk_set_dir,browse_dir);
+         ret = trs_gui_file_browse(browse_dir, filename, 0," Disk Set ");
+         if (ret == -1)
+           break;
+         trs_diskset_load(filename);
+         break;
+       case 6:
          trs_gui_hard_creation();
          break;
        case -1:
