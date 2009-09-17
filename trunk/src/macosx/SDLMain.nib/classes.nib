@@ -1,319 +1,863 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {
-                changeGraphics = id; 
-                changeModel = id; 
-                coldReset = id; 
-                debugger = id; 
-                loadState = id; 
-                pause = id; 
-                readConfig = id; 
-                saveState = id; 
-                showAboutBox = id; 
-                showDonation = id; 
-                warmReset = id; 
-                writeConfig = id; 
-            }; 
-            CLASS = ControlManager; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                coldResetItem = id; 
-                graphicsMenu = id; 
-                loadStateItem = id; 
-                modelMenu = id; 
-                pauseItem = id; 
-                saveStateItem = id; 
-                startButton = id; 
-                warmResetItem = id; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {debuggerExecute = id; messageWindowShow = id; }; 
-            CLASS = DebuggerManager; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {debuggerInputField = id; debuggerOutputView = id; messageOutputView = id; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {fullScreen = id; screenBigger = id; screenSmaller = id; }; 
-            CLASS = DisplayManager; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {fullscreenItem = id; screenBiggerItem = id; screenSmallerItem = id; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            ACTIONS = {
-                cancelCass = id; 
-                cancelDisk = id; 
-                cancelHard = id; 
-                cassInsert = id; 
-                cassPositionChange = id; 
-                cassRemove = id; 
-                changeGraphics = id; 
-                changeModel = id; 
-                closeKeyWindow = id; 
-                coldStart = id; 
-                createCassette = id; 
-                createDisk = id; 
-                createHard = id; 
-                diskDisplayChange = id; 
-                diskInsert = id; 
-                diskMiscUpdate = id; 
-                diskRemove = id; 
-                diskRemoveAll = id; 
-                diskSetLoad = id; 
-                diskSetLoadFile = id; 
-                diskSetSave = id; 
-                diskStatusChange = id; 
-                diskStatusProtect = id; 
-                driveStatusChange = id; 
-                error2OK = id; 
-                errorOK = id; 
-                hardMiscUpdate = id; 
-                hardRemoveAll = id; 
-                hardStatusChange = id; 
-                mediaStatusWindowShow = id; 
-                okCass = id; 
-                okDisk = id; 
-                okHard = id; 
-                showCassCreatePanel = id; 
-                showCassManagementPanel = id; 
-                showDiskCreatePanel = id; 
-                showDiskManagementPanel = id; 
-                showHardCreatePanel = id; 
-                showHardManagementPanel = id; 
-                warmStart = id; 
-            }; 
-            CLASS = MediaManager; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                cassFmtInsertNewButton = id; 
-                cassFmtPulldown = id; 
-                cassImageManageButton = id; 
-                cassImageNameField = id; 
-                cassImageView = id; 
-                cassetteCurrPosField = id; 
-                cassetteField = id; 
-                cassetteImageInsertButton1 = id; 
-                cassetteImageInsertButton2 = id; 
-                cassetteMaxPosField = id; 
-                d1DiskField = id; 
-                d1DiskImageInsertButton = id; 
-                d1DiskImageLockView = id; 
-                d1DiskImageNameField = id; 
-                d1DiskImageNumberField = id; 
-                d1DiskImageProtectButton = id; 
-                d1DiskImageView = id; 
-                d1DriveStatusPulldown = id; 
-                d2DiskField = id; 
-                d2DiskImageInsertButton = id; 
-                d2DiskImageLockView = id; 
-                d2DiskImageNameField = id; 
-                d2DiskImageNumberField = id; 
-                d2DiskImageProtectButton = id; 
-                d2DiskImageView = id; 
-                d2DriveStatusPulldown = id; 
-                d3DiskField = id; 
-                d3DiskImageInsertButton = id; 
-                d3DiskImageLockView = id; 
-                d3DiskImageNameField = id; 
-                d3DiskImageNumberField = id; 
-                d3DiskImageProtectButton = id; 
-                d3DiskImageView = id; 
-                d3DriveStatusPulldown = id; 
-                d4DiskField = id; 
-                d4DiskImageInsertButton = id; 
-                d4DiskImageLockView = id; 
-                d4DiskImageNameField = id; 
-                d4DiskImageNumberField = id; 
-                d4DiskImageProtectButton = id; 
-                d4DiskImageView = id; 
-                d4DriveStatusPulldown = id; 
-                d5DiskField = id; 
-                d5DriveStatusPulldown = id; 
-                d6DiskField = id; 
-                d6DriveStatusPulldown = id; 
-                d7DiskField = id; 
-                d7DriveStatusPulldown = id; 
-                d8DiskField = id; 
-                d8DriveStatusPulldown = id; 
-                diskFmtDmkDensityPulldown = id; 
-                diskFmtDmkIgnoreDensityPulldown = id; 
-                diskFmtDmkNumSidesPulldown = id; 
-                diskFmtDmkPhysicalSizePulldown = id; 
-                diskFmtInsertDrivePulldown = id; 
-                diskFmtInsertNewButton = id; 
-                diskFmtMatrix = id; 
-                driveSelectMatrix = id; 
-                error2Button = id; 
-                error2Field1 = id; 
-                error2Field2 = id; 
-                errorButton = id; 
-                errorField = id; 
-                graphicsPulldown = id; 
-                h1DiskField = id; 
-                h1DriveStatusPulldown = id; 
-                h2DiskField = id; 
-                h2DriveStatusPulldown = id; 
-                h3DiskField = id; 
-                h3DriveStatusPulldown = id; 
-                h4DiskField = id; 
-                h4DriveStatusPulldown = id; 
-                hardFmtCylinderCountField = id; 
-                hardFmtDirectorySectorField = id; 
-                hardFmtGranularityField = id; 
-                hardFmtInsertDrivePulldown = id; 
-                hardFmtInsertNewButton = id; 
-                hardFmtSectorCountField = id; 
-                modelPulldown = id; 
-                printerImageNameField = id; 
-                printerImageView = id; 
-                printerPreviewButton = id; 
-                printerPreviewItem = id; 
-                removeCartItem = id; 
-                removeCassItem = id; 
-                removeD1Item = id; 
-                removeD2Item = id; 
-                removeD3Item = id; 
-                removeD4Item = id; 
-                removeD5Item = id; 
-                removeD6Item = id; 
-                removeD7Item = id; 
-                removeD8Item = id; 
-                removeMenu = id; 
-                resetPrinterItem = id; 
-                resetPrinterMenuItem = id; 
-                rewindCassItem = id; 
-                selectPrinterMenu = id; 
-                selectPrinterPulldown = id; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {
-                browse5200Rom = id; 
-                browseBasicRom = id; 
-                browseCartDir = id; 
-                browseCartFile = id; 
-                browseCassDir = id; 
-                browseCassFile = id; 
-                browseD1File = id; 
-                browseD2File = id; 
-                browseD3File = id; 
-                browseD4File = id; 
-                browseD5File = id; 
-                browseD6File = id; 
-                browseD7File = id; 
-                browseD8File = id; 
-                browseDiskDir = id; 
-                browseExeDir = id; 
-                browseExeFile = id; 
-                browseHardDisk1 = id; 
-                browseHardDisk2 = id; 
-                browseHardDisk3 = id; 
-                browseHardDisk4 = id; 
-                browseOsARom = id; 
-                browseOsBRom = id; 
-                browsePalette = id; 
-                browseStateDir = id; 
-                browseXlRom = id; 
-                gamepadButton = id; 
-                identifyGamepad = id; 
-                miscChanged = id; 
-                ok = id; 
-                revert = id; 
-                revertToDefault = id; 
-                showPanel = id; 
-            }; 
-            CLASS = Preferences; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                a5200RomFileField = id; 
-                artifactingPulldown = id; 
-                atariTypePulldown = id; 
-                basicRomFileField = id; 
-                bootFromCassetteButton = id; 
-                bwVideoButton = id; 
-                cartFileEnabledButton = id; 
-                cartFileField = id; 
-                cartImageDirField = id; 
-                cassFileEnabledButton = id; 
-                cassFileField = id; 
-                cassImageDirField = id; 
-                d1FileEnabledButton = id; 
-                d1FileField = id; 
-                d2FileEnabledButton = id; 
-                d2FileField = id; 
-                d3FileEnabledButton = id; 
-                d3FileField = id; 
-                d4FileEnabledButton = id; 
-                d4FileField = id; 
-                d5FileEnabledButton = id; 
-                d5FileField = id; 
-                d6FileEnabledButton = id; 
-                d6FileField = id; 
-                d7FileEnabledButton = id; 
-                d7FileField = id; 
-                d8FileEnabledButton = id; 
-                d8FileField = id; 
-                disableBasicButton = id; 
-                diskImageDirField = id; 
-                doubleSizeMatrix = id; 
-                enableHPatchButton = id; 
-                enablePPatchButton = id; 
-                enableSioPatchButton = id; 
-                enableSoundButton = id; 
-                exeFileDirField = id; 
-                exeFileEnabledButton = id; 
-                exeFileField = id; 
-                fpsButton = id; 
-                fullScreenMatrix = id; 
-                gamepad5200AssignmentPulldown = id; 
-                gamepadAssignmentPulldown = id; 
-                gamepadButtonPulldown = id; 
-                hardDiskDir1Field = id; 
-                hardDiskDir2Field = id; 
-                hardDiskDir3Field = id; 
-                hardDiskDir4Field = id; 
-                hardDrivesReadOnlyButton = id; 
-                joy1AutofirePulldown = id; 
-                joy2AutofirePulldown = id; 
-                joy3AutofirePulldown = id; 
-                joy4AutofirePulldown = id; 
-                joystick1Pulldown = id; 
-                joystick2Pulldown = id; 
-                joystick3Pulldown = id; 
-                joystick4Pulldown = id; 
-                joystickTypeButton = id; 
-                mouseDevicePulldown = id; 
-                mouseHOffsetField = id; 
-                mouseInertiaField = id; 
-                mouseMaxValField = id; 
-                mouseMinValField = id; 
-                mouseSpeedField = id; 
-                mouseVOffsetField = id; 
-                osARomFileField = id; 
-                osBRomFileField = id; 
-                prefTabView = id; 
-                refreshRatioPulldown = id; 
-                savedStateDirField = id; 
-                speedLimitButton = id; 
-                tvModeMatrix = id; 
-                widthModeMatrix = id; 
-                xlRomFileField = id; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {onResetPrinter = id; onSelectPrinter = id; showPrinterOutput = id; }; 
-            CLASS = PrintOutputController; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {CLASS = SDLMain; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>selectAll</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TrsMediaWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>PasteWindow</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>cancelCass</key>
+				<string>id</string>
+				<key>cancelDisk</key>
+				<string>id</string>
+				<key>cancelHard</key>
+				<string>id</string>
+				<key>cassInsert</key>
+				<string>id</string>
+				<key>cassPositionChange</key>
+				<string>id</string>
+				<key>cassRemove</key>
+				<string>id</string>
+				<key>changeGraphics</key>
+				<string>id</string>
+				<key>changeModel</key>
+				<string>id</string>
+				<key>closeKeyWindow</key>
+				<string>id</string>
+				<key>coldStart</key>
+				<string>id</string>
+				<key>createCassette</key>
+				<string>id</string>
+				<key>createDisk</key>
+				<string>id</string>
+				<key>createHard</key>
+				<string>id</string>
+				<key>diskDisplayChange</key>
+				<string>id</string>
+				<key>diskInsert</key>
+				<string>id</string>
+				<key>diskMiscUpdate</key>
+				<string>id</string>
+				<key>diskRemove</key>
+				<string>id</string>
+				<key>diskRemoveAll</key>
+				<string>id</string>
+				<key>diskSetLoad</key>
+				<string>id</string>
+				<key>diskSetLoadFile</key>
+				<string>NSString</string>
+				<key>diskSetSave</key>
+				<string>id</string>
+				<key>diskStatusChange</key>
+				<string>id</string>
+				<key>diskStatusProtect</key>
+				<string>id</string>
+				<key>driveStatusChange</key>
+				<string>id</string>
+				<key>error2OK</key>
+				<string>id</string>
+				<key>errorOK</key>
+				<string>id</string>
+				<key>hardMiscUpdate</key>
+				<string>id</string>
+				<key>hardRemoveAll</key>
+				<string>id</string>
+				<key>hardStatusChange</key>
+				<string>id</string>
+				<key>mediaStatusWindowShow</key>
+				<string>id</string>
+				<key>okCass</key>
+				<string>id</string>
+				<key>okDisk</key>
+				<string>id</string>
+				<key>okHard</key>
+				<string>id</string>
+				<key>showCassCreatePanel</key>
+				<string>id</string>
+				<key>showCassManagementPanel</key>
+				<string>id</string>
+				<key>showDiskCreatePanel</key>
+				<string>id</string>
+				<key>showDiskManagementPanel</key>
+				<string>id</string>
+				<key>showHardCreatePanel</key>
+				<string>id</string>
+				<key>showHardManagementPanel</key>
+				<string>id</string>
+				<key>warmStart</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>MediaManager</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>cassFmtInsertNewButton</key>
+				<string>id</string>
+				<key>cassFmtPulldown</key>
+				<string>id</string>
+				<key>cassImageManageButton</key>
+				<string>id</string>
+				<key>cassImageNameField</key>
+				<string>id</string>
+				<key>cassImageView</key>
+				<string>id</string>
+				<key>cassetteCurrPosField</key>
+				<string>id</string>
+				<key>cassetteField</key>
+				<string>id</string>
+				<key>cassetteImageInsertButton1</key>
+				<string>id</string>
+				<key>cassetteImageInsertButton2</key>
+				<string>id</string>
+				<key>cassetteMaxPosField</key>
+				<string>id</string>
+				<key>d1DiskField</key>
+				<string>id</string>
+				<key>d1DiskImageInsertButton</key>
+				<string>id</string>
+				<key>d1DiskImageLockView</key>
+				<string>id</string>
+				<key>d1DiskImageNameField</key>
+				<string>id</string>
+				<key>d1DiskImageNumberField</key>
+				<string>id</string>
+				<key>d1DiskImageProtectButton</key>
+				<string>id</string>
+				<key>d1DiskImageView</key>
+				<string>id</string>
+				<key>d1DriveStatusPulldown</key>
+				<string>id</string>
+				<key>d2DiskField</key>
+				<string>id</string>
+				<key>d2DiskImageInsertButton</key>
+				<string>id</string>
+				<key>d2DiskImageLockView</key>
+				<string>id</string>
+				<key>d2DiskImageNameField</key>
+				<string>id</string>
+				<key>d2DiskImageNumberField</key>
+				<string>id</string>
+				<key>d2DiskImageProtectButton</key>
+				<string>id</string>
+				<key>d2DiskImageView</key>
+				<string>id</string>
+				<key>d2DriveStatusPulldown</key>
+				<string>id</string>
+				<key>d3DiskField</key>
+				<string>id</string>
+				<key>d3DiskImageInsertButton</key>
+				<string>id</string>
+				<key>d3DiskImageLockView</key>
+				<string>id</string>
+				<key>d3DiskImageNameField</key>
+				<string>id</string>
+				<key>d3DiskImageNumberField</key>
+				<string>id</string>
+				<key>d3DiskImageProtectButton</key>
+				<string>id</string>
+				<key>d3DiskImageView</key>
+				<string>id</string>
+				<key>d3DriveStatusPulldown</key>
+				<string>id</string>
+				<key>d4DiskField</key>
+				<string>id</string>
+				<key>d4DiskImageInsertButton</key>
+				<string>id</string>
+				<key>d4DiskImageLockView</key>
+				<string>id</string>
+				<key>d4DiskImageNameField</key>
+				<string>id</string>
+				<key>d4DiskImageNumberField</key>
+				<string>id</string>
+				<key>d4DiskImageProtectButton</key>
+				<string>id</string>
+				<key>d4DiskImageView</key>
+				<string>id</string>
+				<key>d4DriveStatusPulldown</key>
+				<string>id</string>
+				<key>d5DiskField</key>
+				<string>id</string>
+				<key>d5DriveStatusPulldown</key>
+				<string>id</string>
+				<key>d6DiskField</key>
+				<string>id</string>
+				<key>d6DriveStatusPulldown</key>
+				<string>id</string>
+				<key>d7DiskField</key>
+				<string>id</string>
+				<key>d7DriveStatusPulldown</key>
+				<string>id</string>
+				<key>d8DiskField</key>
+				<string>id</string>
+				<key>d8DriveStatusPulldown</key>
+				<string>id</string>
+				<key>diskFmtDmkDensityPulldown</key>
+				<string>id</string>
+				<key>diskFmtDmkIgnoreDensityPulldown</key>
+				<string>id</string>
+				<key>diskFmtDmkNumSidesPulldown</key>
+				<string>id</string>
+				<key>diskFmtDmkPhysicalSizePulldown</key>
+				<string>id</string>
+				<key>diskFmtInsertDrivePulldown</key>
+				<string>id</string>
+				<key>diskFmtInsertNewButton</key>
+				<string>id</string>
+				<key>diskFmtMatrix</key>
+				<string>id</string>
+				<key>driveSelectMatrix</key>
+				<string>id</string>
+				<key>error2Button</key>
+				<string>id</string>
+				<key>error2Field1</key>
+				<string>id</string>
+				<key>error2Field2</key>
+				<string>id</string>
+				<key>errorButton</key>
+				<string>id</string>
+				<key>errorField</key>
+				<string>id</string>
+				<key>graphicsPulldown</key>
+				<string>id</string>
+				<key>h1DiskField</key>
+				<string>id</string>
+				<key>h1DriveStatusPulldown</key>
+				<string>id</string>
+				<key>h2DiskField</key>
+				<string>id</string>
+				<key>h2DriveStatusPulldown</key>
+				<string>id</string>
+				<key>h3DiskField</key>
+				<string>id</string>
+				<key>h3DriveStatusPulldown</key>
+				<string>id</string>
+				<key>h4DiskField</key>
+				<string>id</string>
+				<key>h4DriveStatusPulldown</key>
+				<string>id</string>
+				<key>hardFmtCylinderCountField</key>
+				<string>id</string>
+				<key>hardFmtDirectorySectorField</key>
+				<string>id</string>
+				<key>hardFmtGranularityField</key>
+				<string>id</string>
+				<key>hardFmtInsertDrivePulldown</key>
+				<string>id</string>
+				<key>hardFmtInsertNewButton</key>
+				<string>id</string>
+				<key>hardFmtSectorCountField</key>
+				<string>id</string>
+				<key>modelPulldown</key>
+				<string>id</string>
+				<key>printerImageNameField</key>
+				<string>id</string>
+				<key>printerImageView</key>
+				<string>id</string>
+				<key>printerPreviewButton</key>
+				<string>id</string>
+				<key>printerPreviewItem</key>
+				<string>id</string>
+				<key>removeCartItem</key>
+				<string>id</string>
+				<key>removeCassItem</key>
+				<string>id</string>
+				<key>removeD1Item</key>
+				<string>id</string>
+				<key>removeD2Item</key>
+				<string>id</string>
+				<key>removeD3Item</key>
+				<string>id</string>
+				<key>removeD4Item</key>
+				<string>id</string>
+				<key>removeD5Item</key>
+				<string>id</string>
+				<key>removeD6Item</key>
+				<string>id</string>
+				<key>removeD7Item</key>
+				<string>id</string>
+				<key>removeD8Item</key>
+				<string>id</string>
+				<key>removeMenu</key>
+				<string>id</string>
+				<key>resetPrinterItem</key>
+				<string>id</string>
+				<key>resetPrinterMenuItem</key>
+				<string>id</string>
+				<key>rewindCassItem</key>
+				<string>id</string>
+				<key>selectPrinterMenu</key>
+				<string>id</string>
+				<key>selectPrinterPulldown</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>onChangePen</key>
+				<string>id</string>
+				<key>onContinue</key>
+				<string>id</string>
+				<key>onDelete</key>
+				<string>id</string>
+				<key>onResetPrinter</key>
+				<string>id</string>
+				<key>onRevSkipLine</key>
+				<string>id</string>
+				<key>onSaveAs</key>
+				<string>id</string>
+				<key>onSelectPrinter</key>
+				<string>id</string>
+				<key>onSkipLine</key>
+				<string>id</string>
+				<key>onSkipPage</key>
+				<string>id</string>
+				<key>resetConfirmNo</key>
+				<string>id</string>
+				<key>resetConfirmYes</key>
+				<string>id</string>
+				<key>showPrinterOutput</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>PrintOutputController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>mContinueButton</key>
+				<string>NSButton</string>
+				<key>mDeleteButton</key>
+				<string>NSButton</string>
+				<key>mMainScrollView</key>
+				<string>NSScrollView</string>
+				<key>mPenChangeButton</key>
+				<string>NSButton</string>
+				<key>mResetConfirmButton</key>
+				<string>NSButton</string>
+				<key>mSaveAsButton</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>paste</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>PastePanel</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSPanel</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>changeGraphics</key>
+				<string>id</string>
+				<key>changeModel</key>
+				<string>id</string>
+				<key>coldReset</key>
+				<string>id</string>
+				<key>debugger</key>
+				<string>id</string>
+				<key>loadState</key>
+				<string>id</string>
+				<key>pause</key>
+				<string>id</string>
+				<key>readConfig</key>
+				<string>id</string>
+				<key>saveState</key>
+				<string>id</string>
+				<key>showAboutBox</key>
+				<string>id</string>
+				<key>showDonation</key>
+				<string>id</string>
+				<key>warmReset</key>
+				<string>id</string>
+				<key>writeConfig</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>ControlManager</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>coldResetItem</key>
+				<string>id</string>
+				<key>graphicsMenu</key>
+				<string>id</string>
+				<key>loadStateItem</key>
+				<string>id</string>
+				<key>modelMenu</key>
+				<string>id</string>
+				<key>pauseItem</key>
+				<string>id</string>
+				<key>saveStateItem</key>
+				<string>id</string>
+				<key>startButton</key>
+				<string>id</string>
+				<key>warmResetItem</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>SDLMain</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>fullScreen</key>
+				<string>id</string>
+				<key>screenBigger</key>
+				<string>id</string>
+				<key>screenSmaller</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>DisplayManager</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>fullscreenItem</key>
+				<string>id</string>
+				<key>screenBiggerItem</key>
+				<string>id</string>
+				<key>screenSmallerItem</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>copy</key>
+				<string>id</string>
+				<key>paste</key>
+				<string>id</string>
+				<key>selectAll</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>PasteWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindow</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>debuggerExecute</key>
+				<string>id</string>
+				<key>messageWindowShow</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>DebuggerManager</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>debuggerInputField</key>
+				<string>id</string>
+				<key>debuggerOutputView</key>
+				<string>id</string>
+				<key>messageOutputView</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>browse5200Rom</key>
+				<string>id</string>
+				<key>browseBasicRom</key>
+				<string>id</string>
+				<key>browseCartDir</key>
+				<string>id</string>
+				<key>browseCartFile</key>
+				<string>id</string>
+				<key>browseCassDir</key>
+				<string>id</string>
+				<key>browseCassFile</key>
+				<string>id</string>
+				<key>browseD1File</key>
+				<string>id</string>
+				<key>browseD2File</key>
+				<string>id</string>
+				<key>browseD3File</key>
+				<string>id</string>
+				<key>browseD4File</key>
+				<string>id</string>
+				<key>browseD5File</key>
+				<string>id</string>
+				<key>browseD6File</key>
+				<string>id</string>
+				<key>browseD7File</key>
+				<string>id</string>
+				<key>browseD8File</key>
+				<string>id</string>
+				<key>browseDiskDir</key>
+				<string>id</string>
+				<key>browseDiskSetDir</key>
+				<string>id</string>
+				<key>browseExeDir</key>
+				<string>id</string>
+				<key>browseExeFile</key>
+				<string>id</string>
+				<key>browseHardDir</key>
+				<string>id</string>
+				<key>browseHardDisk1</key>
+				<string>id</string>
+				<key>browseHardDisk2</key>
+				<string>id</string>
+				<key>browseHardDisk3</key>
+				<string>id</string>
+				<key>browseHardDisk4</key>
+				<string>id</string>
+				<key>browseModel1Rom</key>
+				<string>id</string>
+				<key>browseModel3Rom</key>
+				<string>id</string>
+				<key>browseModel4pRom</key>
+				<string>id</string>
+				<key>browseOsARom</key>
+				<string>id</string>
+				<key>browseOsBRom</key>
+				<string>id</string>
+				<key>browsePalette</key>
+				<string>id</string>
+				<key>browsePrintDir</key>
+				<string>id</string>
+				<key>browseStateDir</key>
+				<string>id</string>
+				<key>browseXlRom</key>
+				<string>id</string>
+				<key>gamepadButton</key>
+				<string>id</string>
+				<key>identifyGamepad</key>
+				<string>id</string>
+				<key>miscChanged</key>
+				<string>id</string>
+				<key>ok</key>
+				<string>id</string>
+				<key>revert</key>
+				<string>id</string>
+				<key>revertToDefault</key>
+				<string>id</string>
+				<key>showPanel</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>Preferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>a5200RomFileField</key>
+				<string>id</string>
+				<key>artifactingPulldown</key>
+				<string>id</string>
+				<key>atariTypePulldown</key>
+				<string>id</string>
+				<key>backgroundPot</key>
+				<string>id</string>
+				<key>basicRomFileField</key>
+				<string>id</string>
+				<key>bootFromCassetteButton</key>
+				<string>id</string>
+				<key>bwVideoButton</key>
+				<string>id</string>
+				<key>cartFileEnabledButton</key>
+				<string>id</string>
+				<key>cartFileField</key>
+				<string>id</string>
+				<key>cartImageDirField</key>
+				<string>id</string>
+				<key>cassFileEnabledButton</key>
+				<string>id</string>
+				<key>cassFileField</key>
+				<string>id</string>
+				<key>cassImageDirField</key>
+				<string>id</string>
+				<key>d1FileEnabledButton</key>
+				<string>id</string>
+				<key>d1FileField</key>
+				<string>id</string>
+				<key>d2FileEnabledButton</key>
+				<string>id</string>
+				<key>d2FileField</key>
+				<string>id</string>
+				<key>d3FileEnabledButton</key>
+				<string>id</string>
+				<key>d3FileField</key>
+				<string>id</string>
+				<key>d4FileEnabledButton</key>
+				<string>id</string>
+				<key>d4FileField</key>
+				<string>id</string>
+				<key>d5FileEnabledButton</key>
+				<string>id</string>
+				<key>d5FileField</key>
+				<string>id</string>
+				<key>d6FileEnabledButton</key>
+				<string>id</string>
+				<key>d6FileField</key>
+				<string>id</string>
+				<key>d7FileEnabledButton</key>
+				<string>id</string>
+				<key>d7FileField</key>
+				<string>id</string>
+				<key>d8FileEnabledButton</key>
+				<string>id</string>
+				<key>d8FileField</key>
+				<string>id</string>
+				<key>disableBasicButton</key>
+				<string>id</string>
+				<key>disk1SizeMatrix</key>
+				<string>id</string>
+				<key>disk2SizeMatrix</key>
+				<string>id</string>
+				<key>disk3SizeMatrix</key>
+				<string>id</string>
+				<key>disk4SizeMatrix</key>
+				<string>id</string>
+				<key>disk5SizeMatrix</key>
+				<string>id</string>
+				<key>disk6SizeMatrix</key>
+				<string>id</string>
+				<key>disk7SizeMatrix</key>
+				<string>id</string>
+				<key>disk8SizeMatrix</key>
+				<string>id</string>
+				<key>diskImageDirField</key>
+				<string>id</string>
+				<key>diskSetDirField</key>
+				<string>id</string>
+				<key>doubleSizeMatrix</key>
+				<string>id</string>
+				<key>doublerTypePulldown</key>
+				<string>id</string>
+				<key>emtSafeButton</key>
+				<string>id</string>
+				<key>enableHPatchButton</key>
+				<string>id</string>
+				<key>enablePPatchButton</key>
+				<string>id</string>
+				<key>enableSioPatchButton</key>
+				<string>id</string>
+				<key>enableSoundButton</key>
+				<string>id</string>
+				<key>epsonAutoLinefeedButton</key>
+				<string>id</string>
+				<key>epsonAutoSkipButton</key>
+				<string>id</string>
+				<key>epsonCharSetPulldown</key>
+				<string>id</string>
+				<key>epsonFormLengthField</key>
+				<string>id</string>
+				<key>epsonFormLengthStepper</key>
+				<string>id</string>
+				<key>epsonPrintPitchPulldown</key>
+				<string>id</string>
+				<key>epsonPrintSlashedZerosButton</key>
+				<string>id</string>
+				<key>epsonPrintWeightPulldown</key>
+				<string>id</string>
+				<key>epsonSplitSkipButton</key>
+				<string>id</string>
+				<key>exeFileDirField</key>
+				<string>id</string>
+				<key>exeFileEnabledButton</key>
+				<string>id</string>
+				<key>exeFileField</key>
+				<string>id</string>
+				<key>foregroundPot</key>
+				<string>id</string>
+				<key>fpsButton</key>
+				<string>id</string>
+				<key>fullScreenMatrix</key>
+				<string>id</string>
+				<key>gamepad5200AssignmentPulldown</key>
+				<string>id</string>
+				<key>gamepadAssignmentPulldown</key>
+				<string>id</string>
+				<key>gamepadButtonPulldown</key>
+				<string>id</string>
+				<key>guiBackgroundPot</key>
+				<string>id</string>
+				<key>guiForegroundPot</key>
+				<string>id</string>
+				<key>hardDiskDir1Field</key>
+				<string>id</string>
+				<key>hardDiskDir2Field</key>
+				<string>id</string>
+				<key>hardDiskDir3Field</key>
+				<string>id</string>
+				<key>hardDiskDir4Field</key>
+				<string>id</string>
+				<key>hardDrivesReadOnlyButton</key>
+				<string>id</string>
+				<key>hardImageDirField</key>
+				<string>id</string>
+				<key>joy1AutofirePulldown</key>
+				<string>id</string>
+				<key>joy2AutofirePulldown</key>
+				<string>id</string>
+				<key>joy3AutofirePulldown</key>
+				<string>id</string>
+				<key>joy4AutofirePulldown</key>
+				<string>id</string>
+				<key>joystick1Pulldown</key>
+				<string>id</string>
+				<key>joystick2Pulldown</key>
+				<string>id</string>
+				<key>joystick3Pulldown</key>
+				<string>id</string>
+				<key>joystick4Pulldown</key>
+				<string>id</string>
+				<key>joystickTypeButton</key>
+				<string>id</string>
+				<key>keyboardJoystickButton</key>
+				<string>id</string>
+				<key>keyboardStretchField</key>
+				<string>id</string>
+				<key>ledStatusButton</key>
+				<string>id</string>
+				<key>model1FontPulldown</key>
+				<string>id</string>
+				<key>model1RomFileField</key>
+				<string>id</string>
+				<key>model3FontPulldown</key>
+				<string>id</string>
+				<key>model3RomFileField</key>
+				<string>id</string>
+				<key>model4FontPulldown</key>
+				<string>id</string>
+				<key>model4pRomFileField</key>
+				<string>id</string>
+				<key>mouseDevicePulldown</key>
+				<string>id</string>
+				<key>mouseHOffsetField</key>
+				<string>id</string>
+				<key>mouseInertiaField</key>
+				<string>id</string>
+				<key>mouseMaxValField</key>
+				<string>id</string>
+				<key>mouseMinValField</key>
+				<string>id</string>
+				<key>mouseSpeedField</key>
+				<string>id</string>
+				<key>mouseVOffsetField</key>
+				<string>id</string>
+				<key>osARomFileField</key>
+				<string>id</string>
+				<key>osBRomFileField</key>
+				<string>id</string>
+				<key>prefTabView</key>
+				<string>id</string>
+				<key>printCommandField</key>
+				<string>id</string>
+				<key>printDirField</key>
+				<string>id</string>
+				<key>printerTypePulldown</key>
+				<string>id</string>
+				<key>refreshRatioPulldown</key>
+				<string>id</string>
+				<key>resize3Button</key>
+				<string>id</string>
+				<key>resize4Button</key>
+				<string>id</string>
+				<key>savedStateDirField</key>
+				<string>id</string>
+				<key>scaleFactorMatrix</key>
+				<string>id</string>
+				<key>serialPortField</key>
+				<string>id</string>
+				<key>serialSwitchesField</key>
+				<string>id</string>
+				<key>shiftBracketButton</key>
+				<string>id</string>
+				<key>speedLimitButton</key>
+				<string>id</string>
+				<key>trsGraphicsPulldown</key>
+				<string>id</string>
+				<key>trsModelPulldown</key>
+				<string>id</string>
+				<key>trueDamButton</key>
+				<string>id</string>
+				<key>tvModeMatrix</key>
+				<string>id</string>
+				<key>usbJoystickPulldown</key>
+				<string>id</string>
+				<key>widthModeMatrix</key>
+				<string>id</string>
+				<key>windowBorderWidthField</key>
+				<string>id</string>
+				<key>xlRomFileField</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>selectAll</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>DebuggerWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindow</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
