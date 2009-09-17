@@ -467,7 +467,7 @@ trs_disk_init(int poweron)
 	  }
     }
   }
-  trs_hard_init(1); 
+  trs_hard_init(); 
   trs_cancel_event();
 
   trs_disk_nocontroller = (trs_model < 5 && disk[0].file == NULL);
@@ -806,7 +806,7 @@ int trs_diskset_load(char *filename)
       fgets(diskname,FILENAME_MAX,f);
       if (strlen(diskname) != 0)
         diskname[strlen(diskname)-1] = 0;
-      if (strlen(diskname) == 0) {
+      if (strlen(diskname) != 0) {
         trs_disk_remove(i);
         trs_disk_insert(i,diskname);
       }
@@ -815,7 +815,7 @@ int trs_diskset_load(char *filename)
       fgets(diskname,FILENAME_MAX,f);
       if (strlen(diskname) != 0)
         diskname[strlen(diskname)-1] = 0;
-      if (strlen(diskname) == 0) {
+      if (strlen(diskname) != 0) {
         trs_hard_remove(i);
         trs_hard_attach(i,diskname);
       }
