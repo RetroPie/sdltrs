@@ -28,6 +28,7 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "Atari1020Simulator.h"
 #import "EpsonFx80Simulator.h"
 
 /* Keys in the dictionary... */
@@ -78,6 +79,26 @@
 // Printer Items
 #define PrintCommand @"PrintCommand"
 #define PrinterType @"PrinterType"
+#define Atari1020PrintWidth @"Atari1020PrintWidth"
+#define Atari1020FormLength @"Atari1020FormLength"
+#define Atari1020AutoLinefeed @"Atari825AutoLinefeed"
+#define Atari1020AutoPageAdjust @"Atari1020AutoPageAdjust"
+#define Atari1020Pen1Red @"Atari1020Pen1Red"
+#define Atari1020Pen1Blue @"Atari1020Pen1Blue"
+#define Atari1020Pen1Green @"Atari1020Pen1Green"
+#define Atari1020Pen1Alpha @"Atari1020Pen1Alpha"
+#define Atari1020Pen2Red @"Atari1020Pen2Red"
+#define Atari1020Pen2Blue @"Atari1020Pen2Blue"
+#define Atari1020Pen2Green @"Atari1020Pen2Green"
+#define Atari1020Pen2Alpha @"Atari1020Pen2Alpha"
+#define Atari1020Pen3Red @"Atari1020Pen3Red"
+#define Atari1020Pen3Blue @"Atari1020Pen3Blue"
+#define Atari1020Pen3Green @"Atari1020Pen3Green"
+#define Atari1020Pen3Alpha @"Atari1020Pen3Alpha"
+#define Atari1020Pen4Red @"Atari1020Pen4Red"
+#define Atari1020Pen4Blue @"Atari1020Pen4Blue"
+#define Atari1020Pen4Green @"Atari1020Pen4Green"
+#define Atari1020Pen4Alpha @"Atari1020Pen4Alpha"
 #define EpsonCharSet @"EpsonCharSet"
 #define EpsonPrintPitch @"EpsonPrintPitch"
 #define EpsonPrintWeight @"EpsonPrintWeight"
@@ -150,6 +171,15 @@
     // Printer Items
     IBOutlet id printCommandField;
 	IBOutlet id printerTypePulldown;
+	IBOutlet id atari1020PrintWidthPulldown;
+	IBOutlet id atari1020FormLengthField;
+	IBOutlet id atari1020FormLengthStepper;
+	IBOutlet id atari1020AutoLinefeedButton;
+	IBOutlet id atari1020AutoPageAdjustButton;
+	IBOutlet id atari1020Pen1Pot;
+	IBOutlet id atari1020Pen2Pot;
+	IBOutlet id atari1020Pen3Pot;
+	IBOutlet id atari1020Pen4Pot;
 	IBOutlet id epsonCharSetPulldown;
 	IBOutlet id epsonPrintPitchPulldown;
 	IBOutlet id epsonPrintWeightPulldown;
@@ -215,6 +245,7 @@
 - (void)transferValuesToEmulator;
 - (void)transferValuesFromEmulator;
 - (void)transferValuesToEpson;
+- (void)transferValuesToAtari1020;
 - (NSPoint)mediaStatusOrigin;
 - (NSPoint)messagesOrigin;
 - (NSPoint)debuggerOrigin;

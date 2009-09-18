@@ -118,6 +118,7 @@ static NSImage *on410Image;
 static NSImage *off410Image;
 static NSImage *lockImage;
 static NSImage *lockoffImage;
+static NSImage *atari1020Image;
 static NSImage *epsonImage;
 static NSImage *textImage;
 NSImage *disketteImage;
@@ -206,6 +207,10 @@ NSImage *disketteImage;
 	epsonImage = [[NSImage alloc] retain];
     strcpy(filename, "sdltrs.app/Contents/Resources/epson.tiff");    
 	[epsonImage initWithContentsOfFile:[NSString stringWithCString:filename]];
+		
+	atari1020Image = [NSImage alloc];
+	strcpy(filename, "sdltrs.app/Contents/Resources/atari1020.tiff");    
+	[atari1020Image initWithContentsOfFile:[NSString stringWithCString:filename]];
 		
 	textImage = [[NSImage alloc] retain];
     strcpy(filename, "sdltrs.app/Contents/Resources/text.tiff");    
@@ -1293,6 +1298,14 @@ NSImage *disketteImage;
 		case EPSON_PRINTER:
 			[printerImageNameField setStringValue:@"Epson FX80"];
 			[printerImageView setImage:epsonImage];
+			[printerPreviewItem setTarget:[PrintOutputController sharedInstance]];
+			[printerPreviewButton setEnabled:YES];
+			[resetPrinterItem setTarget:[PrintOutputController sharedInstance]];
+			[resetPrinterMenuItem setTarget:[PrintOutputController sharedInstance]];
+			break;
+		case CGP_115_PRINTER:
+			[printerImageNameField setStringValue:@"CGP-115"];
+			[printerImageView setImage:atari1020Image];
 			[printerPreviewItem setTarget:[PrintOutputController sharedInstance]];
 			[printerPreviewButton setEnabled:YES];
 			[resetPrinterItem setTarget:[PrintOutputController sharedInstance]];
