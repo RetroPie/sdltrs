@@ -39,6 +39,7 @@
 #define QZ_COMMA		0x2B
 
 extern void trs_pause_audio(int pause);
+extern ATARI1020_PREF prefs1020;
 extern EPSON_PREF prefsEpson;
 extern NSWindow *appWindow;
 
@@ -139,6 +140,26 @@ static NSDictionary *defaultValues() {
                 // Printer Items 
                 [NSString stringWithString:@"open %s"],PrintCommand,
 				[NSNumber numberWithInt:0],PrinterType,
+				[NSNumber numberWithInt:0],Atari1020PrintWidth,
+				[NSNumber numberWithInt:11],Atari1020FormLength,
+				[NSNumber numberWithBool:YES],Atari1020AutoLinefeed,
+				[NSNumber numberWithBool:YES],Atari1020AutoPageAdjust,
+				[NSNumber numberWithFloat:0.0],Atari1020Pen1Red,
+				[NSNumber numberWithFloat:0.0],Atari1020Pen1Blue,
+				[NSNumber numberWithFloat:0.0],Atari1020Pen1Green,
+				[NSNumber numberWithFloat:1.0],Atari1020Pen1Alpha,
+				[NSNumber numberWithFloat:0.0],Atari1020Pen2Red,
+				[NSNumber numberWithFloat:1.0],Atari1020Pen2Blue,
+				[NSNumber numberWithFloat:0.0],Atari1020Pen2Green,
+				[NSNumber numberWithFloat:1.0],Atari1020Pen2Alpha,
+				[NSNumber numberWithFloat:0.0],Atari1020Pen3Red,
+				[NSNumber numberWithFloat:0.0],Atari1020Pen3Blue,
+				[NSNumber numberWithFloat:1.0],Atari1020Pen3Green,
+				[NSNumber numberWithFloat:1.0],Atari1020Pen3Alpha,
+				[NSNumber numberWithFloat:1.0],Atari1020Pen4Red,
+				[NSNumber numberWithFloat:0.0],Atari1020Pen4Blue,
+				[NSNumber numberWithFloat:0.0],Atari1020Pen4Green,
+				[NSNumber numberWithFloat:1.0],Atari1020Pen4Alpha,
 				[NSNumber numberWithInt:0],EpsonCharSet,
 				[NSNumber numberWithInt:0],EpsonPrintPitch,
 				[NSNumber numberWithInt:0],EpsonPrintWeight,
@@ -274,6 +295,7 @@ static Preferences *sharedInstance = nil;
         curValues = [[[self class] preferencesFromDefaults] copyWithZone:[self zone]];
         origValues = [curValues retain];
         [self transferValuesToEmulator];
+        [self transferValuesToAtari1020];
         [self transferValuesToEpson];
         [self discardDisplayedValues];
         sharedInstance = self;
@@ -346,7 +368,7 @@ static Preferences *sharedInstance = nil;
 *-----------------------------------------------------------------------------*/
 - (void)updateUI {
     char tempStr[10];
-	NSColor *fore, *back;
+	NSColor *pen1, *pen2, *pen3, *pen4, *fore, *back;
 
     if (!prefTabView) return;	/* UI hasn't been loaded... */
 
@@ -403,6 +425,31 @@ static Preferences *sharedInstance = nil;
     // Printer Items   
 	[printerTypePulldown selectItemAtIndex:[[displayedValues objectForKey:PrinterType] intValue]];
 	[printCommandField setStringValue:[displayedValues objectForKey:PrintCommand]];
+	[atari1020PrintWidthPulldown selectItemAtIndex:[[displayedValues objectForKey:Atari1020PrintWidth] intValue]];
+	[atari1020FormLengthField setIntValue:[[displayedValues objectForKey:Atari1020FormLength] intValue]];
+	[atari1020FormLengthStepper setIntValue:[[displayedValues objectForKey:Atari1020FormLength] intValue]];
+	[atari1020AutoLinefeedButton setState:[[displayedValues objectForKey:Atari1020AutoLinefeed] boolValue] ? NSOnState : NSOffState];
+	[atari1020AutoPageAdjustButton setState:[[displayedValues objectForKey:Atari1020AutoPageAdjust] boolValue] ? NSOnState : NSOffState];
+	pen1 = [NSColor colorWithCalibratedRed:[[displayedValues objectForKey:Atari1020Pen1Red] floatValue] 
+									 green:[[displayedValues objectForKey:Atari1020Pen1Green] floatValue] 
+									  blue:[[displayedValues objectForKey:Atari1020Pen1Blue] floatValue]
+									 alpha:[[displayedValues objectForKey:Atari1020Pen1Alpha] floatValue]];
+	[atari1020Pen1Pot setColor:pen1];
+	pen2 = [NSColor colorWithCalibratedRed:[[displayedValues objectForKey:Atari1020Pen2Red] floatValue] 
+									 green:[[displayedValues objectForKey:Atari1020Pen2Green] floatValue] 
+									  blue:[[displayedValues objectForKey:Atari1020Pen2Blue] floatValue]
+									 alpha:[[displayedValues objectForKey:Atari1020Pen2Alpha] floatValue]];
+	[atari1020Pen2Pot setColor:pen2];
+	pen3 = [NSColor colorWithCalibratedRed:[[displayedValues objectForKey:Atari1020Pen3Red] floatValue] 
+									 green:[[displayedValues objectForKey:Atari1020Pen3Green] floatValue] 
+									  blue:[[displayedValues objectForKey:Atari1020Pen3Blue] floatValue]
+									 alpha:[[displayedValues objectForKey:Atari1020Pen3Alpha] floatValue]];
+	[atari1020Pen3Pot setColor:pen3];
+	pen4 = [NSColor colorWithCalibratedRed:[[displayedValues objectForKey:Atari1020Pen4Red] floatValue] 
+									 green:[[displayedValues objectForKey:Atari1020Pen4Green] floatValue] 
+									  blue:[[displayedValues objectForKey:Atari1020Pen4Blue] floatValue]
+									 alpha:[[displayedValues objectForKey:Atari1020Pen4Alpha] floatValue]];
+	[atari1020Pen4Pot setColor:pen4];
 	[epsonCharSetPulldown selectItemAtIndex:[[displayedValues objectForKey:EpsonCharSet] intValue]];
 	[epsonPrintPitchPulldown selectItemAtIndex:[[displayedValues objectForKey:EpsonPrintPitch] intValue]];
 	[epsonPrintWeightPulldown selectItemAtIndex:[[displayedValues objectForKey:EpsonPrintWeight] intValue]];
@@ -441,6 +488,8 @@ static Preferences *sharedInstance = nil;
 - (void)miscChanged:(id)sender {
     int anInt;
     char tempStr[80];
+	NSColor *penColor;
+	float penRed, penBlue, penGreen, penAlpha;
 	NSColor *screenColor;
 	float screenRed, screenBlue, screenGreen, screenAlpha;
     
@@ -712,8 +761,55 @@ static Preferences *sharedInstance = nil;
         case 2:
             [displayedValues setObject:two forKey:PrinterType];
             break;
-		}
+        case 3:
+            [displayedValues setObject:three forKey:PrinterType];
+            break;
+	}
     [displayedValues setObject:[printCommandField stringValue] forKey:PrintCommand];
+    anInt = [atari1020FormLengthStepper intValue];
+    [displayedValues setObject:[NSNumber numberWithInt:anInt] forKey:Atari1020FormLength];
+	[atari1020FormLengthField setIntValue:anInt];
+    if ([atari1020AutoLinefeedButton state] == NSOnState)
+        [displayedValues setObject:yes forKey:Atari1020AutoLinefeed];
+    else
+        [displayedValues setObject:no forKey:Atari1020AutoLinefeed];
+    if ([atari1020AutoPageAdjustButton state] == NSOnState)
+        [displayedValues setObject:yes forKey:Atari1020AutoPageAdjust];
+    else
+        [displayedValues setObject:no forKey:Atari1020AutoPageAdjust];
+    switch([atari1020PrintWidthPulldown indexOfSelectedItem]) {
+        case 0:
+            [displayedValues setObject:zero forKey:Atari1020PrintWidth];
+            break;
+        case 1:
+            [displayedValues setObject:one forKey:Atari1020PrintWidth];
+            break;
+	}
+	penColor = [atari1020Pen1Pot color];
+	[penColor getRed:&penRed green:&penGreen blue:&penBlue alpha:&penAlpha];
+	[displayedValues setObject:[NSNumber numberWithFloat:penRed] forKey:Atari1020Pen1Red];
+	[displayedValues setObject:[NSNumber numberWithFloat:penBlue] forKey:Atari1020Pen1Blue];
+	[displayedValues setObject:[NSNumber numberWithFloat:penGreen] forKey:Atari1020Pen1Green];
+	[displayedValues setObject:[NSNumber numberWithFloat:penAlpha] forKey:Atari1020Pen1Alpha];
+	penColor = [atari1020Pen2Pot color];
+	[penColor getRed:&penRed green:&penGreen blue:&penBlue alpha:&penAlpha];
+	[displayedValues setObject:[NSNumber numberWithFloat:penRed] forKey:Atari1020Pen2Red];
+	[displayedValues setObject:[NSNumber numberWithFloat:penBlue] forKey:Atari1020Pen2Blue];
+	[displayedValues setObject:[NSNumber numberWithFloat:penGreen] forKey:Atari1020Pen2Green];
+	[displayedValues setObject:[NSNumber numberWithFloat:penAlpha] forKey:Atari1020Pen2Alpha];
+	penColor = [atari1020Pen3Pot color];
+	[penColor getRed:&penRed green:&penGreen blue:&penBlue alpha:&penAlpha];
+	[displayedValues setObject:[NSNumber numberWithFloat:penRed] forKey:Atari1020Pen3Red];
+	[displayedValues setObject:[NSNumber numberWithFloat:penBlue] forKey:Atari1020Pen3Blue];
+	[displayedValues setObject:[NSNumber numberWithFloat:penGreen] forKey:Atari1020Pen3Green];
+	[displayedValues setObject:[NSNumber numberWithFloat:penAlpha] forKey:Atari1020Pen3Alpha];
+	penColor = [atari1020Pen4Pot color];
+	[penColor getRed:&penRed green:&penGreen blue:&penBlue alpha:&penAlpha];
+	[displayedValues setObject:[NSNumber numberWithFloat:penRed] forKey:Atari1020Pen4Red];
+	[displayedValues setObject:[NSNumber numberWithFloat:penBlue] forKey:Atari1020Pen4Blue];
+	[displayedValues setObject:[NSNumber numberWithFloat:penGreen] forKey:Atari1020Pen4Green];
+	[displayedValues setObject:[NSNumber numberWithFloat:penAlpha] forKey:Atari1020Pen4Alpha];
+	
     switch([epsonCharSetPulldown indexOfSelectedItem]) {
         case 0:
 		default:
@@ -994,6 +1090,30 @@ static Preferences *sharedInstance = nil;
         displayedValues = [curValues mutableCopyWithZone:[self zone]];
         [self updateUI];
     }
+}
+
+- (void)transferValuesToAtari1020
+{
+	prefs1020.printWidth = [[curValues objectForKey:Atari1020PrintWidth] intValue];
+	prefs1020.formLength = [[curValues objectForKey:Atari1020FormLength] intValue];
+	prefs1020.autoLinefeed = [[curValues objectForKey:Atari1020AutoLinefeed] intValue];
+	prefs1020.autoPageAdjust = [[curValues objectForKey:Atari1020AutoPageAdjust] intValue];
+	prefs1020.pen1Red = [[curValues objectForKey:Atari1020Pen1Red] floatValue];
+	prefs1020.pen1Blue = [[curValues objectForKey:Atari1020Pen1Blue] floatValue];
+	prefs1020.pen1Green = [[curValues objectForKey:Atari1020Pen1Green] floatValue];
+	prefs1020.pen1Alpha = [[curValues objectForKey:Atari1020Pen1Alpha] floatValue];
+	prefs1020.pen2Red = [[curValues objectForKey:Atari1020Pen2Red] floatValue];
+	prefs1020.pen2Blue = [[curValues objectForKey:Atari1020Pen2Blue] floatValue];
+	prefs1020.pen2Green = [[curValues objectForKey:Atari1020Pen2Green] floatValue];
+	prefs1020.pen2Alpha = [[curValues objectForKey:Atari1020Pen2Alpha] floatValue];
+	prefs1020.pen3Red = [[curValues objectForKey:Atari1020Pen3Red] floatValue];
+	prefs1020.pen3Blue = [[curValues objectForKey:Atari1020Pen3Blue] floatValue];
+	prefs1020.pen3Green = [[curValues objectForKey:Atari1020Pen3Green] floatValue];
+	prefs1020.pen3Alpha = [[curValues objectForKey:Atari1020Pen3Alpha] floatValue];
+	prefs1020.pen4Red = [[curValues objectForKey:Atari1020Pen4Red] floatValue];
+	prefs1020.pen4Blue = [[curValues objectForKey:Atari1020Pen4Blue] floatValue];
+	prefs1020.pen4Green = [[curValues objectForKey:Atari1020Pen4Green] floatValue];
+	prefs1020.pen4Alpha = [[curValues objectForKey:Atari1020Pen4Alpha] floatValue];
 }
 
 - (void)transferValuesToEpson
@@ -1352,7 +1472,10 @@ MAC_PREFS *mac_prefs;
         case 2:
             [displayedValues setObject:two forKey:PrinterType];
             break;
-		}
+        case 3:
+            [displayedValues setObject:three forKey:PrinterType];
+            break;
+	}
 	// ROM Itmes
 	[displayedValues setObject:[NSString stringWithCString:mac_prefs->romfile] forKey:Model1RomFile];
 	[displayedValues setObject:[NSString stringWithCString:mac_prefs->romfile3] forKey:Model3RomFile];
@@ -1425,6 +1548,7 @@ MAC_PREFS *mac_prefs;
     [NSApp stopModal];
     [[prefTabView window] close];
     [self transferValuesToEmulator];
+    [self transferValuesToAtari1020];
     [self transferValuesToEpson];
     trs_pause_audio(0);
 }
@@ -1436,6 +1560,7 @@ MAC_PREFS *mac_prefs;
     [NSApp stopModal];
     [[prefTabView window] close];
     [self transferValuesToEmulator];
+    [self transferValuesToAtari1020];
     [self transferValuesToEpson];
     trs_pause_audio(0);
 }
@@ -1520,6 +1645,26 @@ MAC_PREFS *mac_prefs;
     // Printer Items
     getStringDefault(PrintCommand);
 	getIntDefault(PrinterType);
+	getIntDefault(Atari1020PrintWidth); 
+	getIntDefault(Atari1020FormLength); 
+	getBoolDefault(Atari1020AutoLinefeed); 
+	getBoolDefault(Atari1020AutoPageAdjust); 
+	getFloatDefault(Atari1020Pen1Red); 
+	getFloatDefault(Atari1020Pen1Blue); 
+	getFloatDefault(Atari1020Pen1Green); 
+	getFloatDefault(Atari1020Pen1Alpha); 
+	getFloatDefault(Atari1020Pen2Red); 
+	getFloatDefault(Atari1020Pen2Blue); 
+	getFloatDefault(Atari1020Pen2Green); 
+	getFloatDefault(Atari1020Pen2Alpha); 
+	getFloatDefault(Atari1020Pen3Red); 
+	getFloatDefault(Atari1020Pen3Blue); 
+	getFloatDefault(Atari1020Pen3Green); 
+	getFloatDefault(Atari1020Pen3Alpha); 
+	getFloatDefault(Atari1020Pen4Red); 
+	getFloatDefault(Atari1020Pen4Blue);
+	getFloatDefault(Atari1020Pen4Green); 
+	getFloatDefault(Atari1020Pen4Alpha); 
 	getIntDefault(EpsonCharSet); 
 	getIntDefault(EpsonPrintPitch); 
 	getIntDefault(EpsonPrintWeight); 
@@ -1623,6 +1768,26 @@ MAC_PREFS *mac_prefs;
     // Printer Items
     setStringDefault(PrintCommand);
 	setIntDefault(PrinterType);
+	setIntDefault(Atari1020PrintWidth); 
+	setIntDefault(Atari1020FormLength); 
+	setBoolDefault(Atari1020AutoLinefeed); 
+	setBoolDefault(Atari1020AutoPageAdjust); 
+	setFloatDefault(Atari1020Pen1Red); 
+	setFloatDefault(Atari1020Pen1Blue); 
+	setFloatDefault(Atari1020Pen1Green); 
+	setFloatDefault(Atari1020Pen1Alpha); 
+	setFloatDefault(Atari1020Pen2Red); 
+	setFloatDefault(Atari1020Pen2Blue); 
+	setFloatDefault(Atari1020Pen2Green); 
+	setFloatDefault(Atari1020Pen2Alpha); 
+	setFloatDefault(Atari1020Pen3Red); 
+	setFloatDefault(Atari1020Pen3Blue); 
+	setFloatDefault(Atari1020Pen3Green); 
+	setFloatDefault(Atari1020Pen3Alpha); 
+	setFloatDefault(Atari1020Pen4Red); 
+	setFloatDefault(Atari1020Pen4Blue);
+	setFloatDefault(Atari1020Pen4Green); 
+	setFloatDefault(Atari1020Pen4Alpha); 
 	setIntDefault(EpsonCharSet); 
 	setIntDefault(EpsonPrintPitch); 
 	setIntDefault(EpsonPrintWeight); 
