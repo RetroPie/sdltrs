@@ -8,6 +8,7 @@
 
 
 
+
   <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1"></head><body>
 <table border="0" cellpadding="2" cellspacing="2" width="100%">
   <tbody>
@@ -327,10 +328,11 @@ mann.org/trs80/dskspec.html.&nbsp;   </blockquote>
 </span></span></big></big>The Printer Tab controls the type of printer emulation that is used for
 outputting to the printer TRS-80. <br>
 <br>
-The are three choices for printer emulation, None, Text Printer, and
-Epson FX-80. &nbsp;The Text printer simply sends the printer
+The are four choices for printer emulation, None, Text Printer, Epson
+FX-80, and CGP-115. &nbsp;The Text printer simply sends the printer
 output to a text file with optional script processing, while the Epson
-choice emulates a legacy printer, and allow the user to save the
+and CGP-115 choices emulate a legacy printers, and allow the user to
+save the
 printer output in a PDF file.<br>
 <br>
  <img style="width: 726px; height: 491px;" alt="" src="images/PrinterTab.png"><br>
@@ -401,6 +403,46 @@ line margin at the top, and a 3 line margin at the bottom &nbsp;of the page.
 &nbsp;This additional option was not available on the original printer.<br>
 </div>
            <br>
+<span style="font-weight: bold; text-decoration: underline;">CGP-115 Priter</span><br>
+<br>
+<div style="margin-left: 40px;"><span style="font-weight: bold; text-decoration: underline;">Pen 1-4 Color:</span><br>
+This&nbsp;option allows you to choose the color of each pen in the
+CGP-115 printer. &nbsp;Clicking on the color box will bring up a
+standard Mac
+color selection dialog.<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Print Width:</span><br>
+
+This original CGP-115 used 4" wide paper, and had a print width of
+3.77 inches. &nbsp; You can use this original print width centered in normal
+width modern paper, or you can specify double print width, in which
+case all of the printer output will be scaled up by a factor of 2 (both
+height and width), and the printer output will fill most of the width
+of modern paper.<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;"></span><span style="font-weight: bold; text-decoration: underline;">Form Length:</span><br>
+
+This option sets the form length, in inches, for pages output by the
+Printer Emulation. &nbsp;The real CGP-115 does not have a concept of form
+feeds or page length, but this setting is used to determine the length
+of a page in the PDF output file from the Printer Emulation. &nbsp;For more
+details, see the&nbsp;<a href="../../../Documents%20and%20Settings/markg/My%20Documents/Downloads/atari800-MacOSX-4.1/src/Atari800MacX/Atari800MacX%20Help/PrinterEmulation.html">Printer Emulation</a> help page.<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Auto Linefeed:</span><br>
+
+This option, which is set by default, will automatically add a linefeed
+character to every carriage return sent from the emulated TRS-80 to the
+emulated Printer. &nbsp;This function was normally performed by the printer
+hardware interface or driver on the TRS-80. &nbsp;If you
+get blank lines in your output, you may need to turn this option off.<br>
+<br>
+<span style="font-weight: bold; text-decoration: underline;">Auto Adjust Image to Start of Page:</span><br>
+This option automatically readjusts the paper, so that the output of
+the printer starts at the top of the page. &nbsp;This is useful for the
+CGP-115, as the printer may print above the start paper location, and
+would then print off the top of the page.<br>
+</div>
+         <br>
 <br>
 <big style="font-weight: bold; text-decoration: underline;"><big><a name="ROMS_Tab"></a>Preferences: ROMS Tab</big></big><br>
 <br>
@@ -541,9 +583,12 @@ manage the status of the emulated drives and create images.&nbsp; It brings up a
   <b><u>Save Disk Set Button<br> </u></b>
   <blockquote>This
 button allows the user to save the names of the disk images that are
-currently in the drives to a file, to be loaded later. &nbsp;The file that
+currently in the drives to a file, to be loaded later. &nbsp;The file
+that
 the set is save in has an extension of ".set", and it is a human
-readable text file, containing the paths of the image files, or a blank line for a drive for a drive that has no disk. &nbsp;It has a keyboard shortcut of
+readable text file, containing the paths of the image files, or a blank
+line for a drive for a drive that has no disk. &nbsp;It has a keyboard
+shortcut of
 command-S. </blockquote>
   <b><u>Load Disk Set Button<br> <br> </u></b>
   <blockquote>This
