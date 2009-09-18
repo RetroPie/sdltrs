@@ -1949,7 +1949,7 @@ void trs_gui_printer_management(void)
    {"   ",MENU_NORMAL_TYPE,3},
    {"",0,-1}};
 #ifdef MACOSX   
-   char *printer_choices[3] =     {"    None ","    Text ","   Epson "};
+   char *printer_choices[4] =     {"    None ","    Text ","   Epson "," CGP-115 "};
 #else
    char *printer_choices[2] =     {"    None ","    Text "};
 #endif   
@@ -1968,7 +1968,7 @@ void trs_gui_printer_management(void)
      switch(selection) {
        case 0:
 #ifdef MACOSX       
-         trs_printer = trs_gui_display_popup("Shift",printer_choices,3,
+         trs_printer = trs_gui_display_popup("Shift",printer_choices,4,
                                                    trs_printer);
 #else
          trs_printer = trs_gui_display_popup("Shift",printer_choices,2,
