@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D5B07D11062FCB3001609C2 /* Atari1020Simulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D5B07CF1062FCB3001609C2 /* Atari1020Simulator.h */; };
+		2D5B07D21062FCB3001609C2 /* Atari1020Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5B07D01062FCB3001609C2 /* Atari1020Simulator.m */; };
+		2D5B07D81062FD89001609C2 /* PrintablePath.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D5B07D61062FD89001609C2 /* PrintablePath.h */; };
+		2D5B07D91062FD89001609C2 /* PrintablePath.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D5B07D71062FD89001609C2 /* PrintablePath.m */; };
+		2D5B0805106300C6001609C2 /* atari1020.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2D5B0804106300C6001609C2 /* atari1020.tiff */; };
 		2D5F7D2A0C65195E0013A9D9 /* diskette.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 2D5F7D290C65195E0013A9D9 /* diskette.tiff */; };
 		2D6BBD9B0A37D0FB00A0A411 /* blit.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6BBD9A0A37D0FB00A0A411 /* blit.h */; };
 		2D7D12D81040999E002210F9 /* TrsWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D7D12D61040999E002210F9 /* TrsWindow.h */; };
@@ -195,6 +200,11 @@
 		2D531A430A200F4600B362C7 /* Preferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = Preferences.nib; sourceTree = SOURCE_ROOT; };
 		2D531A470A20111300B362C7 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = SOURCE_ROOT; };
 		2D531A890A201D7400B362C7 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = SOURCE_ROOT; };
+		2D5B07CF1062FCB3001609C2 /* Atari1020Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atari1020Simulator.h; sourceTree = SOURCE_ROOT; };
+		2D5B07D01062FCB3001609C2 /* Atari1020Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Atari1020Simulator.m; sourceTree = SOURCE_ROOT; };
+		2D5B07D61062FD89001609C2 /* PrintablePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintablePath.h; sourceTree = SOURCE_ROOT; };
+		2D5B07D71062FD89001609C2 /* PrintablePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintablePath.m; sourceTree = SOURCE_ROOT; };
+		2D5B0804106300C6001609C2 /* atari1020.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = atari1020.tiff; sourceTree = SOURCE_ROOT; };
 		2D5F7D290C65195E0013A9D9 /* diskette.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = diskette.tiff; sourceTree = SOURCE_ROOT; };
 		2D6BBD9A0A37D0FB00A0A411 /* blit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = blit.h; path = ../blit.h; sourceTree = SOURCE_ROOT; };
 		2D76BC9D09D8F5A500E9F5F1 /* trs_sdl_gui.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = trs_sdl_gui.c; path = ../trs_sdl_gui.c; sourceTree = SOURCE_ROOT; };
@@ -292,6 +302,8 @@
 				2D789EBB0A2902FC00920FA2 /* AboutBox.h */,
 				2D789EBC0A2902FC00920FA2 /* AboutBox.m */,
 				2DEDE50E0A1A21B2005C2133 /* ControlManager.h */,
+				2D5B07CF1062FCB3001609C2 /* Atari1020Simulator.h */,
+				2D5B07D01062FCB3001609C2 /* Atari1020Simulator.m */,
 				2DEDE50F0A1A21B2005C2133 /* ControlManager.m */,
 				2D167D700A0EF33A0088AFB3 /* DebuggerWindow.h */,
 				2D167D710A0EF33A0088AFB3 /* DebuggerWindow.m */,
@@ -316,6 +328,8 @@
 				2D531A890A201D7400B362C7 /* Preferences.m */,
 				2DACD99C0A1FA5AF00264152 /* PrintableGraphics.h */,
 				2DACD99D0A1FA5AF00264152 /* PrintableGraphics.m */,
+				2D5B07D61062FD89001609C2 /* PrintablePath.h */,
+				2D5B07D71062FD89001609C2 /* PrintablePath.m */,
 				2DACD9A00A1FA5AF00264152 /* PrintableString.h */,
 				2DACD9A10A1FA5AF00264152 /* PrintableString.m */,
 				2DACD9A20A1FA5AF00264152 /* PrinterProtocol.h */,
@@ -437,6 +451,7 @@
 			children = (
 				2DC4F4F4105F30EB00F80EE9 /* docs */,
 				2DC448C20A294C7600B6526C /* trs80.icns */,
+				2D5B0804106300C6001609C2 /* atari1020.tiff */,
 				2DE9B0480A1ADD5600EDF510 /* cassetteoff.tiff */,
 				2DB0D03A0A216D13005EDB29 /* floppyClosed.tiff */,
 				2DB0D03B0A216D13005EDB29 /* floppyEmpty.tiff */,
@@ -524,6 +539,8 @@
 				2D7E3F761040958D00BC69DD /* PasteWindow.h in Headers */,
 				2D7E3F781040958D00BC69DD /* PasteWindowPanel.h in Headers */,
 				2D7D12D81040999E002210F9 /* TrsWindow.h in Headers */,
+				2D5B07D11062FCB3001609C2 /* Atari1020Simulator.h in Headers */,
+				2D5B07D81062FD89001609C2 /* PrintablePath.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,6 +616,7 @@
 				2D92D34F0A33AB5D009FDA73 /* sdltrs.xcconfig in Resources */,
 				2D5F7D2A0C65195E0013A9D9 /* diskette.tiff in Resources */,
 				2DC4F508105F30EB00F80EE9 /* docs in Resources */,
+				2D5B0805106300C6001609C2 /* atari1020.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,6 +675,8 @@
 				2D7E3F751040958D00BC69DD /* PastePanel.m in Sources */,
 				2D7E3F771040958D00BC69DD /* PasteWindow.m in Sources */,
 				2D7D12D91040999E002210F9 /* TrsWindow.m in Sources */,
+				2D5B07D21062FCB3001609C2 /* Atari1020Simulator.m in Sources */,
+				2D5B07D91062FD89001609C2 /* PrintablePath.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
