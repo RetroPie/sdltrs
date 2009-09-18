@@ -7,19 +7,6 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>selectAll</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>TrsMediaWindow</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>PasteWindow</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
 				<key>cancelCass</key>
 				<string>id</string>
 				<key>cancelDisk</key>
@@ -601,6 +588,24 @@
 				<string>id</string>
 				<key>artifactingPulldown</key>
 				<string>id</string>
+				<key>atari1020AutoLinefeedButton</key>
+				<string>id</string>
+				<key>atari1020AutoPageAdjustButton</key>
+				<string>id</string>
+				<key>atari1020FormLengthField</key>
+				<string>id</string>
+				<key>atari1020FormLengthStepper</key>
+				<string>id</string>
+				<key>atari1020Pen1Pot</key>
+				<string>id</string>
+				<key>atari1020Pen2Pot</key>
+				<string>id</string>
+				<key>atari1020Pen3Pot</key>
+				<string>id</string>
+				<key>atari1020Pen4Pot</key>
+				<string>id</string>
+				<key>atari1020PrintWidthPulldown</key>
+				<string>id</string>
 				<key>atariTypePulldown</key>
 				<string>id</string>
 				<key>backgroundPot</key>
@@ -855,6 +860,19 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSWindow</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>selectAll</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TrsMediaWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>PasteWindow</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
