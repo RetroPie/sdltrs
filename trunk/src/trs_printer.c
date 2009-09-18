@@ -100,7 +100,7 @@ void trs_printer_write(value)
     }
   }
 #ifdef MACOSX  
-  else if (trs_printer == EPSON_PRINTER) {
+  else if (trs_printer == EPSON_PRINTER || trs_printer == CGP_115_PRINTER) {
     PrintOutputControllerPrintChar(value);
   }
 #endif  
