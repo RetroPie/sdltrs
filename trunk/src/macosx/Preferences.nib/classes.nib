@@ -50,6 +50,24 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
+				<key>atari1020AutoLinefeedButton</key>
+				<string>id</string>
+				<key>atari1020AutoPageAdjustButton</key>
+				<string>id</string>
+				<key>atari1020FormLengthField</key>
+				<string>id</string>
+				<key>atari1020FormLengthStepper</key>
+				<string>id</string>
+				<key>atari1020Pen1Pot</key>
+				<string>id</string>
+				<key>atari1020Pen2Pot</key>
+				<string>id</string>
+				<key>atari1020Pen3Pot</key>
+				<string>id</string>
+				<key>atari1020Pen4Pot</key>
+				<string>id</string>
+				<key>atari1020PrintWidthPulldown</key>
+				<string>id</string>
 				<key>backgroundPot</key>
 				<string>id</string>
 				<key>brushedSteelButton</key>
