@@ -1,0 +1,26 @@
+To build for Linux:
+-------------------
+
+from the src/linux directory, execute:
+
+        make
+
+To build for Win32:
+-------------------
+sdltrs is designed to be build with MINGW.
+The libSDL programming package for Windows is also required.
+In the src/win32 directory, edit the Makefile macros LIBS and INCS to
+point to the location of the SDL installation.
+
+Then from the src/linux directory, execute:
+
+        make
+
+To build for Mac OS X:
+----------------------
+The SDL Framework needs to be placed in the src/macosx directory, so
+that it is included in the final application.
+Then, open the sdltrs.xcodeproj in src/macosx directory with Xcode,
+and build from Xcode.
+ 
+ 
