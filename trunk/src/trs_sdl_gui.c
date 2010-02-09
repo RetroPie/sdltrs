@@ -1878,6 +1878,7 @@ void trs_gui_misc_management(void)
 {
   MENU_ENTRY misc_menu[] = 
   {{"Shift Bracket Emulation                                     ",MENU_NORMAL_TYPE,1},
+   {"Turbo Speed                                                 ",MENU_NORMAL_TYPE,2},
    {"Keystretch Value                                            ",MENU_NORMAL_TYPE,2},
    {"Emtsafe                                                     ",MENU_NORMAL_TYPE,3},
    {"Serial Switches                                             ",MENU_NORMAL_TYPE,4},
@@ -1893,10 +1894,11 @@ void trs_gui_misc_management(void)
    while(!done) {
      trs_gui_clear_screen();
      sprintf(&misc_menu[0].title[50],"%s",on_off_choices[trs_kb_bracket_state]);
-     sprintf(&misc_menu[1].title[48],"%10d",stretch_amount);
-     sprintf(&misc_menu[2].title[50],"%s",on_off_choices[trs_emtsafe]);
-     sprintf(&misc_menu[3].title[54],"0x%02X",trs_uart_switches);
-     trs_gui_limit_string(trs_uart_name,&misc_menu[5].title[2],60);
+     sprintf(&misc_menu[1].title[48],"%10d", timer_overclock_rate);
+     sprintf(&misc_menu[2].title[48],"%10d",stretch_amount);
+     sprintf(&misc_menu[3].title[50],"%s",on_off_choices[trs_emtsafe]);
+     sprintf(&misc_menu[4].title[54],"0x%02X",trs_uart_switches);
+     trs_gui_limit_string(trs_uart_name,&misc_menu[6].title[2],60);
      selection = trs_gui_display_menu("SDLTRS Misc Settings Menu",
                                       misc_menu, selection);
 
@@ -1907,17 +1909,23 @@ void trs_gui_misc_management(void)
          trs_kb_bracket(state);                                          
          break;
        case 1:
+         sprintf(input,"%d", timer_overclock_rate);
+         ret = trs_gui_input_string("Enter Turbo Rate multiplier",input,input,0);
+         if (!ret)
+           timer_overclock_rate =  atoi(input);
+         break;
+       case 2:
          sprintf(input,"%d",stretch_amount);
          ret = trs_gui_input_string("Enter Keystretch in cycles",input,input,0);
          if (!ret)
            stretch_amount = atoi(input);
          break;
-       case 2:
+       case 3:
          state = trs_gui_display_popup("Safe",on_off_choices,2,
                                                    trs_emtsafe);
          trs_emtsafe=state;                                          
          break;
-       case 3:
+       case 4:
          sprintf(input,"%2X",trs_uart_switches);
          ret = trs_gui_input_string("Enter Serial Switches in Hex, XX",input,input,0);
          if (!ret) {
@@ -1925,7 +1933,7 @@ void trs_gui_misc_management(void)
            trs_uart_init(0);
            }
          break;
-       case 4:
+       case 5:
          strcpy(input,trs_uart_name);
          ret = trs_gui_input_string("Enter Serial Port Name",input,input,0);
          if (!ret) {
@@ -2182,7 +2190,7 @@ void trs_gui_about_sdltrs(void)
   trs_gui_write_text("About SDLTRS", 2, 0, 0);
   
   trs_gui_center_text("SDLTRS",3,0);
-  trs_gui_center_text("Version 1.0",4,0);
+  trs_gui_center_text("Version 1.0.1",4,0);
   trs_gui_center_text("http://sdltrs.sourceforge.net",5,0);
   trs_gui_center_text("Copyright (C) 2006-2009 Mark Grebe",7,0);
   trs_gui_center_text("Based on xtrs 4.9d",9,0);
