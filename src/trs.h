@@ -259,5 +259,7 @@ void trs_set_mouse_max(int x, int y, unsigned int sens);
 int trs_get_mouse_type(void);
 
 extern int timer_hz;
+extern int timer_overclock_rate;
+extern int timer_overclock;
 
 #endif /*_TRS_H*/

@@ -284,6 +284,8 @@ static void trs_opt_background(char *arg, int intarg, char *stringarg);
 static void trs_opt_guiforeground(char *arg, int intarg, char *stringarg);
 static void trs_opt_guibackground(char *arg, int intarg, char *stringarg);
 static void trs_opt_emtsafe(char *arg, int intarg, char *stringarg);
+static void trs_opt_turbo(char *arg, int intarg, char *stringarg);
+static void trs_opt_turborate(char *arg, int intarg, char *stringarg);
 
 trs_opt options[] = {
 {"scale",trs_opt_scale,1,0,NULL},
@@ -355,6 +357,9 @@ trs_opt options[] = {
 {"guibackground",trs_opt_guibackground,1,0,NULL},
 {"emtsafe",trs_opt_emtsafe,0,1,NULL},
 {"noemtsafe",trs_opt_emtsafe,0,0,NULL},
+{"turbo",trs_opt_turbo,0,1,NULL},
+{"noturbo",trs_opt_turbo,0,0,NULL},
+{"turborate",trs_opt_turborate,1,0,NULL},
 };
 
 static int num_options = sizeof(options)/sizeof(trs_opt);
@@ -497,6 +502,11 @@ int trs_write_config_file(char *filename)
   fprintf(config_file,"background=0x%x\n",background);
   fprintf(config_file,"guiforeground=0x%x\n",gui_foreground);
   fprintf(config_file,"guibackground=0x%x\n",gui_background);
+  if (timer_overclock)
+    fprintf(config_file,"turbo\n");
+  else
+    fprintf(config_file,"noturbo\n");
+  fprintf(config_file,"turborate=%d\n", timer_overclock_rate);
 
   for (i=0;i<8;i++) {
     char *diskname;
@@ -814,7 +824,14 @@ static void trs_opt_emtsafe(char *arg, int intarg, char *stringarg)
 {
   trs_emtsafe = intarg;
 }
-
+static void trs_opt_turbo(char *arg, int intarg, char *stringarg)
+{
+  timer_overclock = intarg;
+}
+static void trs_opt_turborate(char *arg, int intarg, char *stringarg)
+{
+  timer_overclock_rate = atoi(arg);
+}
 
 int trs_load_config_file(char *alternate_file)
 {
@@ -1064,10 +1081,22 @@ void trs_screen_var_reset()
   col_chars = 16;
 }
 
+void trs_screen_caption(int turbo)
+{
+    char title[80];
+
+    if (trs_model == 5) {
+        sprintf(title,"TRS80 Model 4p %s", turbo ? "Turbo" : "");
+    }
+    else {
+      sprintf(title,"TRS80 Model %d %s",trs_model, turbo ? "Turbo" : "");
+    }
+    SDL_WM_SetCaption(title,NULL);
+}
+
 void trs_screen_init()
 {
   SDL_Color colors[2];
-  char title[80];
 
   copyStatus = COPY_IDLE;
   if (trs_model == 1)
@@ -1138,12 +1167,8 @@ void trs_screen_init()
      SDL_ShowCursor(SDL_ENABLE);
     }
   
-  if (trs_model == 5)
-	sprintf(title,"TRS80 Model 4p");
-  else 
- 	sprintf(title,"TRS80 Model %d",trs_model);
-  SDL_WM_SetCaption(title,NULL);
-	
+  trs_screen_caption(trs_timer_is_turbo());
+
   light_red = SDL_MapRGB(screen->format, 0x40,0x00,0x00);
   bright_red = SDL_MapRGB(screen->format, 0xff,0x00,0x00);
 
@@ -1650,6 +1675,11 @@ void trs_get_event(int wait)
         keysym.unicode = 0;
         keysym.sym = 0;
 	    break;
+      case SDLK_F11:
+        trs_screen_caption(trs_timer_switch_turbo());
+        keysym.unicode = 0;
+        keysym.sym = 0;
+        break;
       case SDLK_F9:
         if (!fullscreen)
           trs_debug();

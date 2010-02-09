@@ -69,6 +69,8 @@ static unsigned char nmi_mask = M3_RESET_BIT;
 #define TIMER_HZ_3 30
 #define TIMER_HZ_4 60
 int timer_hz;
+int timer_overclock = 0;
+int timer_overclock_rate = 5;
 unsigned int cycles_per_timer;
 
 #define CLOCK_MHZ_1 1.77408
@@ -155,6 +157,20 @@ int
 trs_cassette_interrupts_enabled()
 {
   return interrupt_mask & (M3_CASSRISE_BIT|M3_CASSFALL_BIT);
+}
+
+int
+trs_timer_is_turbo()
+{
+    return(timer_overclock);
+}
+
+int
+trs_timer_switch_turbo()
+{
+    timer_overclock = !timer_overclock;
+
+    return(timer_overclock);
 }
 
 void
@@ -365,8 +381,14 @@ trs_timer_event(void)
 void trs_timer_sync_with_host(void)
 {
 	Uint32 curtime;
-	Uint32 deltatime = 1000 / timer_hz;
+	Uint32 deltatime;
     static Uint32 lasttime = 0;
+
+    if (timer_overclock) {
+        deltatime = 1000 / (timer_overclock_rate * timer_hz);
+    } else {
+        deltatime = 1000 / timer_hz;
+    }
 
 	curtime = SDL_GetTicks();
 
