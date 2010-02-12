@@ -310,18 +310,18 @@ trs_opt options[] = {
 {"romfile",trs_opt_string,1,0,romfile},
 {"romfile3",trs_opt_string,1,0,romfile3},
 {"romfile4p",trs_opt_string,1,0,romfile4p},
-{"disk1",trs_opt_disk,1,0,NULL},
-{"disk2",trs_opt_disk,1,1,NULL},
-{"disk3",trs_opt_disk,1,2,NULL},
-{"disk4",trs_opt_disk,1,3,NULL},
-{"disk5",trs_opt_disk,1,4,NULL},
-{"disk6",trs_opt_disk,1,5,NULL},
-{"disk7",trs_opt_disk,1,6,NULL},
-{"disk8",trs_opt_disk,1,7,NULL},
-{"hard1",trs_opt_hard,1,0,NULL},
-{"hard2",trs_opt_hard,1,1,NULL},
-{"hard3",trs_opt_hard,1,2,NULL},
-{"hard4",trs_opt_hard,1,3,NULL},
+{"disk0",trs_opt_disk,1,0,NULL},
+{"disk1",trs_opt_disk,1,1,NULL},
+{"disk2",trs_opt_disk,1,2,NULL},
+{"disk3",trs_opt_disk,1,3,NULL},
+{"disk4",trs_opt_disk,1,4,NULL},
+{"disk5",trs_opt_disk,1,5,NULL},
+{"disk6",trs_opt_disk,1,6,NULL},
+{"disk7",trs_opt_disk,1,7,NULL},
+{"hard0",trs_opt_hard,1,0,NULL},
+{"hard1",trs_opt_hard,1,1,NULL},
+{"hard2",trs_opt_hard,1,2,NULL},
+{"hard3",trs_opt_hard,1,3,NULL},
 {"cassette",trs_opt_cass,1,0,NULL},
 {"diskdir",trs_opt_string,1,0,trs_disk_dir},
 {"harddir",trs_opt_string,1,0,trs_hard_dir},
@@ -513,14 +513,14 @@ int trs_write_config_file(char *filename)
     
     diskname = trs_disk_getfilename(i); 
     if (diskname[0] != 0)
-      fprintf(config_file,"disk%d=%s\n",i+1,diskname);
+      fprintf(config_file,"disk%d=%s\n",i,diskname);
   }
   for (i=0;i<4;i++) {
     char *diskname;
     
     diskname = trs_hard_getfilename(i); 
     if (diskname[0] != 0)
-      fprintf(config_file,"hard%d=%s\n",i+1,diskname);
+      fprintf(config_file,"hard%d=%s\n",i,diskname);
   }
   
   {
@@ -1938,6 +1938,7 @@ void trs_get_event(int wait)
 			SDLMainSelectAll();
 			break;
 #endif				
+        case SDLK_0:
 		case SDLK_1:
         case SDLK_2:
         case SDLK_3:
@@ -1945,13 +1946,12 @@ void trs_get_event(int wait)
         case SDLK_5:
         case SDLK_6:
         case SDLK_7:
-        case SDLK_8:
 #ifdef MACOSX
           if (!fullscreen) {
             if (keysym.mod & KMOD_SHIFT) 
-               MediaManagerRemoveDisk(keysym.sym-SDLK_1);
+               MediaManagerRemoveDisk(keysym.sym-SDLK_0);
             else
-               MediaManagerInsertDisk(keysym.sym-SDLK_1);
+               MediaManagerInsertDisk(keysym.sym-SDLK_0);
           } else
 #endif
           {
@@ -1959,14 +1959,14 @@ void trs_get_event(int wait)
             char browse_dir[FILENAME_MAX];
 
             if (keysym.mod & KMOD_SHIFT) {
-              trs_disk_remove(keysym.sym-SDLK_1);
+              trs_disk_remove(keysym.sym-SDLK_0);
             } else {
               SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, 
                                   SDL_DEFAULT_REPEAT_INTERVAL);
               trs_expand_dir(trs_disk_dir, browse_dir);
               if (trs_gui_file_browse(browse_dir, filename,0,
                                       " Floppy Disk Image ") != -1)
-                trs_disk_insert(keysym.sym-SDLK_1, filename);
+                trs_disk_insert(keysym.sym-SDLK_0, filename);
               SDL_EnableKeyRepeat(0,0);
               trs_screen_refresh();
               trs_x_flush();

@@ -828,7 +828,7 @@ NSImage *disketteImage;
     NSString *filename;
     char cfilename[FILENAME_MAX];
     char browseDir[FILENAME_MAX];
-	static NSString *num[8] = {@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8"};
+	static NSString *num[8] = {@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7"};
     
     trs_pause_audio(1);
     trs_expand_dir(trs_disk_dir, browseDir);

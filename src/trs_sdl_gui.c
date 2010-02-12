@@ -1069,8 +1069,8 @@ void trs_gui_hard_creation(void)
    {"Insert Created Disk Into This Drive                         ",MENU_NORMAL_TYPE,5},
    {"Create Hard Disk Image with Above Parameters",MENU_NORMAL_TYPE,6},
    {"",0,-1}};
-   char *drive_choices[5] =      {"    None  "," Drive 1  "," Drive 2  "," Drive 3  ",
-                                  " Drive 4  "};
+   char *drive_choices[5] =      {"    None  "," Drive 0  "," Drive 1  "," Drive 2  ",
+                                  " Drive 3  "};
    int selection = 5;
    static int cylinder_count = 202;
    static int sector_count = 256;
@@ -1208,9 +1208,9 @@ void trs_gui_disk_creation(void)
    char *density_choices[2] =    {"  Single  ","  Double  "};
    char *size_choices[2] =       {"  5 Inch  ","  8 Inch  "};
    char *ignore_choices[2] =     {"      No  ","     Yes  "};
-   char *drive_choices[9] =      {"    None  "," Drive 1  "," Drive 2  "," Drive 3  ",
-                                  " Drive 4  "," Drive 5  "," Drive 6  "," Drive 7  ",
-                                  " Drive 8  "};
+   char *drive_choices[9] =      {"    None  "," Drive 0  "," Drive 1  "," Drive 2  ",
+                                  " Drive 3  "," Drive 4  "," Drive 5  "," Drive 6  ",
+                                  " Drive 7  "};
    int selection = 6;
    static int image_type = 1;
    static int num_sides = 1;
@@ -1400,7 +1400,7 @@ void trs_gui_disk_sizes(void)
           choice = 1;
        sprintf(disk_sizes_menu[i].title,
                "Floppy Drive Number %d Size                  %s",
-                i+1,size_choices[choice]);
+                i,size_choices[choice]);
      }
      selection = trs_gui_display_menu("SDLTRS Floppy Size Menu",
                                       disk_sizes_menu, selection);
@@ -1450,7 +1450,7 @@ void trs_gui_disk_steps(void)
           choice = 1;
        sprintf(disk_steps_menu[i].title,
                "Floppy Drive Number %d Step                  %s",
-                i+1,step_choices[choice]);
+                i,step_choices[choice]);
      }
      selection = trs_gui_display_menu("SDLTRS Floppy Size Menu",
                                       disk_steps_menu, selection);
@@ -1516,14 +1516,14 @@ void trs_gui_disk_options(void)
 void trs_gui_disk_management(void)
 {
   MENU_ENTRY disk_menu[] = 
-  {{" Disk 1:",MENU_FLOPPY_BROWSE_TYPE,1},
-   {" Disk 2:",MENU_FLOPPY_BROWSE_TYPE,2},
-   {" Disk 3:",MENU_FLOPPY_BROWSE_TYPE,3},
-   {" Disk 4:",MENU_FLOPPY_BROWSE_TYPE,4},
-   {" Disk 5:",MENU_FLOPPY_BROWSE_TYPE,5},
-   {" Disk 6:",MENU_FLOPPY_BROWSE_TYPE,6},
-   {" Disk 7:",MENU_FLOPPY_BROWSE_TYPE,7},
-   {" Disk 8:",MENU_FLOPPY_BROWSE_TYPE,8},
+  {{" Disk 0:",MENU_FLOPPY_BROWSE_TYPE,1},
+   {" Disk 1:",MENU_FLOPPY_BROWSE_TYPE,2},
+   {" Disk 2:",MENU_FLOPPY_BROWSE_TYPE,3},
+   {" Disk 3:",MENU_FLOPPY_BROWSE_TYPE,4},
+   {" Disk 4:",MENU_FLOPPY_BROWSE_TYPE,5},
+   {" Disk 5:",MENU_FLOPPY_BROWSE_TYPE,6},
+   {" Disk 6:",MENU_FLOPPY_BROWSE_TYPE,7},
+   {" Disk 7:",MENU_FLOPPY_BROWSE_TYPE,8},
    {"Save Disk Set",MENU_NORMAL_TYPE,9},
    {"Load Disk Set",MENU_NORMAL_TYPE,10},
    {"Create Blank Floppy",MENU_NORMAL_TYPE,11},
@@ -1586,10 +1586,10 @@ void trs_gui_disk_management(void)
 void trs_gui_hard_management(void)
 {
   MENU_ENTRY hard_menu[] = 
-  {{" Hard 1:",MENU_HARD_BROWSE_TYPE,1},
-   {" Hard 2:",MENU_HARD_BROWSE_TYPE,2},
-   {" Hard 3:",MENU_HARD_BROWSE_TYPE,3},
-   {" Hard 4:",MENU_HARD_BROWSE_TYPE,4},
+  {{" Hard 0:",MENU_HARD_BROWSE_TYPE,1},
+   {" Hard 1:",MENU_HARD_BROWSE_TYPE,2},
+   {" Hard 2:",MENU_HARD_BROWSE_TYPE,3},
+   {" Hard 3:",MENU_HARD_BROWSE_TYPE,4},
    {"Save Disk Set",MENU_NORMAL_TYPE,5},
    {"Load Disk Set",MENU_NORMAL_TYPE,6},
    {"Create Blank Hard Disk",MENU_NORMAL_TYPE,7},
