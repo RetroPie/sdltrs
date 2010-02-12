@@ -124,6 +124,8 @@ static NSDictionary *defaultValues() {
                 [NSNumber numberWithInt:0],GraphicsModel,
                 [NSNumber numberWithInt:0],ShiftBracket,
                 [NSNumber numberWithInt:4000],Keystretch,
+                [NSNumber numberWithBool:NO],Turbo,
+                [NSNumber numberWithInt:5],TurboRate,
                 [NSNumber numberWithInt:0x6F],SerialSwitches,
                 [NSString stringWithString:@""],SerialPort,
                 [NSNumber numberWithInt:0], Disk1Size,
@@ -408,6 +410,8 @@ static Preferences *sharedInstance = nil;
     [trsGraphicsPulldown  selectItemAtIndex:[[displayedValues objectForKey:GraphicsModel] intValue]];
     [shiftBracketButton setState:[[displayedValues objectForKey:ShiftBracket] boolValue] ? NSOnState : NSOffState];
     [keyboardStretchField setIntValue:[[displayedValues objectForKey:Keystretch] intValue]];
+    [turboButton setState:[[displayedValues objectForKey:Turbo] boolValue] ? NSOnState : NSOffState];
+    [turboRateField setIntValue:[[displayedValues objectForKey:TurboRate] intValue]];
     sprintf(tempStr,"%8X",[[displayedValues objectForKey:SerialSwitches] intValue]);
     [serialSwitchesField setStringValue:[NSString stringWithCString:tempStr]];
     [serialPortField setStringValue:[displayedValues objectForKey:SerialPort]];
@@ -650,6 +654,14 @@ static Preferences *sharedInstance = nil;
         [displayedValues setObject:no forKey:ShiftBracket];
 	anInt = [keyboardStretchField intValue];
     [displayedValues setObject:[NSNumber numberWithInt:anInt] forKey:Keystretch];
+    if ([turboButton state] == NSOnState)
+        [displayedValues setObject:yes forKey:Turbo];
+    else
+        [displayedValues setObject:no forKey:Turbo];
+	anInt = [turboRateField intValue];
+	if (anInt <= 0)
+		anInt = 1;
+    [displayedValues setObject:[NSNumber numberWithInt:anInt] forKey:TurboRate];
     [[serialSwitchesField stringValue] getCString:tempStr];
     anInt = strtol(tempStr, NULL, 16);
     [displayedValues setObject:[NSNumber numberWithInt:anInt] forKey:SerialSwitches];
@@ -1182,6 +1194,8 @@ MAC_PREFS *mac_prefs;
 		}
 	mac_prefs->micrographyx = [[curValues objectForKey:GraphicsModel] intValue];
 	mac_prefs->stretch_amount = [[curValues objectForKey:Keystretch] intValue];
+	mac_prefs->turbo = [[curValues objectForKey:Turbo] intValue];
+	mac_prefs->turbo_rate = [[curValues objectForKey:TurboRate] intValue];
 	mac_prefs->switches = [[curValues objectForKey:SerialSwitches] intValue];
     [[curValues objectForKey:SerialPort] getCString:mac_prefs->serial_port];
     mac_prefs->disk_sizes[0] = [[curValues objectForKey:Disk1Size] intValue];
@@ -1367,6 +1381,8 @@ MAC_PREFS *mac_prefs;
 		}
     [displayedValues setObject:mac_prefs->shiftbracket ? yes : no forKey:ShiftBracket];
 	[displayedValues setObject:[NSNumber numberWithInt:mac_prefs->stretch_amount] forKey:Keystretch];
+	[displayedValues setObject:[NSNumber numberWithInt:mac_prefs->turbo_rate] forKey:TurboRate];
+    [displayedValues setObject:mac_prefs->turbo ? yes : no forKey:Turbo];
 	[displayedValues setObject:[NSNumber numberWithInt:mac_prefs->switches] forKey:SerialSwitches];
 	[displayedValues setObject:[NSString stringWithCString:mac_prefs->serial_port] forKey:SerialPort];
     switch(mac_prefs->disk_sizes[0]) {
@@ -1629,6 +1645,8 @@ MAC_PREFS *mac_prefs;
     getIntDefault(GraphicsModel);
     getBoolDefault(ShiftBracket);
     getIntDefault(Keystretch);
+    getBoolDefault(Turbo);
+    getIntDefault(TurboRate);
     getIntDefault(SerialSwitches);
     getStringDefault(SerialPort);
     getIntDefault(Disk1Size);
@@ -1752,6 +1770,8 @@ MAC_PREFS *mac_prefs;
     setIntDefault(GraphicsModel);
     setBoolDefault(ShiftBracket);
     setIntDefault(Keystretch);
+    setBoolDefault(Turbo);
+    setIntDefault(TurboRate);
     setIntDefault(SerialSwitches);
     setStringDefault(SerialPort);
     setIntDefault(Disk1Size);

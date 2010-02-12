@@ -133,6 +133,8 @@ static void trs_set_emu_values(MAC_PREFS *mac_prefs)
 	trs_model = mac_prefs->trs_model;
 	grafyx_set_microlabs(mac_prefs->micrographyx);
 	trs_kb_bracket(mac_prefs->shiftbracket);
+	timer_overclock = mac_prefs->turbo;
+	timer_overclock_rate = mac_prefs->turbo_rate;
 	stretch_amount = mac_prefs->stretch_amount;
 	trs_uart_switches = mac_prefs->switches;
 	strcpy(trs_uart_name, mac_prefs->serial_port);
@@ -193,6 +195,8 @@ static void trs_get_emu_values(MAC_PREFS *mac_prefs)
 	mac_prefs->trs_model = trs_model;
 	mac_prefs->micrographyx = grafyx_get_microlabs();
 	mac_prefs->shiftbracket = trs_kb_bracket_state;
+	mac_prefs->turbo = timer_overclock;
+	mac_prefs->turbo_rate = timer_overclock_rate;
 	mac_prefs->stretch_amount = stretch_amount;
 	mac_prefs->switches = trs_uart_switches;
 	strcpy(mac_prefs->serial_port,trs_uart_name);
@@ -275,6 +279,7 @@ void trs_run_mac_prefs()
 		trs_screen_init();
 		grafyx_redraw();
 		}
+	trs_screen_caption(trs_timer_is_turbo());
 }
 
 void trs_mac_save_defaults(void)

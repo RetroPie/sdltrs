@@ -63,6 +63,8 @@
 #define GraphicsModel @"GraphicsModel"
 #define ShiftBracket @"ShiftBracket"
 #define Keystretch @"Keystretch"
+#define Turbo @"Turbo"
+#define TurboRate @"TurboRate"
 #define SerialSwitches @"SerialSwitches"
 #define SerialPort @"SerialPort"
 #define Disk1Size @"Disk1Size"
@@ -155,6 +157,8 @@
     IBOutlet id trsGraphicsPulldown;
     IBOutlet id shiftBracketButton;
     IBOutlet id keyboardStretchField;
+	IBOutlet id turboButton;
+	IBOutlet id turboRateField;
     IBOutlet id serialSwitchesField;
     IBOutlet id serialPortField;
 	IBOutlet id disk1SizeMatrix;

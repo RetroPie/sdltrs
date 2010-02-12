@@ -57,8 +57,12 @@ extern int FULLSCREEN;
 /* Functions which provide an interface for C code to call this object's shared Instance functions */
 void SetControlManagerModel(int model, int micrographyx) {
     [[ControlManager sharedInstance] setModelMenu:(model):(micrographyx)];
-    }
-    
+}
+
+void SetControlManagerTurboMode(int turbo) {
+    [[ControlManager sharedInstance] setTurboMenu:(turbo)];
+}
+
 void ControlManagerSaveState() {
     [[ControlManager sharedInstance] saveState:nil];
 }
@@ -173,6 +177,15 @@ static ControlManager *sharedInstance = nil;
 		}
 }
 
+- (void)setTurboMenu:(int)turbo
+{
+	if (turbo)
+		[turboItem setState:NSOnState];
+	else 
+		[turboItem setState:NSOffState];
+}
+
+
 - (IBAction)changeModel:(id)sender 
 {
     [self pushUserEvent:MAC_CHANGE_MODEL_EVENT:(void*)[sender tag]];
@@ -236,11 +249,19 @@ static ControlManager *sharedInstance = nil;
 }
 
 /*------------------------------------------------------------------------------
-*  debugger - This method handles the debugger menu selection.
-*-----------------------------------------------------------------------------*/
+ *  debugger - This method handles the debugger menu selection.
+ *-----------------------------------------------------------------------------*/
 - (IBAction)debugger:(id)sender
 {
 	[self pushKeyEvent:SDLK_F9:NO:NO];
+}
+
+/*------------------------------------------------------------------------------
+ *  turbo - This method handles the turbo mode menu selection.
+ *-----------------------------------------------------------------------------*/
+- (IBAction)turbo:(id)sender
+{
+	[self pushKeyEvent:SDLK_F11:NO:NO];
 }
 
 /*------------------------------------------------------------------------------

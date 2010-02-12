@@ -61,6 +61,8 @@ typedef struct mac_prefs {
     int trs_disk_doubler;
     int trs_disk_truedam;
 	int trs_emtsafe;
+	int turbo;
+	int turbo_rate;
 	// Printer Items
 	char print_command[256];
 	int trs_printer;
@@ -102,6 +104,7 @@ void MediaManagerStatusLed(int diskNo, int on);
 void MediaManagerStatusWindowShow(void);
 
 void SetControlManagerModel(int model, int micrographyx);
+void SetControlManagerTurboMode(int turbo);
 void ControlManagerSaveState();
 void ControlManagerLoadState();
 void ControlManagerWriteConfig();
