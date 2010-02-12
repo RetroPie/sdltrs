@@ -831,6 +831,8 @@ static void trs_opt_turbo(char *arg, int intarg, char *stringarg)
 static void trs_opt_turborate(char *arg, int intarg, char *stringarg)
 {
   timer_overclock_rate = atoi(arg);
+  if (timer_overclock_rate <= 0)
+	  timer_overclock_rate = 1;
 }
 
 int trs_load_config_file(char *alternate_file)
@@ -1176,6 +1178,7 @@ void trs_screen_init()
   if (!fullscreen) {
     centerAppWindow();
     SetControlManagerModel(trs_model, grafyx_get_microlabs());
+    SetControlManagerTurboMode(trs_timer_is_turbo());
     UpdateMediaManagerInfo();
     if (mediaStatusWindowOpen)
         MediaManagerStatusWindowShow();
@@ -1709,6 +1712,7 @@ void trs_get_event(int wait)
 #ifdef MACOSX
         if (fullscreen) {
           SetControlManagerModel(trs_model, grafyx_get_microlabs());
+          SetControlManagerTurboMode(trs_timer_is_turbo());
           UpdateMediaManagerInfo();
         }
 #endif  
@@ -1977,6 +1981,7 @@ void trs_get_event(int wait)
 #ifdef MACOSX
         if (!fullscreen) {
           SetControlManagerModel(trs_model, grafyx_get_microlabs());
+          SetControlManagerTurboMode(trs_timer_is_turbo());
           UpdateMediaManagerInfo();
         }
 #endif  
