@@ -35,6 +35,7 @@
     IBOutlet id warmResetItem;
     IBOutlet id loadStateItem;
     IBOutlet id saveStateItem;
+    IBOutlet id turboItem;
     IBOutlet id pauseItem;
 	IBOutlet id modelMenu;
 	IBOutlet id graphicsMenu;
@@ -48,6 +49,7 @@
 - (IBAction)coldReset:(id)sender;
 - (IBAction)warmReset:(id)sender;
 - (IBAction)debugger:(id)sender;
+- (IBAction)turbo:(id)sender;
 - (IBAction)loadState:(id)sender;
 - (IBAction)saveState:(id)sender;
 - (IBAction)readConfig:(id)sender;
@@ -56,6 +58,7 @@
 - (IBAction)changeModel:(id)sender;
 - (IBAction)changeGraphics:(id)sender;
 - (void)setModelMenu:(int)model:(int)micrographyx;
+- (void)setTurboMenu:(int)turbo;
 - (IBAction)showAboutBox:(id)sender;
 - (IBAction)showDonation:(id)sender;
 @end
