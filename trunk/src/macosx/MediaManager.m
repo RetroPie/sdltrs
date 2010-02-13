@@ -1316,10 +1316,10 @@ NSImage *disketteImage;
 	
 	if (showUpperDrives==1) { 
 	    driveOffset = 4;
-		[d1DiskImageNumberField setStringValue:@"5"];
-		[d2DiskImageNumberField setStringValue:@"6"];
-		[d3DiskImageNumberField setStringValue:@"7"];
-		[d4DiskImageNumberField setStringValue:@"8"];
+		[d1DiskImageNumberField setStringValue:@"4"];
+		[d2DiskImageNumberField setStringValue:@"5"];
+		[d3DiskImageNumberField setStringValue:@"6"];
+		[d4DiskImageNumberField setStringValue:@"7"];
         filename1 = trs_disk_getfilename(4);
         filename2 = trs_disk_getfilename(5);
         filename3 = trs_disk_getfilename(6);
@@ -1331,10 +1331,10 @@ NSImage *disketteImage;
 		}
 	else if (showUpperDrives==2) { 
 	    driveOffset = 8;
-		[d1DiskImageNumberField setStringValue:@"H1"];
-		[d2DiskImageNumberField setStringValue:@"H2"];
-		[d3DiskImageNumberField setStringValue:@"H3"];
-		[d4DiskImageNumberField setStringValue:@"H4"];
+		[d1DiskImageNumberField setStringValue:@"H0"];
+		[d2DiskImageNumberField setStringValue:@"H1"];
+		[d3DiskImageNumberField setStringValue:@"H2"];
+		[d4DiskImageNumberField setStringValue:@"H3"];
         filename1 = trs_hard_getfilename(0);
         filename2 = trs_hard_getfilename(1);
         filename3 = trs_hard_getfilename(2);
@@ -1346,10 +1346,10 @@ NSImage *disketteImage;
 		}
 	else {
 	    driveOffset = 0;
-		[d1DiskImageNumberField setStringValue:@"1"];
-		[d2DiskImageNumberField setStringValue:@"2"];
-		[d3DiskImageNumberField setStringValue:@"3"];
-		[d4DiskImageNumberField setStringValue:@"4"];
+		[d1DiskImageNumberField setStringValue:@"0"];
+		[d2DiskImageNumberField setStringValue:@"1"];
+		[d3DiskImageNumberField setStringValue:@"2"];
+		[d4DiskImageNumberField setStringValue:@"3"];
         filename1 = trs_disk_getfilename(0);
         filename2 = trs_disk_getfilename(1);
         filename3 = trs_disk_getfilename(2);
