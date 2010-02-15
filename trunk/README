@@ -1,3 +1,12 @@
+IMPORTANT!!!
+	Version 1.1 and newer of sdltrs use a changed Disk Drive Numbering that starts With 0, 
+	not 1 as version 1.0 and earlier used. Those releases of the emulator numbered floppy 
+	drives from 1-8 and hard drives from 1-4.  However, TRS80 drives started numbering at 0, 
+	so this was very confusing for users.  This has been changed in the newer releases.
+	However, note that configurtaion files and command line options will need to be changed
+	by users to account for the numbering change in -disk and -hard options.
+
+
 The first thing you will need is to obtain ROM files for the TRS80.  These
 are not included with the emulator:
 
