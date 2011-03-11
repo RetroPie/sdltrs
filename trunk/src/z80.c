@@ -3016,8 +3016,8 @@ int z80_run(int continuous)
     Uchar instruction;
     Ushort address; /* generic temps */
     int ret = 0;
-    trs_continuous = continuous;
 	tstate_t t_delta;
+    trs_continuous = continuous;
 
     /* loop to do a z80 instruction */
     do {
