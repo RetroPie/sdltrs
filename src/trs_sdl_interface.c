@@ -147,7 +147,7 @@ static int disksizes[8] = {5,5,5,5,8,8,8,8};
 #ifdef MACOSX
 static int disksizesLoaded;
 #endif
-static int disksteps[8] = {1,1,1,1,1,1,1,1};
+static int disksteps[8] = {1,1,1,1,2,2,2,2};
 static SDL_Surface *trs_char[6][MAXCHARS];
 static SDL_Surface *trs_box[3][64];
 static SDL_Surface *image;
@@ -470,14 +470,14 @@ int trs_write_config_file(char *filename)
           trs_disk_getsize(7));
 #ifdef __linux          
   fprintf(config_file, "stepmap=%d,%d,%d,%d,%d,%d,%d,%d\n",
-          trs_disk_getsize(0),
-          trs_disk_getsize(1),
-          trs_disk_getsize(2),
-          trs_disk_getsize(3),
-          trs_disk_getsize(4),
-          trs_disk_getsize(5),
-          trs_disk_getsize(6),
-          trs_disk_getsize(7));
+          trs_disk_getstep(0),            /* Corrected to trs_disk_getstep vs getsize  */
+          trs_disk_getstep(1),            /* Corrected by Larry Kraemer 08-01-2011 */
+          trs_disk_getstep(2),
+          trs_disk_getstep(3),
+          trs_disk_getstep(4),
+          trs_disk_getstep(5),
+          trs_disk_getstep(6),
+          trs_disk_getstep(7));
 #endif          
   if (trs_disk_truedam)
     fprintf(config_file,"truedam\n");
@@ -569,22 +569,22 @@ void trs_set_to_defaults(void)
   grafyx_set_microlabs(FALSE);
   trs_show_led = TRUE;
   trs_disk_doubler = TRSDISK_BOTH;
-  disksizes[0] = 5;
-  disksizes[1] = 5;
+  disksizes[0] = 5;            /* Disk Sizes are 5" or 8" for all Eight Default Drives */
+  disksizes[1] = 5;            /* Corrected by Larry Kraemer 08-01-2011 */
   disksizes[2] = 5;
   disksizes[3] = 5;
   disksizes[4] = 8;
   disksizes[5] = 8;
   disksizes[6] = 8;
   disksizes[7] = 8;
-  disksteps[0] = 1;
-  disksteps[1] = 1;
+  disksteps[0] = 1;            /* Disk Steps are 1 for Single Step, 2 for Double Step for all Eight Default Drives */
+  disksteps[1] = 1;            /* Corrected by Larry Kraemer 08-01-2011 */
   disksteps[2] = 1;
   disksteps[3] = 1;
-  disksteps[4] = 1;
-  disksteps[5] = 1;
-  disksteps[6] = 1;
-  disksteps[7] = 1;
+  disksteps[4] = 2;
+  disksteps[5] = 2;
+  disksteps[6] = 2;
+  disksteps[7] = 2;
   trs_disk_truedam = 0;
   cassette_default_sample_rate = DEFAULT_SAMPLE_RATE;
   trs_uart_switches = 0x7 | TRS_UART_NOPAR | TRS_UART_WORD8;
@@ -978,11 +978,11 @@ void trs_disk_setsizes(void)
 }
 
 void trs_disk_setsteps(void)
-{
+{            /* Disk Steps are 1 for Single Step or 2 for Double Step for all Eight Default Drives */
   int j;
   
   for (j=0; j<=7; j++) {
-    if (disksteps[j] == 1 || disksteps[j] == 1) {
+    if (disksteps[j] == 1 || disksteps[j] == 2) {
             trs_disk_setstep(j, disksteps[j]);
     }
   }
