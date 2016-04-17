@@ -1598,10 +1598,6 @@ void trs_get_event(int wait)
 		}
 
 		if (paste_state == PASTE_GETNEXT) {
-			if (!PasteManagerGetChar(&paste_key_uni)) 
-				paste_lastkey = TRUE;
-			else
-				paste_lastkey = FALSE;
 			trs_xlate_keysym(paste_key_uni);
 			paste_state = PASTE_KEYDOWN;
 			return;
@@ -1727,12 +1723,10 @@ void trs_get_event(int wait)
         switch (keysym.sym) {
         case SDLK_c:
           string = trs_get_copy_data();
-          PasteManagerStartCopy(string);
           keysym.unicode = 0;
           keysym.sym = 0;
           break;
         case SDLK_v:
-          PasteManagerStartPaste();
           keysym.unicode = 0;
           keysym.sym = 0;
           break;
