@@ -3427,6 +3427,17 @@ void trs_main_load(FILE *file)
 
 void trs_sdl_cleanup()
 {
-    SDL_FreeSurface(screen);
-    SDL_Quit();
+    int i, ch;
+
+    for (i = 0; i < 6; i++)
+        for (ch = 0; ch < MAXCHARS; ch++) {
+            free(trs_char[i][ch]->pixels);
+            SDL_FreeSurface(trs_char[i][ch]);
+        }
+    for (i = 0; i < 3; i++)
+        for (ch = 0; ch < 64; ch++)
+            SDL_FreeSurface(trs_box[i][ch]);
+    SDL_FreeSurface(image);
+
+    SDL_Quit(); // Will free screen
 }
