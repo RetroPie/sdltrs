@@ -134,6 +134,7 @@ void trs_exit()
 #ifdef MACOSX
     trs_mac_save_defaults();
 #endif
+    trs_sdl_cleanup();
     exit(0);
 }
 
