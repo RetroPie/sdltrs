@@ -3424,3 +3424,9 @@ void trs_main_load(FILE *file)
   trs_load_int(file,&key_queue_head,1);
   trs_load_int(file,&key_queue_entries,1);
 }
+
+void trs_sdl_cleanup()
+{
+    SDL_FreeSurface(screen);
+    SDL_Quit();
+}
