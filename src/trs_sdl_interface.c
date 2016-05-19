@@ -3424,3 +3424,20 @@ void trs_main_load(FILE *file)
   trs_load_int(file,&key_queue_head,1);
   trs_load_int(file,&key_queue_entries,1);
 }
+
+void trs_sdl_cleanup()
+{
+    int i, ch;
+
+    for (i = 0; i < 6; i++)
+        for (ch = 0; ch < MAXCHARS; ch++) {
+            free(trs_char[i][ch]->pixels);
+            SDL_FreeSurface(trs_char[i][ch]);
+        }
+    for (i = 0; i < 3; i++)
+        for (ch = 0; ch < 64; ch++)
+            SDL_FreeSurface(trs_box[i][ch]);
+    SDL_FreeSurface(image);
+
+    SDL_Quit(); // Will free screen
+}
