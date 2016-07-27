@@ -115,6 +115,7 @@ int resize = 0;
 int resize3 = 1;
 int resize4 = 0;
 int trs_paused = 0;
+int mousepointer = 1;
 
 char trs_disk_dir[FILENAME_MAX] = "disks";
 char trs_hard_dir[FILENAME_MAX] = "harddisks";
@@ -136,6 +137,8 @@ int trs_emu_mouse = FALSE;
 static unsigned char trs_screen[2048];
 static unsigned char trs_gui_screen[2048];
 static unsigned char trs_gui_screen_invert[2048];
+static unsigned char trs_gui_screen_copy[2048];
+static unsigned char trs_gui_screen_invert_copy[2048];
 static int top_margin = 0;
 static int left_margin = 0;
 static int led_width = 0;
@@ -286,6 +289,9 @@ static void trs_opt_guibackground(char *arg, int intarg, char *stringarg);
 static void trs_opt_emtsafe(char *arg, int intarg, char *stringarg);
 static void trs_opt_turbo(char *arg, int intarg, char *stringarg);
 static void trs_opt_turborate(char *arg, int intarg, char *stringarg);
+static void trs_opt_mousepointer(char *arg, int intarg, char *stringarg);
+static void trs_opt_joybuttonmap(char *arg, int intarg, char *stringarg);
+static void trs_opt_joyaxismapped(char *arg, int intarg, char *stringarg);
 
 trs_opt options[] = {
 {"scale",trs_opt_scale,1,0,NULL},
@@ -360,6 +366,11 @@ trs_opt options[] = {
 {"turbo",trs_opt_turbo,0,1,NULL},
 {"noturbo",trs_opt_turbo,0,0,NULL},
 {"turborate",trs_opt_turborate,1,0,NULL},
+{"mousepointer",trs_opt_mousepointer,0,1,NULL},
+{"nomousepointer",trs_opt_mousepointer,0,0,NULL},
+{"joybuttonmap",trs_opt_joybuttonmap,1,0,NULL},
+{"joyaxismapped",trs_opt_joyaxismapped,0,1,NULL},
+{"nojoyaxismapped",trs_opt_joyaxismapped,0,0,NULL},
 };
 
 static int num_options = sizeof(options)/sizeof(trs_opt);
@@ -368,6 +379,7 @@ static int num_options = sizeof(options)/sizeof(trs_opt);
 void bitmap_init();
 void trs_event_init();
 void trs_event();
+static void call_function(int function);
 
 extern char *program_name;
 char *title;
@@ -530,6 +542,18 @@ int trs_write_config_file(char *filename)
     if (cassname[0] != 0)
       fprintf(config_file,"cassette=%s\n",cassname);
   }
+
+  if (mousepointer)
+    fprintf(config_file, "mousepointer\n");
+  else
+    fprintf(config_file, "nomousepointer\n");
+  fprintf(config_file, "joybuttonmap=");
+  for (i = 0; i < N_JOYBUTTONS; i++)
+    fprintf(config_file, i < N_JOYBUTTONS - 1 ? "%d," : "%d\n", jbutton_map[i]);
+  if (jaxis_mapped)
+    fprintf(config_file, "joyaxismapped\n");
+  else
+    fprintf(config_file, "nojoyaxismapped\n");
 
   fclose(config_file);
   return 0;
@@ -834,6 +858,27 @@ static void trs_opt_turborate(char *arg, int intarg, char *stringarg)
   if (timer_overclock_rate <= 0)
 	  timer_overclock_rate = 1;
 }
+static void trs_opt_mousepointer(char *arg, int intarg, char *stringarg)
+{
+  mousepointer = intarg;
+}
+static void trs_opt_joybuttonmap(char *arg, int intarg, char *stringarg)
+{
+  int i;
+  for (i = 0; i < N_JOYBUTTONS; i++) {
+    char *ptr = strchr(arg, ',');
+    if (ptr != NULL)
+      *ptr = '\0';
+    if (sscanf(arg, "%d", &jbutton_map[i]) == 0)
+      jbutton_map[i] = -1;
+    if (ptr != NULL)
+      arg = ptr + 1;
+  }
+}
+static void trs_opt_joyaxismapped(char *arg, int intarg, char *stringarg)
+{
+  jaxis_mapped = intarg;
+}
 
 int trs_load_config_file(char *alternate_file)
 {
@@ -1031,7 +1076,7 @@ void trs_flip_fullscreen(void)
     else {
       screen = SDL_SetVideoMode(OrigWidth, OrigHeight, 0, 
                                 SDL_ANYFORMAT);
-      SDL_ShowCursor(SDL_ENABLE);
+      SDL_ShowCursor(mousepointer ? SDL_ENABLE : SDL_DISABLE);
 	 }
 #ifdef MACOSX	  
 	 TrsOriginRestore();
@@ -1099,6 +1144,7 @@ void trs_screen_caption(int turbo)
 void trs_screen_init()
 {
   SDL_Color colors[2];
+  int i;
 
   copyStatus = COPY_IDLE;
   if (trs_model == 1)
@@ -1166,7 +1212,7 @@ void trs_screen_init()
 #endif	  
      screen = SDL_SetVideoMode(OrigWidth, OrigHeight, 0, 
                                SDL_ANYFORMAT);
-     SDL_ShowCursor(SDL_ENABLE);
+     SDL_ShowCursor(mousepointer ? SDL_ENABLE : SDL_DISABLE);
     }
   
   trs_screen_caption(trs_timer_is_turbo());
@@ -1205,6 +1251,13 @@ void trs_screen_init()
 
   trs_disk_led(-1,0);
   trs_hard_led(-1,0);
+
+  for (i = 0; i < 2048; i++) {
+    trs_gui_screen[i] = ' ';
+    trs_gui_screen_invert[i] = 0;
+    trs_gui_screen_copy[i] = ' ';
+    trs_gui_screen_invert_copy[i] = 0;
+  }
 }
 
 Uint32 last_key[256];
@@ -1563,6 +1616,57 @@ char *trs_get_copy_data()
   return copy_data;
 }
 
+void call_function(int function)
+{
+  if (function == PAUSE) {
+    trs_paused = !trs_paused;
+    if (!trs_paused)
+      trs_screen_refresh();
+  }
+  else if (function == RESET) {
+    trs_reset(1);
+    trs_disk_led(-1, 0);
+    trs_hard_led(-1, 0);
+  }
+  else if (function == EXIT)
+    trs_exit();
+  else {
+    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+    trs_pause_audio(1);
+    switch (function) {
+    case GUI:
+#ifdef MACOSX
+      if (fullscreen)
+#endif
+        trs_gui();
+      break;
+    case JOYGUI:
+      trs_gui_joy_gui();
+      break;
+    case KEYBRD:
+      trs_gui_get_virtual_key();
+      break;
+    case SAVE:
+      trs_gui_save_single_state();
+      break;
+    case LOAD:
+      trs_gui_load_single_state();
+      break;
+    }
+    trs_pause_audio(0);
+    SDL_EnableKeyRepeat(0,0);
+    trs_screen_refresh();
+    trs_x_flush();
+  }
+#ifdef MACOSX
+  if (function == GUI && fullscreen) {
+    SetControlManagerModel(trs_model, grafyx_get_microlabs());
+    SetControlManagerTurboMode(trs_timer_is_turbo());
+    UpdateMediaManagerInfo();
+  }
+#endif
+}
+
 /* 
  * Get and process SDL event(s).
  *   If wait is true, process one event, blocking until one is available.
@@ -1695,27 +1799,14 @@ void trs_get_event(int wait)
         keysym.sym = 0;
         break;
       case SDLK_F7:
-#ifdef MACOSX
-        if (fullscreen) 
-#endif		
-	    {
-        SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-        trs_pause_audio(1);
-        trs_gui();
-        trs_pause_audio(0);
-        SDL_EnableKeyRepeat(0,0);
-        trs_screen_refresh();
-        trs_x_flush();
+        call_function(GUI);
         keysym.unicode = 0;
         keysym.sym = 0;
-		}
-#ifdef MACOSX
-        if (fullscreen) {
-          SetControlManagerModel(trs_model, grafyx_get_microlabs());
-          SetControlManagerTurboMode(trs_timer_is_turbo());
-          UpdateMediaManagerInfo();
-        }
-#endif  
+        break;
+      case SDLK_F12:
+        call_function(JOYGUI);
+        keysym.unicode = 0;
+        keysym.sym = 0;
         break;
       default:
         break;
@@ -1976,23 +2067,9 @@ void trs_get_event(int wait)
         default:
           break;
         }
-        if (trs_paused)
-          trs_gui_display_pause();
-#ifdef MACOSX
-        if (!fullscreen) {
-          SetControlManagerModel(trs_model, grafyx_get_microlabs());
-          SetControlManagerTurboMode(trs_timer_is_turbo());
-          UpdateMediaManagerInfo();
-        }
-#endif  
         break;
       }
 
-      if (trs_paused) {
-        trs_gui_display_pause();
-        break;
-      }
-              
       if ( ((keysym.mod & (KMOD_CAPS|KMOD_LSHIFT))
 	    	== (KMOD_CAPS|KMOD_LSHIFT) ||
            ((keysym.mod & (KMOD_CAPS|KMOD_RSHIFT))
@@ -2032,7 +2109,59 @@ void trs_get_event(int wait)
       break;
 
     case SDL_JOYAXISMOTION:
-      trs_joy_axis(event.jaxis.axis, event.jaxis.value);
+      if (jaxis_mapped == 1 && (event.jaxis.axis == 0 || event.jaxis.axis == 1)) {
+        static int hor_value = 0, ver_value = 0, hor_key = 0, ver_key = 0;
+        int value = 0, trigger_keyup = 0, trigger_keydown = 0;
+
+        if (event.jaxis.axis == 0)
+          value = hor_value;
+        else
+          value = ver_value;
+
+        if (event.jaxis.value < -JOY_BOUNCE) {
+          if (value == 1)
+            trigger_keyup = 1;
+          if (value != -1)
+            trigger_keydown = 1;
+          value = -1;
+        }
+        else if (event.jaxis.value > JOY_BOUNCE) {
+          if (value == -1)
+            trigger_keyup = 1;
+          if (value != 1)
+            trigger_keydown = 1;
+          value = 1;
+        }
+        else if (abs(event.jaxis.value) < JOY_BOUNCE/8) {
+          if (value != 0)
+            trigger_keyup = 1;
+          value = 0;
+        }
+
+        if (trigger_keyup) {
+          if (event.jaxis.axis == 0)
+            trs_xlate_keysym(0x10000 | hor_key);
+          else
+            trs_xlate_keysym(0x10000 | ver_key);
+        }
+        if (trigger_keydown) {
+          if (event.jaxis.axis == 0) {
+            hor_key = (value == -1 ? SDLK_LEFT : SDLK_RIGHT);
+            trs_xlate_keysym(hor_key);
+          }
+          else {
+            ver_key = (value == -1 ? SDLK_UP : SDLK_DOWN);
+            trs_xlate_keysym(ver_key);
+          }
+        }
+
+        if (event.jaxis.axis == 0)
+          hor_value = value;
+        else
+          ver_value = value;
+      }
+      else
+        trs_joy_axis(event.jaxis.axis, event.jaxis.value);
       break;
 
     case SDL_JOYHATMOTION:
@@ -2040,11 +2169,32 @@ void trs_get_event(int wait)
       break;
 
     case SDL_JOYBUTTONUP:
-      trs_joy_button_up();
+      if (event.jbutton.button >= 0 && event.jbutton.button < N_JOYBUTTONS) {
+        int key = jbutton_map[event.jbutton.button];
+        if (key >= 0)
+          trs_xlate_keysym(0x10000 | key);
+        else if (key == -1)
+          trs_joy_button_up();
+      }
+      else
+        trs_joy_button_up();
       break;
 
     case SDL_JOYBUTTONDOWN:
-      trs_joy_button_down();
+      if (event.jbutton.button >= 0 && event.jbutton.button < N_JOYBUTTONS) {
+        int key = jbutton_map[event.jbutton.button];
+        if (key >= 0)
+          trs_xlate_keysym(key);
+        else if (key == -1)
+          trs_joy_button_down();
+        else {
+          call_function(key);
+          keysym.unicode = 0;
+          keysym.sym = 0;
+        }
+      }
+      else
+        trs_joy_button_down();
       break;
 
 #ifdef MACOSX
@@ -2059,6 +2209,15 @@ void trs_get_event(int wait)
 #endif
       break;
     }
+    if (trs_paused)
+      trs_gui_display_pause();
+#ifdef MACOSX
+    if (!fullscreen) {
+      SetControlManagerModel(trs_model, grafyx_get_microlabs());
+      SetControlManagerTurboMode(trs_timer_is_turbo());
+      UpdateMediaManagerInfo();
+    }
+#endif
   } while (!wait);
 }
 
@@ -2741,6 +2900,31 @@ void trs_gui_clear_screen(void)
        trs_gui_write_char(i,' ',0);
 }
 
+void trs_gui_save_rect(int x, int y, int w, int h)
+{
+  int i, j, position;
+  for (j = y; j < y + h; j++) {
+    for (i = x; i < x + w; i++) {
+      position = 64*j + i;
+      trs_gui_screen_copy[position] = trs_gui_screen[position];
+      trs_gui_screen_invert_copy[position] = trs_gui_screen_invert[position];
+    }
+  }
+}
+
+void trs_gui_restore_rect(int x, int y, int w, int h)
+{
+  int i, j, position;
+  for (j = y; j < y + h; j++) {
+    for (i = x; i < x + w; i++) {
+      position = 64*j + i;
+      trs_gui_screen[position] = trs_gui_screen_copy[position];
+      trs_gui_screen_invert[position] = trs_gui_screen_invert_copy[position];
+      trs_gui_write_char(position, trs_gui_screen[position], trs_gui_screen_invert[position]);
+    }
+  }
+  trs_x_flush();
+}
 
  /* Copy lines 1 through col_chars-1 to lines 0 through col_chars-2.
     Doesn't need to clear line col_chars-1. */
@@ -3425,7 +3609,7 @@ void trs_main_load(FILE *file)
   trs_load_int(file,&key_queue_entries,1);
 }
 
-void trs_sdl_cleanup()
+void trs_sdl_cleanup(void)
 {
     int i, ch;
 

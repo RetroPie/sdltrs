@@ -75,6 +75,10 @@ typedef struct menu_entry_type {
   int value;
 } MENU_ENTRY;
 
+int jbutton_map[N_JOYBUTTONS]    = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+int jbutton_active[N_JOYBUTTONS] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int jaxis_mapped = 0;
+
 static int local_trs_model;
 static int local_trs_charset1;
 static int local_trs_charset3;
@@ -112,6 +116,8 @@ static int trs_gui_readdirectory(char *path, int browse_dir);
 static int trs_gui_input_string(char *title, char* input, char* output, int file);
 static int trs_gui_display_popup(char* title, char **entry, 
                           int entry_count, int selection);
+static int trs_gui_display_popup_matrix(char* title, char **entry,
+                          int rows, int columns, int selection);
 static int trs_gui_display_menu(char* title, MENU_ENTRY *entry, int selection);
 static void trs_gui_hard_creation(void);
 static void trs_gui_disk_creation(void);
@@ -130,7 +136,7 @@ static void trs_gui_default_dirs(void);
 static void trs_gui_rom_files(void);
 static void trs_gui_about_sdltrs(void);
 static int trs_gui_config_management(void);
-
+static char *trs_gui_get_key_name(int key);
 
 void trs_gui_write_text_len(char *text, int len, int x, int y, int invert)
 {
@@ -356,6 +362,54 @@ int trs_gui_get_key(void)
              return(event.key.keysym.unicode);
          else 
            return(event.key.keysym.sym);
+         break;
+       case SDL_JOYBUTTONDOWN:
+         if (event.jbutton.button >= 0 && event.jbutton.button < N_JOYBUTTONS) {
+           int key = jbutton_map[event.jbutton.button];
+           if (key >= 0)
+             return key;
+           else if (key == KEYBRD || key == JOYGUI)
+             return trs_gui_virtual_keyboard();
+         }
+         break;
+       case SDL_JOYAXISMOTION:
+         if (event.jaxis.axis == 0 || event.jaxis.axis == 1) {
+           static int hor_value = 0, ver_value = 0;
+           int value = 0, trigger_keydown = 0, key = -1;
+
+           if (event.jaxis.axis == 0)
+             value = hor_value;
+           else
+             value = ver_value;
+
+           if (event.jaxis.value < -JOY_BOUNCE) {
+             if (value != -1)
+               trigger_keydown = 1;
+             value = -1;
+           }
+           else if (event.jaxis.value > JOY_BOUNCE) {
+             if (value != 1)
+               trigger_keydown = 1;
+             value = 1;
+           }
+           else if (abs(event.jaxis.value) < JOY_BOUNCE/8)
+             value = 0;
+
+           if (trigger_keydown) {
+             if (event.jaxis.axis == 0)
+               key = (value == -1 ? SDLK_LEFT : SDLK_RIGHT);
+             else
+               key = (value == -1 ? SDLK_UP : SDLK_DOWN);
+           }
+
+           if (event.jaxis.axis == 0)
+             hor_value = value;
+           else
+             ver_value = value;
+
+           if (key != -1)
+             return key;
+         }
          break;
      }
    } while(!done);   
@@ -819,6 +873,7 @@ int trs_gui_input_string(char *title, char* input, char* output, int file)
           }
        break;
       case SDLK_BACKSPACE:
+      case SDLK_HOME:
         if (pos>0) {
           for (i=pos;i<length;i++)
             output[i-1] = output[i];
@@ -844,6 +899,7 @@ int trs_gui_input_string(char *title, char* input, char* output, int file)
         done = 1;
         break;
       case SDLK_TAB:
+      case SDLK_UP:
         if (file) {
           strcpy(partial_output, output + input_length);
           trs_gui_file_browse(input, directory_name, 1, " ");
@@ -885,6 +941,7 @@ int trs_gui_display_popup(char* title, char **entry,
   int done = 0;
   int max_len = 0;
   int first_x, first_y;
+  int saved_selection = selection;
   
   for (num=0;num<entry_count;num++) {
     if (strlen(entry[num]) > max_len)
@@ -927,6 +984,7 @@ int trs_gui_display_popup(char* title, char **entry,
         done = 1;
         break;
       case SDLK_ESCAPE:
+        selection = saved_selection;
         done = 1;
         break;
     }
@@ -1816,11 +1874,308 @@ void trs_gui_display_management(void)
   local_trs_charset4 = charset4_selection+7;
 }
 
+int trs_gui_joystick_get_button(void)
+{
+  SDL_Event event;
+
+  while (1) {
+    SDL_WaitEvent(&event);
+    switch (event.type) {
+      case SDL_QUIT:
+        trs_exit();
+        break;
+      case SDL_KEYDOWN:
+        if (event.key.keysym.sym == SDLK_F8)
+          trs_exit();
+        else if (event.key.keysym.sym == SDLK_ESCAPE)
+          return -1;
+        break;
+      case SDL_JOYBUTTONDOWN:
+        if (event.jbutton.button < 0 || event.jbutton.button >= N_JOYBUTTONS) {
+          trs_gui_display_message("Error", "Unsupported Joystick Button");
+          return -1;
+        }
+        return event.jbutton.button;
+        break;
+    }
+  }
+  return -1;
+}
+
+void trs_gui_joystick_map_button_to_key(void)
+{
+  int key, button;
+  int first_x = 21, first_y = 2;
+
+  trs_gui_frame(first_x - 1, first_y - 1, 23, 3);
+  trs_gui_write_text("     Select Key      ", first_x, first_y, 0);
+  trs_x_flush();
+  key = trs_gui_virtual_keyboard();
+  if (key == -1)
+    return;
+  trs_gui_write_text("Press Joystick Button", first_x, first_y, 0);
+  trs_x_flush();
+  button = trs_gui_joystick_get_button();
+  if (button != -1)
+    jbutton_map[button] = key;
+}
+
+char *function_choices[8] = {
+  "      GUI       ", "Virtual Keyboard",
+  "   Save State   ", "   Load State   ",
+  "     Reset      ", "      Exit      ",
+  "     Pause      ", "  Joystick GUI  "
+};
+int function_codes[8] = {
+  GUI,    KEYBRD,
+  SAVE,   LOAD,
+  RESET,  EXIT,
+  PAUSE,  JOYGUI
+};
+void trs_gui_joystick_map_button_to_function(void)
+{
+  int selection, button;
+  int first_x = 21, first_y = 2;
+  int rows = 4, columns = 2;
+
+  trs_gui_frame(first_x - 1, first_y - 1, 23, 3);
+  trs_gui_write_text("   Select Function   ", first_x, first_y, 0);
+  trs_x_flush();
+  selection = trs_gui_display_popup_matrix("", function_choices, rows, columns, 0);
+  if (selection == -1)
+    return;
+  trs_gui_write_text("Press Joystick Button", first_x, first_y, 0);
+  trs_x_flush();
+  button = trs_gui_joystick_get_button();
+  if (button != -1)
+    jbutton_map[button] = function_codes[selection];
+}
+
+void trs_gui_joystick_unmap_button(void)
+{
+  int button;
+  int first_x = 21, first_y = 2;
+
+  trs_gui_frame(first_x - 1, first_y - 1, 23, 3);
+  trs_gui_write_text("Press Joystick Button", first_x, first_y, 0);
+  trs_x_flush();
+  button = trs_gui_joystick_get_button();
+  if (button != -1)
+    jbutton_map[button] = -1;
+}
+
+void trs_gui_joystick_unmap_all_buttons(void)
+{
+  int answer, i;
+  answer = trs_gui_display_question("Are You Sure?");
+  if (answer == 1)
+    for (i = 0; i < N_JOYBUTTONS; i++)
+      jbutton_map[i] = -1;
+}
+
+void trs_gui_joystick_display_map(int show_active)
+{
+  int first_x = 2, first_y = 10;
+  int rows = 4, columns = 5; // Should equal N_JOYBUTTONS
+  int column_width = 12;
+  int row, column, i;
+  char text[62];
+
+  for (column = 0; column < columns; column++) {
+    for (row = 0; row < rows; row++) {
+      i = column*rows + row;
+      sprintf(text, "%2d:", i);
+      trs_gui_write_text(text, first_x + column*column_width, first_y + row + 1, 0);
+      switch (jbutton_map[i]) {
+        case -1:     sprintf(text, "---");      break;
+        case GUI:    sprintf(text, "<GUI>");    break;
+        case KEYBRD: sprintf(text, "<KEYBRD>"); break;
+        case SAVE:   sprintf(text, "<SAVE>");   break;
+        case LOAD:   sprintf(text, "<LOAD>");   break;
+        case RESET:  sprintf(text, "<RESET>");  break;
+        case EXIT:   sprintf(text, "<EXIT>");   break;
+        case PAUSE:  sprintf(text, "<PAUSE>");  break;
+        case JOYGUI: sprintf(text, "<JOYGUI>"); break;
+        default:
+          sprintf(text, trs_gui_get_key_name(jbutton_map[i]));
+          break;
+      }
+      trs_gui_write_text(text, 4 + first_x + column*column_width, first_y + row + 1, show_active ? jbutton_active[i] : 0);
+    }
+  }
+  trs_x_flush();
+}
+
+int trs_gui_display_question(char *text)
+{
+  char *answer_choices[] = {
+    "                             No                               ",
+    "                             Yes                              "
+  };
+
+  return trs_gui_display_popup(text, answer_choices, 2, 0);
+}
+
+void trs_gui_joystick_save_mapping(void)
+{
+  FILE *config_file;
+  struct stat st;
+  char *ptr, string[256], joy_string[256], *new_config_string;
+  int i, index = 0;
+
+#ifdef _WIN32
+  ptr = strrchr(trs_config_file, '\\');
+#else
+  ptr = strrchr(trs_config_file, '/');
+#endif
+  sprintf(string, "Overwrite %s?", ptr != NULL ? ptr + 1 : trs_config_file);
+  i = trs_gui_display_question(string);
+  if (i == 0)
+    return;
+  if (stat(trs_config_file, &st) < 0) {
+    trs_gui_display_message("Error", "Cannot Get Configuration File Info");
+    return;
+  }
+  config_file = fopen(trs_config_file, "r");
+  if (config_file == NULL) {
+    trs_gui_display_message("Error", "Cannot Open Configuration File for Reading");
+    return;
+  }
+  new_config_string = (char *)malloc(st.st_size + 1);
+  if (new_config_string == NULL) {
+    trs_gui_display_message("Error", "Cannot Allocate Memory");
+    return;
+  }
+  while (fgets(string, sizeof(string), config_file) != NULL) {
+    i = 0;
+    while (string[i] == ' ' || string[i] == '\t')
+      i++;
+    if (strncasecmp(&string[i], "joybuttonmap", 12) != 0 &&
+        strncasecmp(&string[i], "joyaxismapped", 13) != 0 &&
+        strncasecmp(&string[i], "nojoyaxismapped", 15) != 0
+    ) {
+      strcpy(&new_config_string[index], string);
+      index += strlen(string);
+    }
+  }
+  fclose(config_file);
+  config_file = fopen(trs_config_file, "w");
+  if (config_file == NULL) {
+    trs_gui_display_message("Error", "Cannot Open Configuration File for Writing");
+    free(new_config_string);
+    return;
+  }
+  fprintf(config_file, "%s", new_config_string);
+  fprintf(config_file, "joybuttonmap=");
+  for (i = 0; i < N_JOYBUTTONS; i++)
+    fprintf(config_file, i < N_JOYBUTTONS - 1 ? "%d," : "%d\n", jbutton_map[i]);
+  if (jaxis_mapped)
+    fprintf(config_file, "joyaxismapped\n");
+  else
+    fprintf(config_file, "nojoyaxismapped\n");
+  fclose(config_file);
+  free(new_config_string);
+}
+
+#define CHECK_TIMEOUT (4000)
+void trs_gui_joystick_map_joystick(void)
+{
+  MENU_ENTRY display_menu[] = {
+    {"Map Button to Key                                           ", MENU_NORMAL_TYPE, 1},
+    {"Map Button to Function                                      ", MENU_NORMAL_TYPE, 2},
+    {"Unmap Button                                                ", MENU_NORMAL_TYPE, 3},
+    {"Unmap All Buttons                                           ", MENU_NORMAL_TYPE, 4},
+    {"Check Button Mapping                                        ", MENU_NORMAL_TYPE, 5},
+    {"Map Analog Stick to Arrow Keys                              ", MENU_NORMAL_TYPE, 6},
+    {"Save Mapping to Configuration File                          ", MENU_NORMAL_TYPE, 7},
+    {"", 0, -1}
+  };
+  char *on_off_choices[2] = {"     Off ","      On "};
+  int selection = 0, done = 0, checking = 0, counter;
+
+  while (!done) {
+    trs_gui_clear_screen();
+    trs_gui_joystick_display_map(0);
+    sprintf(&display_menu[5].title[50], "%s", on_off_choices[jaxis_mapped]);
+    selection = trs_gui_display_menu("SDLTRS Map Joystick to Keys/Functions Menu", display_menu, selection);
+    switch(selection) {
+      case 0:
+        trs_gui_joystick_map_button_to_key();
+        break;
+      case 1:
+        trs_gui_joystick_map_button_to_function();
+        break;
+      case 2:
+        trs_gui_joystick_unmap_button();
+        break;
+      case 3:
+        trs_gui_joystick_unmap_all_buttons();
+        break;
+      case 4:
+        checking = 1;
+        break;
+      case 5:
+        jaxis_mapped = trs_gui_display_popup("Stick", on_off_choices, 2, jaxis_mapped);
+        break;
+      case 6:
+        trs_gui_joystick_save_mapping();
+        break;
+      case -1:
+        done = 1;
+        break;
+    }
+    counter = CHECK_TIMEOUT;
+    while (checking) {
+      char text[62];
+      int len, first_x;
+      SDL_Event event;
+
+      sprintf(text, "Press Joystick Button (%d sec)", counter/1000 + 1);
+      len = strlen(text);
+      first_x = (64 - len)/2;
+      trs_gui_frame(first_x - 1, 1, len + 2, 3);
+      trs_gui_write_text(text, first_x, 2, 0);
+      trs_x_flush();
+      if (SDL_PollEvent(&event)) {
+        switch (event.type) {
+        case SDL_QUIT:
+          trs_exit();
+          break;
+        case SDL_KEYDOWN:
+          if (event.key.keysym.sym == SDLK_F8)
+            trs_exit();
+          else if (event.key.keysym.sym == SDLK_ESCAPE)
+            checking = 0;
+          break;
+        case SDL_JOYBUTTONDOWN:
+          if (event.jbutton.button >= 0 && event.jbutton.button < N_JOYBUTTONS) {
+            counter = CHECK_TIMEOUT;
+            jbutton_active[event.jbutton.button] = 1;
+          }
+          break;
+        case SDL_JOYBUTTONUP:
+          if (event.jbutton.button >= 0 && event.jbutton.button < N_JOYBUTTONS)
+            jbutton_active[event.jbutton.button] = 0;
+          break;
+        }
+        trs_gui_joystick_display_map(1);
+      }
+      else {
+        SDL_Delay(100);
+        counter -= 100;
+        if (counter <= 0)
+          checking = 0;
+      }
+    }
+  }
+}
+
 void trs_gui_joystick_management(void)
 {
   MENU_ENTRY display_menu[] = 
   {{"Use Keypad for Joystick                                     ",MENU_NORMAL_TYPE,1},
    {"USB Joystick/Gamepad                                        ",MENU_NORMAL_TYPE,2},
+   {"Map Joystick to Keys/Functions                              ",MENU_NORMAL_TYPE,5},
    {"",0,-1}};
    int selection = 0;
    int done = 0;
@@ -1866,6 +2221,9 @@ void trs_gui_joystick_management(void)
            gui_joystick_num = -1;
          else
            gui_joystick_num = joy_index-1;
+         break;
+       case 2:
+         trs_gui_joystick_map_joystick();
          break;
        case -1:
          done = 1;
@@ -2347,6 +2705,49 @@ void trs_gui_load_state(void)
   trs_state_load(filename);
 }
 
+void trs_gui_save_or_load_single_state(int save)
+{
+  char filename[FILENAME_MAX], *ptr, text[62];
+  FILE *file;
+  int answer;
+
+  strcpy(filename, trs_config_file);
+  ptr = strchr(filename, '.');
+  if (ptr != NULL)
+    *ptr = '\0';
+  strcat(filename, ".t8s");
+  file = fopen(filename, "r");
+  if (save) {
+    if (file)
+      sprintf(text, "Overwrite State?");
+    else
+      sprintf(text, "Save State?");
+  }
+  else {
+    if (file)
+      sprintf(text, "Load State?");
+    else {
+      trs_gui_display_message("Error", "No Saved State");
+      return;
+    }
+  }
+  if (file)
+    fclose(file);
+  answer = trs_gui_display_question(text);
+  if (answer == 1)
+    save ? trs_state_save(filename) : trs_state_load(filename);
+}
+
+void trs_gui_save_single_state(void)
+{
+  trs_gui_save_or_load_single_state(1);
+}
+
+void trs_gui_load_single_state(void)
+{
+  trs_gui_save_or_load_single_state(0);
+}
+
 void trs_gui_new_machine(void)
 {
   trs_screen_var_reset();
@@ -2501,3 +2902,186 @@ void trs_gui(void)
   }
 }
 
+int trs_gui_display_popup_matrix(char* title, char **entry,
+  int rows, int columns, int selection)
+{
+  int row, column;
+  int entry_count = rows*columns;
+  int num, i, j, max_len = 0, invert, key;
+  int width, first_x, first_y;
+  int done = 0;
+
+  if (selection < 0)
+    selection = 0;
+  else if (selection >= entry_count)
+    selection = entry_count - 1;
+  row = selection/columns;
+  column = selection%columns;
+  for (num = 0; num < entry_count; num++)
+    if (strlen(entry[num]) > max_len)
+      max_len = strlen(entry[num]);
+  width = columns*(max_len + 1) - 1;
+  first_x = (64 - width)/2;
+  first_y = (16 - rows)/2;
+  trs_gui_save_rect(first_x - 1, first_y - 1, width + 2, rows + 2);
+
+  trs_gui_frame(first_x - 1, first_y - 1, width + 2, rows + 2);
+  trs_gui_write_text(title, first_x + 1, first_y - 1, 0);
+  trs_gui_clear_rect(first_x, first_y, width, rows);
+  for (i = 0; i < rows; i++)
+    for (j = 0; j < columns; j++) {
+      num = i*columns + j;
+      invert = (num == selection);
+      trs_gui_write_text(entry[num], first_x + j*(max_len + 1), first_y + i, invert);
+    }
+  trs_x_flush();
+
+  do {
+    int old_row = row, old_column = column;
+    int update = 0;
+    key = trs_gui_get_key();
+    switch (key) {
+      case SDLK_DOWN:
+        if (row < rows - 1) row++; else row = 0;
+        update = 1;
+        break;
+      case SDLK_UP:
+        if (row > 0) row--; else row = rows - 1;
+        update = 1;
+        break;
+      case SDLK_RIGHT:
+        if (column < columns - 1) column++; else column = 0;
+        update = 1;
+        break;
+      case SDLK_LEFT:
+        if (column > 0) column--; else column = columns - 1;
+        update = 1;
+        break;
+      case SDLK_RETURN:
+        done = 1;
+        break;
+      case SDLK_ESCAPE:
+        selection = -1;
+        done = 1;
+        break;
+    }
+    if (update) {
+      trs_gui_write_text(entry[selection], first_x + old_column*(max_len + 1), first_y + old_row, 0);
+      selection = row*columns + column;
+      trs_gui_write_text(entry[selection], first_x + column*(max_len + 1), first_y + row, 1);
+      trs_x_flush();
+      update = 0;
+    }
+  } while (!done);
+  trs_gui_restore_rect(first_x - 1, first_y - 1, width + 2, rows + 2);
+
+  return selection;
+}
+
+#define N_KEYS (52)
+#define SHIFT  (39)
+static char *key_names[N_KEYS] = {
+  " 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 ", " 0 ", " : ", " - ", "BRK",
+  " UP", " Q ", " W ", " E ", " R ", " T ", " Y ", " U ", " I ", " O ", " P ", "LFT", "RGT",
+  "DWN", " A ", " S ", " D ", " F ", " G ", " H ", " J ", " K ", " L ", " ; ", "ENT", "CLR",
+  "SHF", " Z ", " X ", " C ", " V ", " B ", " N ", " M ", " , ", " . ", " / ", " @ ", "SPC"
+};
+static int key_syms[N_KEYS] = {
+  SDLK_1,    SDLK_2, SDLK_3, SDLK_4, SDLK_5, SDLK_6, SDLK_7, SDLK_8, SDLK_9,     SDLK_0,      SDLK_COLON,     SDLK_MINUS,  SDLK_ESCAPE,
+  SDLK_UP,   SDLK_q, SDLK_w, SDLK_e, SDLK_r, SDLK_t, SDLK_y, SDLK_u, SDLK_i,     SDLK_o,      SDLK_p,         SDLK_LEFT,   SDLK_RIGHT,
+  SDLK_DOWN, SDLK_a, SDLK_s, SDLK_d, SDLK_f, SDLK_g, SDLK_h, SDLK_j, SDLK_k,     SDLK_l,      SDLK_SEMICOLON, SDLK_RETURN, SDLK_HOME,
+  -1,        SDLK_z, SDLK_x, SDLK_c, SDLK_v, SDLK_b, SDLK_n, SDLK_m, SDLK_COMMA, SDLK_PERIOD, SDLK_SLASH,     SDLK_AT,     SDLK_SPACE
+};
+static char *key_names_shifted[N_KEYS] = {
+  " ! ", " \" ", " # ", " $ ", " % ", " & ", " ' ", " ( ", " ) ", "   ", " * ", " = ", "   ",
+  "   ", " Q ",  " W ", " E ", " R ", " T ", " Y ", " U ", " I ", " O ", " P ", "   ", "   ",
+  "   ", " A ",  " S ", " D ", " F ", " G ", " H ", " J ", " K ", " L ", " + ", "   ", "   ",
+  "SHF", " Z ",  " X ", " C ", " V ", " B ", " N ", " M ", " < ", " > ", " ? ", "   ", "   "
+};
+static int key_syms_shifted[N_KEYS] = {
+  SDLK_EXCLAIM, SDLK_QUOTEDBL, SDLK_HASH, SDLK_DOLLAR, 0x25, SDLK_AMPERSAND, SDLK_QUOTE, SDLK_LEFTPAREN, SDLK_RIGHTPAREN, -1, SDLK_ASTERISK, SDLK_EQUALS, -1,
+  -1, 0x51, 0x57, 0x45, 0x52, 0x54, 0x59, 0x55, 0x49,      0x4f,         0x50,          -1, -1,
+  -1, 0x41, 0x53, 0x44, 0x46, 0x47, 0x48, 0x4a, 0x4b,      0x4c,         SDLK_PLUS,     -1, -1,
+  -1, 0x5a, 0x58, 0x43, 0x56, 0x42, 0x4e, 0x4d, SDLK_LESS, SDLK_GREATER, SDLK_QUESTION, -1, -1
+};
+
+char *trs_gui_get_key_name(int key)
+{
+  int i, found = 0, shifted = 0;
+  for (i = 0; i < N_KEYS && !found; i++)
+    if (key_syms[i] == key)
+      found = 1;
+  if (!found) {
+    shifted = 1;
+    for (i = 0; i < N_KEYS && !found; i++)
+      if (key_syms_shifted[i] == key)
+        found = 1;
+  }
+  if (found)
+    return !shifted ? key_names[i - 1] : key_names_shifted[i - 1];
+  else
+    return "???";
+}
+
+int trs_gui_virtual_keyboard(void)
+{
+  static int saved_selection = 0;
+  int key_index = SHIFT, shifted = 0;
+
+  while (key_index == SHIFT || (shifted && key_syms_shifted[key_index] == -1)) {
+    key_index = trs_gui_display_popup_matrix("Virtual Keyboard", !shifted ? key_names : key_names_shifted, 4, 13, saved_selection);
+    if (key_index == -1)
+      return -1;
+    if (key_index == SHIFT)
+      shifted = 1 - shifted;
+    saved_selection = key_index;
+  }
+  return !shifted ? key_syms[key_index] : key_syms_shifted[key_index];
+}
+
+void trs_gui_get_virtual_key(void)
+{
+  int key = trs_gui_virtual_keyboard();
+  if (key != -1) {
+    SDL_Event event;
+    event.type = SDL_KEYDOWN;
+    event.key.keysym.sym = key;
+    event.key.keysym.mod = 0;
+    event.key.keysym.scancode = 0;
+    event.key.keysym.unicode = 0;
+    SDL_PushEvent(&event);
+    event.type = SDL_KEYUP;
+    SDL_PushEvent(&event);
+  }
+}
+
+void trs_gui_joy_gui(void)
+{
+  int selection;
+
+  selection = trs_gui_display_popup_matrix("Joystick GUI", function_choices, 3, 2, 0);
+  if (selection == -1)
+    return;
+  switch (function_codes[selection]) {
+    case GUI:
+      trs_gui();
+      break;
+    case KEYBRD:
+      trs_gui_get_virtual_key();
+      break;
+    case SAVE:
+      trs_gui_save_single_state();
+      break;
+    case LOAD:
+      trs_gui_load_single_state();
+      break;
+    case RESET:
+      trs_reset(1);
+      trs_disk_led(-1, 0);
+      trs_hard_led(-1, 0);
+      break;
+    case EXIT:
+      trs_exit();
+      break;
+  }
+}

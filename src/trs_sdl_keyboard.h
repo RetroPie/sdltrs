@@ -27,6 +27,8 @@
    Last modified on Wed May 07 09:12:00 MST 2006 by markgrebe
 */
 
+#define JOY_BOUNCE (20000)
+
 int trs_emulate_joystick(int key_down, int bit_action);
 void trs_joy_button_down(void);
 void trs_joy_button_up(void);
