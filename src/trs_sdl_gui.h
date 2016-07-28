@@ -27,6 +27,19 @@
    Last modified on Wed May 07 09:12:00 MST 2006 by markgrebe
 */
 
+#define N_JOYBUTTONS (20)
+#define GUI          (-10)
+#define KEYBRD       (-20)
+#define SAVE         (-30)
+#define LOAD         (-40)
+#define RESET        (-50)
+#define EXIT         (-60)
+#define PAUSE        (-70)
+#define JOYGUI       (-80)
+
+extern int jbutton_map[N_JOYBUTTONS];
+extern int jaxis_mapped;
+
 void trs_expand_dir(char *dir, char *expanded_dir);
 void trs_gui_display_pause(void);
 int trs_gui_file_browse(char* path, char* filename, int browse_dir, char* type);
@@ -45,4 +58,5 @@ void trs_gui_clear_screen(void);
 void trs_gui_write_char(int position, int char_index, int invert);
 void trs_expand_dir(char *dir, char *expanded_dir);
 
-
+void trs_gui_get_virtual_key(void);
+void trs_gui_joy_gui(void);

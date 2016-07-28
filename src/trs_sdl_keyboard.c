@@ -153,8 +153,6 @@ static int key_queue_entries;
 #define TK_Northwest            TK(10,  6)
 #define TK_Fire                 TK(10, 16)
 
-#define JOY_BOUNCE 20000
-
 typedef struct
 {
     int bit_action;
