@@ -103,7 +103,7 @@ static void trs_gui_center_text(char *text, int y, int invert);
 static void trs_gui_frame(int x, int y, int w, int h);
 static void trs_gui_clear_rect(int x, int y, int w, int h);
 static void trs_gui_limit_string(char *orig, char *limited, int limit);
-static void trs_remove_dir(char *file, char *dir);
+static int trs_remove_dir(char *file, char *dir);
 static void trs_add_extension(char *filename, char *ext);
 static int trs_gui_get_key(void);
 static void trs_gui_display_message(char* title, char *message);
@@ -262,7 +262,7 @@ void trs_expand_dir(char *dir, char *expanded_dir)
   strcat(expanded_dir, dir);
 }
 
-void trs_remove_dir(char *file, char *dir)
+int trs_remove_dir(char *file, char *dir)
 {
   int i;
   
@@ -275,9 +275,10 @@ void trs_remove_dir(char *file, char *dir)
       if (dir[i] == '/') {
 #endif                 
         dir[i+1]=0;
-        break;
+        return 1;
       }
-    }  
+    }
+  return 0;
 }
 
 void trs_add_extension(char *filename, char *ext)
@@ -2524,24 +2525,18 @@ void trs_gui_rom_files(void)
          done = 1;
          break;
        case 1:
-         if (romfile[0]==0)
+         if (romfile[0]==0 || !trs_remove_dir(romfile, browse_dir))
            trs_expand_dir(".",browse_dir);
-         else
-           trs_remove_dir(romfile, browse_dir);
          trs_gui_file_browse(browse_dir, romfile, 0," Model 1 ROM ");
          break;
        case 3:
-         if (romfile3[0]==0)
+         if (romfile3[0]==0 || !trs_remove_dir(romfile3, browse_dir))
            trs_expand_dir(".",browse_dir);
-         else
-           trs_remove_dir(romfile3, browse_dir);
          trs_gui_file_browse(browse_dir, romfile3, 0," Model 3 ROM ");
          break;
        case 5:
-         if (romfile4p[0]==0)
+         if (romfile4p[0]==0 || !trs_remove_dir(romfile4p, browse_dir))
            trs_expand_dir(".",browse_dir);
-         else
-           trs_remove_dir(romfile4p, browse_dir);
          trs_gui_file_browse(browse_dir, romfile4p, 0," Model 4p ROM ");
          break;
      }
@@ -2833,6 +2828,7 @@ void trs_gui(void)
          break;
        case 7:
          trs_gui_rom_files();
+         trs_rom_init();
          break;
        case 8:
          trs_gui_display_management();
