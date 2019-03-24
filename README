@@ -1,51 +1,13 @@
-IMPORTANT!!!
-	Version 1.1 and newer of sdltrs use a changed Disk Drive Numbering that starts With 0, 
-	not 1 as version 1.0 and earlier used. Those releases of the emulator numbered floppy 
-	drives from 1-8 and hard drives from 1-4.  However, TRS80 drives started numbering at 0, 
-	so this was very confusing for users.  This has been changed in the newer releases.
-	However, note that configurtaion files and command line options will need to be changed
-	by users to account for the numbering change in -disk and -hard options.
+## Important
+Version 1.1 and newer of sdltrs use a changed Disk Drive Numbering that starts With 0, not 1 as version 1.0 and earlier used. Those releases of the emulator numbered floppy drives from 1-8 and hard drives from 1-4. However, TRS80 drives started numbering at 0, so this was very confusing for users. This has been changed in the newer releases. However, note that configurtaion files and command line options will need to be changed by users to account for the numbering change in -disk and -hard options.
 
+The first thing you will need is to obtain ROM files for the TRS80.  These are not included with the emulator:
 
-The first thing you will need is to obtain ROM files for the TRS80.  These
-are not included with the emulator:
-
-	*	ROM images for Model I/III/4 are available elsewhere on the Web. 
-	    I do not know the copyright status of these ROM images, and 
-	    I have no connection with the sites that offer them. Some MS-DOS 
-	    based TRS-80 emulators (http://discover-net.net/~dmkeil/) come 
-	    with Model I and Model III/4 ROM image files. These files will 
-	    work in sdltrs too. 
-	*	Alternatively, for Model III or Model 4 emulation, sdltrs can use a 
-	    MODELA/III file as its ROM image. This is not identical to a real 
-	    Model III/4 ROM, but is close enough that almost 100% of TRS-80
-	    programs will work with it. The LS-DOS 6.3.1H operating system 
-	    disk that Tim Mann distributes (http://www.tim-mann.org/trs80/ld4-631.zip)
-	    includes a MODELA/III file.  You can boot this operating system using 
-	    sdltrs's Model 4P emulation and export the file for use in Model III 
-	    and 4 emulation, or for convenience, download the MODELA/III file 
-	    directly here: http://www.tim-mann.org/trs80/ld4-631.iii
-	*	For Model 4P emulation, you can use Pete Cervasio's free minimal 
-	    Model 4P boot ROM, now supplied with sdltrs; however, the free ROM can 
-	    boot only Model 4 operating systems (not Model III), and only from 
-	    floppy disks. The original Model 4P boot ROM is copyrighted software, 
-	    but if you own a Model 4P, you can copy its boot ROM onto a floppy for 
-	    personal use using the instructions and tools in this article, 
-	    originally published in the Misosys Quarterly 1.2: 
-	    http://www.tim-mann.org/trs80/doc/rom4p.zip. You can also buy 
-	    Frank Durda IV's improved Model 4P ROMs from M. A. D. Software:
-	    http://madsoft.lonestar.org/
-	    
-	    
-Once you have these files, you can place them in the same directory as the
-emulator program (sdltrs) or you can place them anywhere you like on your
-disk as well.  Then within the sdltrs program, you need point the emulator to
-the ROM files (F7 enters the Text GUI on Windows or Linux, Cmd-, enters
-Preferences on the Mac -- The html docs have descriptions of both GUI's
-and how to set the ROM locations).
-
-If you enjoy SDLTRS, and would like to donate to the development, go to:
-http://store.kagi.com/cgi-bin/store.cgi?storeID=6FBTU&&
+* ROM images for Model I/III/4 are available elsewhere on the Web. I do not know the copyright status of these ROM images, and I have no connection with the sites that offer them. Some MS-DOS based TRS-80 emulators (https://web.archive.org/web/20110629081927/http://www.discover-net.net/~dmkeil/) come with Model I and Model III/4 ROM image files. These files will work in sdltrs too. 
+* Alternatively, for Model III or Model 4 emulation, sdltrs can use a MODELA/III file as its ROM image. This is not identical to a real Model III/4 ROM, but is close enough that almost 100% of TRS-80 programs will work with it. The LS-DOS 6.3.1H operating system disk that Tim Mann distributes (http://www.tim-mann.org/trs80/ld4-631.zip) includes a MODELA/III file.  You can boot this operating system using sdltrs's Model 4P emulation and export the file for use in Model III and 4 emulation, or for convenience, download the MODELA/III file directly here: http://tim-mann.org/trs80/ld4-631.iii
+* For Model 4P emulation, you can use Pete Cervasio's free minimal Model 4P boot ROM, now supplied with sdltrs; however, the free ROM can boot only Model 4 operating systems (not Model III), and only from floppy disks. The original Model 4P boot ROM is copyrighted software, but if you own a Model 4P, you can copy its boot ROM onto a floppy for personal use using the instructions and tools in this article, originally published in the Misosys Quarterly 1.2: https://web.archive.org/web/20160310184002/http://tim-mann.org/trs80/doc/rom4p.zip. You can also buy Frank Durda IV's improved Model 4P ROMs from M. A. D. Software: http://madsoft.lonestar.org/
+	        
+Once you have these files, you can place them in the same directory as the emulator program (sdltrs) or you can place them anywhere you like on your disk as well.  Then within the sdltrs program, you need point the emulator to the ROM files (F7 enters the Text GUI on Windows or Linux, Cmd-, enters Preferences on the Mac -- The html docs have descriptions of both GUI's and how to set the ROM locations).
 
 Have retro fun!!!!!!
 
